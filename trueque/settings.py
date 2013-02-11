@@ -105,6 +105,7 @@ ROOT_URLCONF = 'trueque.urls'
 WSGI_APPLICATION = 'trueque.wsgi.application'
 
 TEMPLATE_DIRS = (
+	os.path.join(RUTA_PROYECTO, 'plantillas/static')
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -121,7 +122,15 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'usuarios',
+    'products',
     'main',
+    'albums',
+    'invitations',
+    'messages',
+    'notifications',
+    'statistics',
+    'transactions',
 )
 
 # A sample logging configuration. The only tangible logging
