@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<title>Ingresar nuevo</title>
+	</head>
+	<body>
+		<form method="post" action="save"> {% csrf_token %}
+		<ul>
+			{{ reg_form.as_p }}
+			<li>
+				<br><input class="button_text" type="submit" name="submit" value="Submit">
+			</li>
+		</ul>
+		</form>
+	<body>
+</html>
