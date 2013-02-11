@@ -1,7 +1,7 @@
 from django.core.context_processors import csrf
 from django.shortcuts import render_to_response
 from django.utils.datetime_safe import datetime
-from usuarios.form import RegisterUserForm
+from usuario.form import RegisterUserForm
 
 def register(request):
     if request.method == 'POST':
