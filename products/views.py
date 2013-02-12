@@ -7,13 +7,14 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from usuarios.models import Usuario, Country, City
 from datetime import datetime
+from django.conf import settings
 
 def newProduct(request):
-#	image_form = ImagesForm()
+	image_form = ImagesForm(prefix='image')
 	product_form = ProductForm(prefix='product')
 	category_form = CategoryForm(prefix='category')
-	return render_to_response("newproduct.html", {'product_form':product_form, 'category_form':category_form},context_instance=RequestContext(request))
-#	return render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form},context_instance=RequestContext(request))
+#	return render_to_response("newproduct.html", {'product_form':product_form, 'category_form':category_form},context_instance=RequestContext(request))
+	return render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form}, context_instance=RequestContext(request))
 
 def saveProduct(request):
 	if request.method == 'POST':
@@ -23,6 +24,12 @@ def saveProduct(request):
 			if category_form.is_valid():
 				producto = saveProductData(product_form)
 				saveCategoryData(producto, category_form)
+				imageForm = ImagesForm(request.POST,request.FILES, prefix='image')
+				print imageForm
+				if imageForm.is_valid():
+					saveImages(request)
+				else:
+					return HttpResponse("no archivos")
 				return HttpResponse("validado")
 			else:			
 				return HttpResponse("category_fail")
@@ -50,3 +57,16 @@ def saveCategoryData(producto, categoryForm):
 			proCat.id_product = producto
 			proCat.id_category = Category.objects.get(id_category=i)
 			proCat.save()
+
+def saveImages(request):
+	for i in range(1,6):
+		print 'img_'+str(i)
+		handle(request.FILES['image-img_'+str(i)])
+
+
+def handle(file):
+	if file:
+		destination = open(settings.MEDIA_ROOT + "/" +file.name, 'wb+')
+		for chunk in file.chunks():
+			destination.write(chunk)
+		destination.close()

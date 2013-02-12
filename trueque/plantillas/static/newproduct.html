@@ -5,6 +5,7 @@
 	<body>
 		<form enctype="multipart/form-data" method="post" action="save"> {% csrf_token %}
 		<ul>
+			{{ image_form.as_p }}
 			{{ product_form.as_p }}
 			{{ category_form.as_p }}
 			<li>
