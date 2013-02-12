@@ -5,6 +5,8 @@ from products.forms import ProductForm, CategoryForm, ImagesForm
 from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
+from usuarios.models import Usuario, Country, City
+from datetime import datetime
 
 def newProduct(request):
 #	image_form = ImagesForm()
@@ -19,8 +21,8 @@ def saveProduct(request):
 		if product_form.is_valid():
 			category_form = CategoryForm(data=request.POST, prefix='category')
 			if category_form.is_valid():
-				id_producto = saveProductData(product_form)
-				saveCategoryData(id_producto, category_form)
+				producto = saveProductData(product_form)
+				saveCategoryData(producto, category_form)
 				return HttpResponse("validado")
 			else:			
 				return HttpResponse("category_fail")
@@ -33,13 +35,18 @@ def saveProductData(productForm):
 	product.product_name = productForm.cleaned_data['product_name']
 	product.product_description = productForm.cleaned_data['product_description']
 	product.product_q_amount = productForm.cleaned_data['product_q_amount']
-	product.id_owner = 1
-	return 1
+	user = Usuario.objects.get(id_usuario=2)
+	product.id_owner = user
+	product.product_datetime = str(datetime.now())
+	product.product_follower_qty = 0
+	product.product_visit_qty = 0
+	product.save()
+	return product
 
-def saveCategoryData(idProduct, categoryForm):
-	for i in range(1,12):
-		if categoryForm.cleaned_data['field'+str(i)]=='on'
+def saveCategoryData(producto, categoryForm):
+	for i in range(1,13):
+		if categoryForm.cleaned_data['field_'+str(i)]==True:
 			proCat = ProductCategory()
-			proCat.id_product = idProduct;
-			proCat.id_category = i
+			proCat.id_product = producto
+			proCat.id_category = Category.objects.get(id_category=i)
 			proCat.save()

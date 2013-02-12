@@ -3,7 +3,7 @@ from django.db import models
 from usuarios.models import Usuario
 
 class Product(models.Model):
-    id_product = models.IntegerField(primary_key=True, db_column='ID_product') # Field name made lowercase.
+    id_product = models.AutoField(primary_key=True, db_column='ID_product') # Field name made lowercase.
     id_owner = models.ForeignKey(Usuario, db_column='ID_owner') # Field name made lowercase.
     product_name = models.CharField(max_length=90, db_column='Product_name') # Field name made lowercase.
     product_img = models.CharField(max_length=300, db_column='Product_img') # Field name made lowercase.
@@ -18,7 +18,7 @@ class Product(models.Model):
         db_table = u'Product'
 
 class Category(models.Model):
-    id_category = models.IntegerField(primary_key=True, db_column='ID_category') # Field name made lowercase.
+    id_category = models.AutoField(primary_key=True, db_column='ID_category') # Field name made lowercase.
     category_name = models.CharField(max_length=60, db_column='Category_name') # Field name made lowercase.
     class Meta:
         db_table = u'Category'
