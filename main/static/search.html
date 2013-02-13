@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>Busqueda</title>
+	</head>
+	<body>
+		{% if data %}
+			{% for product in data %}
+				<h1><a href="/product/details/{{ product.id_product }}">{{ product.product_name }}</a></h1>
+				<p>{{ product.product_description }}</p>
+				<image src="{{ direccion}}/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}"/>
+			{% endfor %}	
+		{% endif %}
+	</body>
+</html>

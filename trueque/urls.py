@@ -7,11 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	url(r'^products/', include('products.urls')),
-    # Examples:
-    url(r'^$', 'usuarios.views.reg'),
-    url(r'^save$', 'usuarios.views.save'),
-    # url(r'^trueque/', include('trueque.foo.urls')),
-
+	url(r'^search/', include('main.urls')),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

@@ -9,14 +9,18 @@ class Product(models.Model):
     product_img = models.CharField(max_length=300, db_column='Product_img') # Field name made lowercase.
     product_description = models.TextField(db_column='Product_description', blank=True) # Field name made lowercase.
     product_q_amount = models.IntegerField(db_column='Product_Q_amount') # Field name made lowercase.
-    product_datetime = models.DateTimeField(db_column='Product_datetime') # Field name made lowercase.
+    product_start_datetime = models.DateTimeField(db_column='Product_start_datetime') # Field name made lowercase.
+    product_end_datetime = models.DateTimeField(db_column='Product_end_datetime') # Field name made lowercase.
     product_follower_qty = models.IntegerField(db_column='Product_follower_qty') # Field name made lowercase.
     product_visit_qty = models.IntegerField(db_column='Product_visit_qty') # Field name made lowercase.
     product_country = models.CharField(max_length=60, db_column='Product_country') # Field name made lowercase.
     product_city = models.CharField(max_length=60, db_column='Product_city') # Field name made lowercase.
+    product_featured = models.BooleanField(db_column='Product_featured') # Field name made lowercase.
+    product_featured_time = models.IntegerField(db_column='Product_featured_time') # Field name made lowercase.
+    product_active = models.BooleanField(db_column='Product_active') # Field name made lowercase.
     class Meta:
         db_table = u'Product'
-
+        
 class Category(models.Model):
     id_category = models.AutoField(primary_key=True, db_column='ID_category') # Field name made lowercase.
     category_name = models.CharField(max_length=60, db_column='Category_name') # Field name made lowercase.
