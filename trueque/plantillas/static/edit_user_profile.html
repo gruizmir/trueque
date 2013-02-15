@@ -1,0 +1,36 @@
+<html>
+<head>
+    <title>EDIT USER PROFILE</title>
+</head>
+<body>
+    <h1>EDIT USER PROFILE</h1>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="" method="post">
+    	{% load klass %}
+    	{% csrf_token %}
+        <ul>
+			{% for field in form %}
+				<li>
+				{% if field.field.widget|klass == "CheckboxInput" %}
+				  	{{ field }} {{ field.label_tag }}
+				{% else %}
+					{{ field.label_tag }}: {{ field }}
+				{% endif %}
+				{% if field.errors.as_text %}
+					<b> {{ field.errors.as_text }} </b>
+				{% endif %}
+				</li>
+			{% endfor %}
+        </ul>
+        
+        <input type="submit" value="Submit">
+    </form>
+    
+</body>
+</html>

@@ -28,8 +28,8 @@ class Usuario(models.Model):
     usuario_name = models.CharField(max_length=60, db_column='Usuario_name') # Field name made lowercase.
     usuario_lastname = models.CharField(max_length=60, db_column='Usuario_lastname') # Field name made lowercase.
     usuario_bulletins = models.BooleanField(db_column='Usuario_bulletins') # Field name made lowercase.
-    usuario_email_1 = models.CharField(max_length=90, unique=True, db_column='Usuario_email_1') # Field name made lowercase.
-    usuario_email_2 = models.CharField(max_length=90, db_column='Usuario_email_2', blank=True) # Field name made lowercase.
+    usuario_email_1 = models.EmailField(max_length=90, unique=True, db_column='Usuario_email_1') # Field name made lowercase.
+    usuario_email_2 = models.EmailField(max_length=90, db_column='Usuario_email_2', blank=True) # Field name made lowercase.
     usuario_phone_1 = models.CharField(max_length=30, db_column='Usuario_phone_1', blank=True) # Field name made lowercase.
     usuario_phone_2 = models.CharField(max_length=30, db_column='Usuario_phone_2', blank=True) # Field name made lowercase.
     usuario_language = models.CharField(max_length=15, db_column='Usuario_language', blank=True) # Field name made lowercase.
@@ -45,6 +45,7 @@ class Usuario(models.Model):
     usuario_followed_qty = models.IntegerField(db_column='Usuario_followed_qty', default='0') # Field name made lowercase.
     usuario_barter_qty = models.IntegerField(db_column='Usuario_barter_qty', default='0') # Field name made lowercase.
     usuario_remaining_invitations = models.IntegerField(db_column='Usuario_remaining_invitations', default='15') # Field name made lowercase.
+    usuario_active = models.BooleanField(db_column='Usuario_active', default=False)
     usuario_art = models.BooleanField(db_column='Usuario_art') # Field name made lowercase.
     usuario_music = models.BooleanField(db_column='Usuario_music') # Field name made lowercase.
     usuario_tech = models.BooleanField(db_column='Usuario_tech') # Field name made lowercase.
