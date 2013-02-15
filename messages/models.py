@@ -2,7 +2,7 @@ from django.db import models
 from usuarios.models import Usuario
 
 class Message(models.Model):
-    id_message = models.IntegerField(primary_key=True, db_column='ID_message') # Field name made lowercase.
+    id_message = models.AutoField(primary_key=True, db_column='ID_message') # Field name made lowercase.
     id_conversation = models.IntegerField(primary_key=True, db_column='ID_conversation') # Field name made lowercase.
     id_sender = models.ForeignKey(Usuario, db_column='ID_sender') # Field name made lowercase.
     id_receiver = models.ForeignKey(Usuario, db_column='ID_receiver', related_name="+") # Field name made lowercase.
