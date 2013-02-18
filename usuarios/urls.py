@@ -5,5 +5,7 @@ urlpatterns = patterns('usuarios.views',
     url(r'^confirm/$', 'confirm'),
     url(r'^reconfirm/$', 'resend_confirmation'),
     url(r'^login/$', 'login'),
-    url(r'^editprofile/$', 'edit_user_profile')
+    url(r'^editprofile/$', 'edit_user_profile'),
+    url(r'^profile/$', 'show_profile'),
+    url(r'^profile/addalbum/$', 'show_add_album')
 )

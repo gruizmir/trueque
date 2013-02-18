@@ -30,7 +30,7 @@ def raise_error(error_key):
     def email_server_down(): return 'EL SERVIDOR DE EMAIL NO ESTA DISPONIBLE, INTENTE VALIDAR SU CUENTA EN OTRO MOMENTO SI ES QUE NO RESIVE CONFIRMACION DENTRO DE LAS PROXIMAS HORAS...'
     def user_registered_with_magic_error(): return 'SU USUARIO A SIDO REGISTRADO PERO A OCURRIDO UN ERROR AL ENVIAR EL CORREO DE CONFIRMACION ...'
     def register_module_error(): return 'EL SERVICIO DE REGISTRO NO SE ENCUENTRA DISPONIBLE, INTENTE EN OTRO MOMENTO'
-    def data_base_error(): return 'A OCURRIDO UN ERROR AL INTENTAR INGRESAR SU USUARIO, SI EL PROBLEMA PERSISTE CONTACTENOS A ...'
+    def data_base_error(): return 'A OCURRIDO UN ERROR AL INTENTAR CONTACTAR A LA BASE DE DATOS, SI EL PROBLEMA PERSISTE CONTACTENOS A ...'
     def no_cookie(): return 'Su navegador necesita tener habilitadas para poder iniciar sesion'
     def need_login(): return 'DEBE INICIAR SESION PARA ENTRAR EN ESTA SECCION'
     raise_e = {MAGICERROR : magic_error(),

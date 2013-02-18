@@ -1,0 +1,19 @@
+<html>
+<head>
+    <title>PROFILE</title>
+</head>
+<body>
+    <h1>PROFILE</h1>
+    {% csrf_token %}
+    {% for item in user_data.items %}
+    	<br>{{ item.0 }} : {{ item.1 }} </br>
+	{% endfor %}
+	-----------------------------------------
+	<h1> ALBUMES </h1>
+	{% for album in albums %}
+    	<br>{{ album.album_name }}</br>
+	{% endfor %}
+	-----------------------------------------
+	<a href="addalbum"><div style="color: red; height: 30px; width: 30px; background:#000;"> </div></a>
+</body>
+</html>

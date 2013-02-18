@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from albums.form import AddAlbumForm
 from django import forms
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sessions.models import Session
@@ -6,17 +7,26 @@ from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
 from django.core.mail import send_mail
 from django.db.utils import DatabaseError
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.utils.datetime_safe import datetime
 from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm
 from usuarios.models import Usuario
+import albums.utils as albums_utils
 import socket
 import usuarios.custom_error as C_error
 import usuarios.form
 
 SESSION_EXPIRY = 86400 #Tiempo de expiracion de la sesion encargada de la verificacion.
+
+#Nombres de los albumes
+ALBUM_NAME_GARAGE = "My Garage"
+ALBUM_NAME_TRUEQUES = "Trueques"
+ALBUM_NAME_LIKE = "Me gusta"
+ALBUM_NAME_RECOMMEND = "Recomiendo"
+ALBUMES = [ALBUM_NAME_GARAGE, ALBUM_NAME_TRUEQUES, ALBUM_NAME_LIKE, ALBUM_NAME_RECOMMEND]
+
 
 #register: funcion encargada de desplegar el formulario de registro y de ingresar los datos
 #          del usuario en la base de datos.
@@ -39,6 +49,12 @@ def register(request):
                 session_s.set_expiry(SESSION_EXPIRY)
                 session_s.save(must_create=True)      
                 new_register.save()
+                
+                #Se crean los primeros cuatro albums por defecto
+                for name in ALBUMES:
+                    user = Usuario.objects.get(usuario_email_1=new_register.usuario_email_1)
+                    albums_utils.add_album(user, name, False, True)
+                
                 return send_registration_confirmation(session_s)
         else:
             form = RegisterUserForm()
@@ -213,3 +229,52 @@ def edit_user_profile(request):
     except Exception as e:
         print '%s (%s)' % (e.message, type(e))
         return C_error.raise_error(C_error.MAGICERROR)
+    
+def show_profile(request):
+    try:
+        user = Usuario.objects.get(id_usuario= request.session['member_id'])
+        user_data = {'NOMBRE' : user.usuario_name, 
+                     'APELLIDO' : user.usuario_lastname, 
+                     'RATING' : user.usuario_rating, 
+                     'LEVEL' : user.usuario_level, 
+                     'QUDS' : user.usuario_quds, 
+                     'TRUEQUES' : user.usuario_barter_qty, 
+                     'SIGUIENDO' : user.usuario_followed_qty, 
+                     'ME SIGUEN' : user.usuario_follower_qty}
+        
+        d = {'user_data' : user_data, 'albums' : albums_utils.get_albums(user)}
+        d.update(csrf(request))
+        return render_to_response('user_profile.html', d)
+    
+    #Exceptions que se activan en caso de no poder iniciar sesion.
+    except KeyError: return C_error.raise_error(C_error.NEEDLOGIN)
+    except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
+    except ObjectDoesNotExist as e: return C_error.raise_error(C_error.UNREGISTEREDUSER)
+    except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
+    except Exception as e:
+        print '%s (%s)' % (e.message, type(e))
+        return C_error.raise_error(C_error.MAGICERROR)
+    
+def show_add_album(request):
+    try:
+        user = Usuario.objects.get(id_usuario= request.session['member_id'])
+        if request.method == 'POST':
+            form = AddAlbumForm(request.POST)
+            form.id_owner = user
+            if form.is_valid():
+                return HttpResponseRedirect("/usuarios/profile")
+            else:
+                form.id_owner = None
+        else:
+            form = AddAlbumForm()
+            
+        c = { 'form': form }
+        c.update(csrf(request))
+        return render_to_response('album_add.html', c)
+    except KeyError as e: return C_error.raise_error(C_error.NEEDLOGIN)
+    except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
+    except ObjectDoesNotExist: return C_error.raise_error(C_error.UNREGISTEREDUSER)
+    except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
+    except Exception as e:
+        print '%s (%s)' % (e.message, type(e))
+        return C_error.raise_error(C_error.MAGICERROR)  
