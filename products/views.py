@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-from products.models import Product, Category, ProductCategory
-from products.forms import ProductForm, CategoryForm, ImagesForm
+from products.models import Product, Category, ProductCategory, Comment
+from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm
 from usuarios.models import Usuario, Country, City
+from transactions.models import Bid
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from django.conf import settings
 import uuid
@@ -80,7 +82,7 @@ def saveImages(request, path=None):
 #Guarda el archivo en la carpeta 'cargas' (MEDIA_ROOT)
 #Falta agregar que la guarde en la carpeta propia del producto.
 def handle(path, file, counter):
-	if os.path.isdir(settings.MEDIA_ROOT + "/" + path) == False:
+	if os.path.isdir(os.path.join(settings.MEDIA_ROOT, path)) == False:
 		os.mkdir(os.path.join(settings.MEDIA_ROOT, path))
 	if file:
 		destination = open(settings.MEDIA_ROOT + "/" +path + "/" + "img_" + str(counter) + ".png", 'wb+')
@@ -91,7 +93,69 @@ def handle(path, file, counter):
 #Muestra los detalles del producto cuya ID es 'idProducto'.
 #Debe enviar un mensaje si no lo encuentra o no se envia una ID.
 def showDetails(request, idProduct=None):
+	#Debe averiguar si el usuario es dueño o no.	
 	if idProduct==None:
 		return HttpResponseRedirect("/")
 	else:
-		return HttpResponseRedirect("/")
+		try:
+			producto = Product.objects.get(id_product=idProduct)
+#			if producto.id_owner == request.session['member_id']:
+#				showOwnerView(request, product)
+#			else:				
+#				showVisitView(request, product)
+			return showVisitView(request, producto)
+		except ObjectDoesNotExist:
+			return HttpResponseRedirect("/")
+
+#Debe mostrar opcion de aceptar una oferta.
+def showOwnerView(request, product):
+	owner = product.id_owner
+	idProduct = product.id_product
+	try:
+		categories = ProductCategory.objects.get(id_product = idProduct)
+	except ObjectDoesNotExist:
+		categories = None
+	try:
+		coments = Comment.objects.get(id_product = idProduct).order_by('comment_datetime')
+	except ObjectDoesNotExist:
+		comments = None
+	try:
+		bids = Bid.objects.get(id_product = idProduct).order_by('bid_datetime')
+	except ObjectDoesNotExist:
+		bids = None
+	return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'owner':owner}, context_instance=RequestContext(request))
+
+
+#Muestra solo la opcion de hacer comentarios y hacer un Bid. Aumenta el contador de visitas.
+def showVisitView(request, product):
+	idProduct = product.id_product
+	try:
+		categories = ProductCategory.objects.filter(id_product = idProduct)
+	except ObjectDoesNotExist:
+		categories = None
+	try:
+		comments = Comment.objects.filter(id_product = idProduct).order_by('comment_datetime')
+	except ObjectDoesNotExist:
+		comments = None
+	try:
+		bids = Bid.objects.filter(id_product = idProduct).order_by('bid_datetime')
+	except ObjectDoesNotExist:
+		bids = None
+	return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids}, context_instance=RequestContext(request))
+
+
+#Vista para dejar comentarios en un producto enviado por parametro
+def newComment(request, idProduct=None):
+#	comment = Comment(id_product=idProduct, id_sender=request.session['member_id'])
+	producto = Product.objects.get(id_product=idProduct)
+	sender = Usuario.objects.get(id_usuario=2)
+	comment = Comment(id_product=producto, id_sender=sender)
+	comment_form = CommentForm(instance=comment)
+	return render_to_response("new_comment.html", {'form':comment_form},context_instance=RequestContext(request))
+
+
+def saveComment(request):
+	if request.method == "POST":
+		comment_form = CommentForm(	request.POST)
+		print comment_form
+	return HttpResponseRedirect("/")

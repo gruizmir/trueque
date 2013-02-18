@@ -59,3 +59,18 @@ def searchByPopularity(request, page=None):
 	except ObjectDoesNotExist:
 		data = None
 	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
+	
+def searchByName(request,page=None):
+	data = None
+	if request.method == 'POST':
+		try:
+			if page==None or page=="":
+				data = Product.objects.filter(product_name__icontains=request.POST['search_data']).order_by('product_featured')[:20]
+			else:
+				cant = 20*(int(page) - 1)
+				data = Product.objects.filter(product_name__icontains=request.POST['search_data']).order_by('product_featured')[cant:20]
+		except ObjectDoesNotExist:
+			data = None
+	else:
+		return HttpResponseRedirect("/")
+	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})

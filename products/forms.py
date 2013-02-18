@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.forms import Form, ModelForm, CharField, EmailField, IntegerField, TextInput, PasswordInput, Textarea, BooleanField,CheckboxInput, FileField
+from django.forms import Form, ModelForm, CharField, EmailField, IntegerField, TextInput, PasswordInput, Textarea, BooleanField,CheckboxInput, FileField, HiddenInput
 from django.db import models
-from products.models import Product, Category
+from products.models import Product, Category, Comment
 
 class ProductForm(ModelForm):
 	product_name = CharField(label='Titulo Producto', widget=TextInput(attrs={'size':40, 'value':'Titulo Producto'}))
@@ -31,3 +31,8 @@ class ImagesForm(Form):
 	img_3 = FileField(label="Imagen 3", max_length=1024)
 	img_4 = FileField(label="Imagen 4", max_length=1024)
 	img_5 = FileField(label="Imagen 5", max_length=1024)
+
+
+class CommentForm(ModelForm):
+	class Meta:
+		model = Comment

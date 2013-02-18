@@ -1,0 +1,49 @@
+<html>
+	<head>
+	{% if product %}
+		<title>{{ product.product_name }}</title>
+	{% endif %}
+	</head>
+	<body>
+		{% if product %}
+			<image src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}_01" width="200"/>
+			</br>
+			<image src="/media/{{ product.product_img }}/img_2.png" alt="{{product.product_img}}_02" width="70"/>
+			<image src="/media/{{ product.product_img }}/img_3.png" alt="{{product.product_img}}_03" width="70"/>
+			<image src="/media/{{ product.product_img }}/img_4.png" alt="{{product.product_img}}_04" width="70"/>
+			<image src="/media/{{ product.product_img }}/img_5.png" alt="{{product.product_img}}_05" width="70"/>
+			<h2>{{ product.product_name }}</h2>
+			<p>{{ product.product_description }}</p>
+			{% if categories %}
+				{% for cat in categories %}
+					{{ cat.id_category.category_name }}
+				{% endfor %}
+			{% endif %}
+			<p>{{ product.product_q_amount }}</p>
+			<h3>Interesados</h3>
+			{% if bids %}
+				{% for bid in bids %}
+					<p>{{ bid.id_bidder.usuario_name }} {{ bid.id_bidder.usuario_lastname }}</p>
+					{% if bid.bid_id_product %}					
+						<p> <image src="/media/{{ bid.bid_id_product.product_img }}/img_1.png" width="70"/>    {{ bid.bid_id_product.product_name }}</p>
+					{% else %}
+						<p> {{ bid.bid_q }} </p>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+			<a href="/transactions/bid/{{ product.id_product }}">Hacer trueque</a>
+			
+			
+			<h3>Comentarios</h3>
+			{% if comments %}
+				{% for comment in comments %}
+					<p>{{ comment.id_sender.usuario_name }}</p>
+					<p>{{ comment.comment_subject }}</p>
+					<p>{{ comment.comment_text }}</p>
+					<p>{{ comment.comment_datetime }}</p>
+				{% endfor %}
+			{% endif %}
+			<a href="comment/{{ product.id_product }}">Deja tu comentario</a>
+		{% endif %}
+	</body>
+</html>
