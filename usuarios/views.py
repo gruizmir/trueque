@@ -2,13 +2,12 @@
 from albums.form import AddAlbumForm
 from django import forms
 from django.contrib.sessions.backends.db import SessionStore
-from django.contrib.sessions.models import Session
 from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, \
     ValidationError
 from django.core.mail import send_mail
 from django.db.utils import DatabaseError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.utils.datetime_safe import datetime
 from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
@@ -239,13 +238,16 @@ class ShowProfile():
     def show_profile_using_mail(self, request, user_email):
         try: return self.show_profile_user(request, Usuario.objects.get(usuario_email_1 = forms.EmailField().clean(user_email)))
         except Exception as e: return self.show_error(e)
-        
-    def show_profile_user(self, request, user):
-        try:
-            user_data = [['NOMBRE', user.usuario_name], ['APELLIDO', user.usuario_lastname],
+    
+    def get_user_data(self, user):
+        return [['NOMBRE', user.usuario_name], ['APELLIDO', user.usuario_lastname],
                          ['RATING', user.usuario_rating], ['LEVEL', user.usuario_level],
                          ['QUDS', user.usuario_quds], ['TRUEQUES', user.usuario_barter_qty], 
                          ['SIGUIENDO', user.usuario_followed_qty], ['ME SIGUEN', user.usuario_follower_qty]]
+        
+    def show_profile_user(self, request, user):
+        try:
+            user_data = self.get_user_data(user)
 
             cancel_follow = False
             if is_loged(request) and user.id_usuario != request.session['member_id']:
@@ -295,6 +297,10 @@ class ShowProfile():
                 new_follower.id_follower = follower
                 new_follower.id_followed = followed
                 new_follower.save(force_insert = True)
+                follower.usuario_followed_qty = follower.usuario_followed_qty + 1
+                followed.usuario_follower_qty = followed.usuario_follower_qty + 1
+                follower.save()
+                followed.save()
                 return HttpResponseRedirect("/usuarios/profile/%s" % followed.id_usuario)
             else:
                 raise SuspiciousOperation
@@ -307,9 +313,55 @@ class ShowProfile():
                 follower = Usuario.objects.get(id_usuario= request.session['member_id'])
                 following = Followers.objects.filter(id_followed = followed, id_follower = follower)
                 following.delete()
+                follower.usuario_followed_qty = follower.usuario_followed_qty - 1
+                followed.usuario_follower_qty = followed.usuario_follower_qty - 1
+                follower.save()
+                followed.save()
                 return HttpResponseRedirect("/usuarios/profile/%s" % followed.id_usuario)
             else:
                 raise SuspiciousOperation
+        except Exception as e: return self.show_error(e)
+    
+    def show_followers(self, request):
+        try:
+            user = Usuario.objects.get(id_usuario= request.session['member_id'])
+            followers = Followers.objects.filter(id_followed = user)
+            return self.show_follow(request, user, None, followers)
+        except Exception as e: return self.show_error(e)
+        
+    def show_following(self, request):
+        try:
+            user = Usuario.objects.get(id_usuario= request.session['member_id'])
+            following = Followers.objects.filter(id_follower = user)
+            return self.show_follow(request, user, following, None)
+        
+        except Exception as e: return self.show_error(e)
+    
+    def show_follow(self, request, user, following, followers):
+        try:
+            user_data = self.get_user_data(user)
+            
+            cancel_follow = False
+            if is_loged(request) and user.id_usuario != request.session['member_id']:
+                following = None
+                try:
+                    following = Followers.objects.filter(id_followed = user, id_follower = Usuario.objects.get(id_usuario= request.session['member_id']))
+                    print following
+                except: pass
+                if following: cancel_follow = True
+                
+                follow = user.id_usuario
+            else: follow = False
+
+            d = {'user_data' : user_data, 'islogededit' : is_loged_edit(request, user),
+                 'follow' :  follow, 'cancelfollow' : cancel_follow,
+                 'following' : following, 'followers' : followers,
+                 'albums' : None
+                 }
+            
+            d.update(csrf(request))
+            return render_to_response('user_profile.html', d)
+            
         except Exception as e: return self.show_error(e)
         
     def show_error(self, e): 

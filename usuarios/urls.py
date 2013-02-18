@@ -13,6 +13,9 @@ urlpatterns = patterns('usuarios.views',
     url(r'^profile/[\d]+/addalbum$', ShowProfile().show_add_album_red),
     url(r'^profile/[\w.@]{0,90}/addalbum$', ShowProfile().show_add_album_red),
     
+    url(r'^profile/followers$', ShowProfile().show_followers),
+    url(r'^profile/following$', ShowProfile().show_following),
+        
     url(r'^profile/[\d]+/follow/(?P<user_id>[\d]+)$', ShowProfile().add_follow),
     url(r'^profile/[\w.@]{0,90}/follow/(?P<user_id>[\d]+)$', ShowProfile().add_follow),
     

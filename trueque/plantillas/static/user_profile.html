@@ -9,10 +9,24 @@
     	<br>{{ item.0 }} : {{ item.1 }} </br>
 	{% endfor %}
 	-----------------------------------------
-	<h1> ALBUMES </h1>
-	{% for album in albums %}
-    	<br>{{ album.album_name }}</br>
-	{% endfor %}
+	{% if albums %}
+		<h1> ALBUMES </h1>
+		{% for album in albums %}
+	    	<br>{{ album.album_name }}</br>
+		{% endfor %}
+	{% endif %}
+	{% if following %}
+		<h1> FOLLOWING </h1>
+		{% for follow in following %}
+		<br> {{follow.id_followed.usuario_name}} {{follow.id_followed.usuario_lastname}}</br>
+		{% endfor %}
+	{% endif %}
+	{% if followers %}
+		<h1> FOLLOWERS </h1>
+		{% for follower in followers %}
+		<br> {{follower.id_follwer.usuario_name}} {{follower.id_follwer.usuario_name}}</br>
+		{% endfor %}
+	{% endif %}
 	-----------------------------------------
 	{% if islogededit %}
 		<a href="addalbum"><div style="color: red; height: 30px; width: 30px; background:#000;"> </div></a>
