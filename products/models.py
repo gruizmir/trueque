@@ -34,7 +34,8 @@ class ProductCategory(models.Model):
         db_table = u'Product_category'
 
 class Comment(models.Model):
-    id_product = models.ForeignKey(Product, primary_key=True, db_column='ID_product') # Field name made lowercase.
+    id_comment = models.AutoField(primary_key=True, db_column='ID_comment') # Field name made lowercase.
+    id_product = models.ForeignKey(Product, db_column='ID_product') # Field name made lowercase.
     id_sender = models.ForeignKey(Usuario, db_column='ID_sender') # Field name made lowercase.
     comment_subject = models.CharField(max_length=300, db_column='Comment_subject', blank=True) # Field name made lowercase.
     comment_text = models.TextField(db_column='Comment_text', blank=True) # Field name made lowercase.

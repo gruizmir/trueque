@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from products.models import Product, Category, ProductCategory, Comment
-from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm
+from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm, NewCommentForm
 from usuarios.models import Usuario, Country, City
 from transactions.models import Bid
 from django.shortcuts import render_to_response
@@ -145,17 +145,28 @@ def showVisitView(request, product):
 
 
 #Vista para dejar comentarios en un producto enviado por parametro
-def newComment(request, idProduct=None):
-#	comment = Comment(id_product=idProduct, id_sender=request.session['member_id'])
-	producto = Product.objects.get(id_product=idProduct)
-	sender = Usuario.objects.get(id_usuario=2)
-	comment = Comment(id_product=producto, id_sender=sender)
-	comment_form = CommentForm(instance=comment)
-	return render_to_response("new_comment.html", {'form':comment_form},context_instance=RequestContext(request))
-
-
-def saveComment(request):
-	if request.method == "POST":
-		comment_form = CommentForm(	request.POST)
-		print comment_form
-	return HttpResponseRedirect("/")
+def newComment(request, idProducto=None):
+	if idProducto!=None:
+		if request.method == "POST":
+			newComment = NewCommentForm(request.POST)
+			if newComment.is_valid():
+				data = {'id_product':idProducto,
+#						'id_sender':request.session['member_id'],
+						'id_sender':2,
+						'comment_subject':newComment.cleaned_data['comment_subject'],
+						'comment_text':newComment.cleaned_data['comment_text'],
+						'comment_datetime': datetime.now(),
+						}	
+				commentForm = CommentForm(data)
+				if commentForm.is_valid():
+					commentForm.save()
+					return HttpResponseRedirect("/products/" + str(idProducto))
+				else:
+					return HttpResponse("DATA_ERROR")
+			else:
+				return HttpResponse("NO_VALID")		
+		else:
+			newComment = NewCommentForm()
+			return render_to_response("new_comment.html", {'form':newComment},context_instance=RequestContext(request))
+	else:
+		return HttpResponseRedirect("/")

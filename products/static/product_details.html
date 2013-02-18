@@ -37,13 +37,13 @@
 			<h3>Comentarios</h3>
 			{% if comments %}
 				{% for comment in comments %}
-					<p>{{ comment.id_sender.usuario_name }}</p>
+					<p>{{ comment.id_sender.usuario_name }} {{ comment.id_sender.usuario_lastname }}</p>
 					<p>{{ comment.comment_subject }}</p>
 					<p>{{ comment.comment_text }}</p>
-					<p>{{ comment.comment_datetime }}</p>
+					<p>{{ comment.comment_datetime|date:"l j/F Y" }}</p>
 				{% endfor %}
 			{% endif %}
-			<a href="comment/{{ product.id_product }}">Deja tu comentario</a>
+			<a href="/products/comment/{{ product.id_product }}">Deja tu comentario</a>
 		{% endif %}
 	</body>
 </html>

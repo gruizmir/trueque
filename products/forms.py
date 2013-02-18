@@ -36,3 +36,8 @@ class ImagesForm(Form):
 class CommentForm(ModelForm):
 	class Meta:
 		model = Comment
+		exclude = ('id_comment')
+
+class NewCommentForm(Form):
+	comment_subject = CharField(label="Asunto", widget=TextInput(attrs={'size':40}), required=True)
+	comment_text = CharField(label="Asunto", widget=Textarea(attrs={}))

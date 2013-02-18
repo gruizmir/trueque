@@ -3,7 +3,8 @@
 		<title>Nuevo comentario</title>
 	</head>
 	<body>
-		<form method="POST" action="/products/savecomment">	{% csrf_token %}
+		<form method="POST" action="#">	
+		{% csrf_token %}
 		{{ form.as_p }}
 		<input type="submit" value="Ingresar"/>
 		</form>

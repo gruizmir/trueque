@@ -5,5 +5,4 @@ urlpatterns = patterns('products.views',
     url(r'^(\d+)$', 'showDetails'),
     url(r'^save$', 'saveProduct'),
     url(r'^comment/(\d+)$', 'newComment'),
-    url(r'^savecomment$', 'saveComment'),
 )
