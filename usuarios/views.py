@@ -4,7 +4,8 @@ from django import forms
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.sessions.models import Session
 from django.core.context_processors import csrf
-from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation
+from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, \
+    ValidationError
 from django.core.mail import send_mail
 from django.db.utils import DatabaseError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -12,7 +13,7 @@ from django.shortcuts import render_to_response
 from django.utils.datetime_safe import datetime
 from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm
-from usuarios.models import Usuario
+from usuarios.models import Usuario, Followers
 import albums.utils as albums_utils
 import socket
 import usuarios.custom_error as C_error
@@ -175,11 +176,7 @@ def login(request):
                 request.session.set_expiry(0)
                 request.session.save()
                 
-                session_s = Session.objects.get(pk=request.session.session_key)
-  
-                return HttpResponse("Logged :" + str(session_s.session_key)
-                                    + "<br>" + str(session_s.expire_date)
-                                    + "<br>" + str(session_s.get_decoded()))
+                return HttpResponseRedirect("/usuarios/profile")
         else:
             form = LoginForm()
         
@@ -229,52 +226,109 @@ def edit_user_profile(request):
     except Exception as e:
         print '%s (%s)' % (e.message, type(e))
         return C_error.raise_error(C_error.MAGICERROR)
+
+class ShowProfile():
+    def show_profile_default(self, request):
+        try: return self.show_profile_user(request, Usuario.objects.get(id_usuario= request.session['member_id']))
+        except Exception as e: return self.show_error(e)
     
-def show_profile(request):
-    try:
-        user = Usuario.objects.get(id_usuario= request.session['member_id'])
-        user_data = {'NOMBRE' : user.usuario_name, 
-                     'APELLIDO' : user.usuario_lastname, 
-                     'RATING' : user.usuario_rating, 
-                     'LEVEL' : user.usuario_level, 
-                     'QUDS' : user.usuario_quds, 
-                     'TRUEQUES' : user.usuario_barter_qty, 
-                     'SIGUIENDO' : user.usuario_followed_qty, 
-                     'ME SIGUEN' : user.usuario_follower_qty}
+    def show_profile_using_id(self, request, user_id):
+        try: return self.show_profile_user(request, Usuario.objects.get(id_usuario = user_id))
+        except Exception as e: return self.show_error(e)
         
-        d = {'user_data' : user_data, 'albums' : albums_utils.get_albums(user)}
-        d.update(csrf(request))
-        return render_to_response('user_profile.html', d)
-    
-    #Exceptions que se activan en caso de no poder iniciar sesion.
-    except KeyError: return C_error.raise_error(C_error.NEEDLOGIN)
-    except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
-    except ObjectDoesNotExist as e: return C_error.raise_error(C_error.UNREGISTEREDUSER)
-    except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
-    except Exception as e:
-        print '%s (%s)' % (e.message, type(e))
-        return C_error.raise_error(C_error.MAGICERROR)
-    
-def show_add_album(request):
-    try:
-        user = Usuario.objects.get(id_usuario= request.session['member_id'])
-        if request.method == 'POST':
-            form = AddAlbumForm(request.POST)
-            form.id_owner = user
-            if form.is_valid():
-                return HttpResponseRedirect("/usuarios/profile")
-            else:
-                form.id_owner = None
-        else:
-            form = AddAlbumForm()
+    def show_profile_using_mail(self, request, user_email):
+        try: return self.show_profile_user(request, Usuario.objects.get(usuario_email_1 = forms.EmailField().clean(user_email)))
+        except Exception as e: return self.show_error(e)
+        
+    def show_profile_user(self, request, user):
+        try:
+            user_data = [['NOMBRE', user.usuario_name], ['APELLIDO', user.usuario_lastname],
+                         ['RATING', user.usuario_rating], ['LEVEL', user.usuario_level],
+                         ['QUDS', user.usuario_quds], ['TRUEQUES', user.usuario_barter_qty], 
+                         ['SIGUIENDO', user.usuario_followed_qty], ['ME SIGUEN', user.usuario_follower_qty]]
+
+            cancel_follow = False
+            if is_loged(request) and user.id_usuario != request.session['member_id']:
+                following = None
+                try:
+                    following = Followers.objects.filter(id_followed = user, id_follower = Usuario.objects.get(id_usuario= request.session['member_id']))
+                    print following
+                except: pass
+                if following: cancel_follow = True
+                
+                follow = user.id_usuario
+            else: follow = False
             
-        c = { 'form': form }
-        c.update(csrf(request))
-        return render_to_response('album_add.html', c)
-    except KeyError as e: return C_error.raise_error(C_error.NEEDLOGIN)
-    except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
-    except ObjectDoesNotExist: return C_error.raise_error(C_error.UNREGISTEREDUSER)
-    except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
-    except Exception as e:
-        print '%s (%s)' % (e.message, type(e))
-        return C_error.raise_error(C_error.MAGICERROR)  
+            d = {'user_data' : user_data, 'albums' : albums_utils.get_albums(user), 
+                 'islogededit' : is_loged_edit(request, user),
+                 'follow' :  follow, 'cancelfollow' : cancel_follow}
+            d.update(csrf(request))
+            return render_to_response('user_profile.html', d)
+        except Exception as e: return self.show_error(e)
+
+    def show_add_album_red(self, request): return HttpResponseRedirect("/usuarios/profile/addalbum")
+    
+    def show_add_album(self, request):
+        try:
+            user = Usuario.objects.get(id_usuario= request.session['member_id'])
+            if request.method == 'POST':
+                form = AddAlbumForm(request.POST)
+                form.id_owner = user
+                if form.is_valid():
+                    return HttpResponseRedirect("/usuarios/profile")
+                else:
+                    form.id_owner = None
+            else:
+                form = AddAlbumForm()
+                    
+            c = { 'form': form }
+            c.update(csrf(request))
+            return render_to_response('album_add.html', c)
+        except Exception as e: return self.show_error(e)
+    
+    def add_follow(self, request, user_id):
+        try:
+            followed = Usuario.objects.get(id_usuario = user_id)
+            if not is_loged_edit(request, followed):
+                follower = Usuario.objects.get(id_usuario= request.session['member_id'])
+                new_follower = Followers()
+                new_follower.id_follower = follower
+                new_follower.id_followed = followed
+                new_follower.save(force_insert = True)
+                return HttpResponseRedirect("/usuarios/profile/%s" % followed.id_usuario)
+            else:
+                raise SuspiciousOperation
+        except Exception as e: return self.show_error(e)
+        
+    def cancel_follow(self, request, user_id):
+        try:
+            followed = Usuario.objects.get(id_usuario = user_id)
+            if not is_loged_edit(request, followed):
+                follower = Usuario.objects.get(id_usuario= request.session['member_id'])
+                following = Followers.objects.filter(id_followed = followed, id_follower = follower)
+                following.delete()
+                return HttpResponseRedirect("/usuarios/profile/%s" % followed.id_usuario)
+            else:
+                raise SuspiciousOperation
+        except Exception as e: return self.show_error(e)
+        
+    def show_error(self, e): 
+        try: raise e
+        except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
+        except KeyError as e: return C_error.raise_error(C_error.NEEDLOGIN)
+        except ValidationError: return C_error.raise_error(C_error.UNREGISTEREDUSER)
+        except ObjectDoesNotExist as e: return C_error.raise_error(C_error.UNREGISTEREDUSER)
+        except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
+        except Exception as e:
+            print '%s (%s)' % (e.message, type(e))
+            return C_error.raise_error(C_error.MAGICERROR)
+
+def is_loged(request):
+    try:
+        if request.session['member_id']: return True
+    except: return False
+
+def is_loged_edit(request, user):
+    try: 
+        if request.session['member_id'] == user.id_usuario: return True
+    except: return False 
