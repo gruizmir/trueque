@@ -1,6 +1,9 @@
 <html>
 <head>
     <title>PROFILE</title>
+    <script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
+    </script>
 </head>
 <body>
     <h1>PROFILE</h1>
@@ -38,5 +41,14 @@
 	{% if follow and cancelfollow %}
 		<a href="cancelfollow/{{follow}}"><div style="color: red; height: 30px; width: 30px; background:#00A;"> </div></a>
 	{% endif %}
+	<br>-----------------------------------------
+	{% if mail %}
+		<div id="mail/inbox/" class="mail">Recibidos</div>
+		<div id="mail/compose/" class="mail">Redactar</div>
+		<div id="mail/sent/" class="mail">Enviados</div>
+		<div id="result"></div>
+	{% endif %}
+	
 </body>
+    <script type="text/javascript" src="/static/js/mail_tab.js"></script>
 </html>

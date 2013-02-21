@@ -6,10 +6,15 @@ from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, \
     ValidationError
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.utils import DatabaseError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
+from django.template.context import RequestContext
+from django.utils import simplejson
 from django.utils.datetime_safe import datetime
+from messages.form import ComposeMailForm
+from messages.models import Message
 from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm
 from usuarios.models import Usuario, Followers
@@ -26,7 +31,7 @@ ALBUM_NAME_TRUEQUES = "Trueques"
 ALBUM_NAME_LIKE = "Me gusta"
 ALBUM_NAME_RECOMMEND = "Recomiendo"
 ALBUMES = [ALBUM_NAME_GARAGE, ALBUM_NAME_TRUEQUES, ALBUM_NAME_LIKE, ALBUM_NAME_RECOMMEND]
-
+MAILSENTCOMPLETE = "Mail enviado correctamente"
 
 #register: funcion encargada de desplegar el formulario de registro y de ingresar los datos
 #          del usuario en la base de datos.
@@ -227,45 +232,31 @@ def edit_user_profile(request):
         return C_error.raise_error(C_error.MAGICERROR)
 
 class ShowProfile():
+    def get_user_data(self, user):
+        return [['NOMBRE', user.usuario_name], ['APELLIDO', user.usuario_lastname],
+                ['RATING', user.usuario_rating], ['LEVEL', user.usuario_level],
+                ['QUDS', user.usuario_quds], ['TRUEQUES', user.usuario_barter_qty],
+                ['SIGUIENDO', user.usuario_followed_qty], ['ME SIGUEN', user.usuario_follower_qty]]
+    
     def show_profile_default(self, request):
-        try: return self.show_profile_user(request, Usuario.objects.get(id_usuario= request.session['member_id']))
+        try:
+            user = Usuario.objects.get(id_usuario= request.session['member_id'])
+            vars_view = {'albums' : albums_utils.get_albums(user)} 
+            return self.show_profile_user(request, user, vars_view)
         except Exception as e: return self.show_error(e)
     
     def show_profile_using_id(self, request, user_id):
-        try: return self.show_profile_user(request, Usuario.objects.get(id_usuario = user_id))
+        try: 
+            user = Usuario.objects.get(id_usuario = user_id)
+            vars_view = {'albums' : albums_utils.get_albums(user)}
+            return self.show_profile_user(request, user, vars_view)
         except Exception as e: return self.show_error(e)
         
     def show_profile_using_mail(self, request, user_email):
-        try: return self.show_profile_user(request, Usuario.objects.get(usuario_email_1 = forms.EmailField().clean(user_email)))
-        except Exception as e: return self.show_error(e)
-    
-    def get_user_data(self, user):
-        return [['NOMBRE', user.usuario_name], ['APELLIDO', user.usuario_lastname],
-                         ['RATING', user.usuario_rating], ['LEVEL', user.usuario_level],
-                         ['QUDS', user.usuario_quds], ['TRUEQUES', user.usuario_barter_qty], 
-                         ['SIGUIENDO', user.usuario_followed_qty], ['ME SIGUEN', user.usuario_follower_qty]]
-        
-    def show_profile_user(self, request, user):
-        try:
-            user_data = self.get_user_data(user)
-
-            cancel_follow = False
-            if is_loged(request) and user.id_usuario != request.session['member_id']:
-                following = None
-                try:
-                    following = Followers.objects.filter(id_followed = user, id_follower = Usuario.objects.get(id_usuario= request.session['member_id']))
-                    print following
-                except: pass
-                if following: cancel_follow = True
-                
-                follow = user.id_usuario
-            else: follow = False
-            
-            d = {'user_data' : user_data, 'albums' : albums_utils.get_albums(user), 
-                 'islogededit' : is_loged_edit(request, user),
-                 'follow' :  follow, 'cancelfollow' : cancel_follow}
-            d.update(csrf(request))
-            return render_to_response('user_profile.html', d)
+        try: 
+            user = Usuario.objects.get(usuario_email_1 = forms.EmailField().clean(user_email))
+            vars_view = {'albums' : albums_utils.get_albums(user)}
+            return self.show_profile_user(request, user, vars_view)
         except Exception as e: return self.show_error(e)
 
     def show_add_album_red(self, request): return HttpResponseRedirect("/usuarios/profile/addalbum")
@@ -326,18 +317,89 @@ class ShowProfile():
         try:
             user = Usuario.objects.get(id_usuario= request.session['member_id'])
             followers = Followers.objects.filter(id_followed = user)
-            return self.show_follow(request, user, None, followers)
+            vars_view = {'following' : None, 'followers' : followers}   
+            return self.show_profile_user(request, user, vars_view)
         except Exception as e: return self.show_error(e)
         
     def show_following(self, request):
         try:
             user = Usuario.objects.get(id_usuario= request.session['member_id'])
             following = Followers.objects.filter(id_follower = user)
-            return self.show_follow(request, user, following, None)
+            vars_view = {'following' : following, 'followers' : None}
+            return self.show_profile_user(request, user, vars_view)
+        except Exception as e: return self.show_error(e)
+    
+    def show_mail(self, request):
+        try:
+            if request.is_ajax():
+                user = Usuario.objects.get(id_usuario= request.session['member_id'])
+                mail_list = Message.objects.filter(id_receiver = user)
+                render = render_to_response('user_mail_inbox.html', 
+                                            {'object_list' : mail_list},
+                                            context_instance = RequestContext(request))
+                message = {"mail_inbox": render.content}
+            else:
+                user = Usuario.objects.get(id_usuario= request.session['member_id'])
+                vars_view = {'mail' : True}
+                return self.show_profile_user(request, user, vars_view)
+
+            json = simplejson.dumps(message)
+            return HttpResponse(json, mimetype='application/json')
         
         except Exception as e: return self.show_error(e)
     
-    def show_follow(self, request, user, following, followers):
+    def show_mail_compose(self, request):
+        try:
+            if request.is_ajax():
+                mail_sent_complete = False
+                if request.method == 'POST':
+                    form = ComposeMailForm(request.POST)
+                    if form.is_valid():
+                        new_mail = form.save(commit=False)
+                        user = Usuario.objects.get(id_usuario= 1)
+                        new_mail.id_sender = user
+                        user2 = Usuario.objects.get(id_usuario= 2)
+                        new_mail.id_receiver = user2
+                        new_mail.message_datetime = datetime.now()
+                        new_mail.id_conversation = 1
+                        new_mail.message_read = 0
+                        new_mail.save()
+                        form = ComposeMailForm()
+                        mail_sent_complete = MAILSENTCOMPLETE
+                        
+                else: form = ComposeMailForm()
+                c = { 'form': form , 'mail_sent_complete' : mail_sent_complete}
+                c.update(csrf(request))
+                render = render_to_response('user_send_mail.html', c)
+                message = {"mail_inbox": render.content}
+            else: return HttpResponseRedirect("/usuarios/profile/mail")
+            
+            json = simplejson.dumps(message)
+            return HttpResponse(json, mimetype='application/json')
+        except Exception as e: 
+            print '%s (%s)' % (e.message, type(e))
+            return self.show_error(e)
+    
+    def show_mail_sent(self, request):
+        try:
+            if request.is_ajax():
+                
+                user = Usuario.objects.get(id_usuario= request.session['member_id'])
+                mail_list = Message.objects.filter(id_sender = user)
+                render = render_to_response('user_mail_inbox.html', 
+                                            {'object_list' : mail_list},
+                                            context_instance = RequestContext(request))
+                message = {"mail_inbox": render.content}
+            else: 
+                return HttpResponseRedirect("/usuarios/profile/mail")
+            
+            json = simplejson.dumps(message)
+            return HttpResponse(json, mimetype='application/json')
+        
+        except Exception as e: return self.show_error(e)
+
+        
+    def show_profile_user(self, request, user, vars_view):
         try:
             user_data = self.get_user_data(user)
             
@@ -352,15 +414,10 @@ class ShowProfile():
                 
                 follow = user.id_usuario
             else: follow = False
-
-            d = {'user_data' : user_data, 'islogededit' : is_loged_edit(request, user),
-                 'follow' :  follow, 'cancelfollow' : cancel_follow,
-                 'following' : following, 'followers' : followers,
-                 'albums' : None
-                 }
-            
-            d.update(csrf(request))
-            return render_to_response('user_profile.html', d)
+            vars_view.update({'user_data' : user_data, 'islogededit' : is_loged_edit(request, user),
+                              'follow' :  follow, 'cancelfollow' : cancel_follow})
+            vars_view.update(csrf(request))
+            return render_to_response('user_profile.html', vars_view)
             
         except Exception as e: return self.show_error(e)
         

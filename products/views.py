@@ -48,7 +48,7 @@ def saveProductData(productForm):
 	product.product_name = productForm.cleaned_data['product_name']
 	product.product_description = productForm.cleaned_data['product_description']
 	product.product_q_amount = productForm.cleaned_data['product_q_amount']
-	user = Usuario.objects.get(id_usuario=2)
+	user = Usuario.objects.get(id_usuario= 1)
 	product.id_owner = user
 	product.product_start_datetime = str(datetime.now())
 	product.product_end_datetime = str(datetime.now())

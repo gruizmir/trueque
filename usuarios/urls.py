@@ -15,6 +15,11 @@ urlpatterns = patterns('usuarios.views',
     
     url(r'^profile/followers$', ShowProfile().show_followers),
     url(r'^profile/following$', ShowProfile().show_following),
+    
+    url(r'^profile/mail$', ShowProfile().show_mail),
+    url(r'^profile/mail/inbox/$', ShowProfile().show_mail),
+    url(r'^profile/mail/compose/$', ShowProfile().show_mail_compose),
+    url(r'^profile/mail/sent/$', ShowProfile().show_mail_sent),
         
     url(r'^profile/[\d]+/follow/(?P<user_id>[\d]+)$', ShowProfile().add_follow),
     url(r'^profile/[\w.@]{0,90}/follow/(?P<user_id>[\d]+)$', ShowProfile().add_follow),
