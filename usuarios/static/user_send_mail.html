@@ -1,0 +1,17 @@
+{% if mail_sent_complete %}
+	<h1>{{ mail_sent_complete }}</h1>
+{% endif %}
+
+{% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+{% endif %}
+
+<form id="sendMailForm" action="/usuarios/profile/mail/compose"  method="post">
+	{% csrf_token %}
+	<ul>
+		{{ form.as_ul }}
+		<input type="submit" value="Submit" />
+	</ul>
+</form>
