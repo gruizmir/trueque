@@ -1,0 +1,15 @@
+{% load pagination_tags %}
+
+{% autopaginate object_list 3 %}
+{% for mail in object_list %}
+
+	+---------------------------------------------------------------------+<br>
+    <b>From:</b> {{ mail.id_sender.usuario_name }} {{ mail.id_sender.usuario_lastname }} <br>
+    <b>To:</b> {{ mail.id_receiver.usuario_name }} {{ mail.id_receiver.usuario_lastname }} <br>
+    <b>Subject:</b> {{ mail.message_subject}} <br>
+    <b>Date:</b> {{ mail.message_datetime }} <br>
+    <b>Message:</b> {{ mail.message_text }} <br>
+{% endfor %}
+	+---------------------------------------------------------------------+<br>
+{% paginate %}
+
