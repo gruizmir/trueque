@@ -1,0 +1,60 @@
+<html>
+	<head>
+	{% if product %}
+		<title>{{ product.product_name }}</title>
+	{% endif %}
+	</head>
+	<body>
+		{% if product %}
+			<image src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}_01" width="200"/>
+			</br>
+			<image src="/media/{{ product.product_img }}/img_2.png" alt="{{product.product_img}}_02" width="70"/>
+			<image src="/media/{{ product.product_img }}/img_3.png" alt="{{product.product_img}}_03" width="70"/>
+			<image src="/media/{{ product.product_img }}/img_4.png" alt="{{product.product_img}}_04" width="70"/>
+			<image src="/media/{{ product.product_img }}/img_5.png" alt="{{product.product_img}}_05" width="70"/>
+			<h2>{{ product.product_name }}</h2>
+			<p>{{ product.product_description }}</p>
+			{% if categories %}
+				{% for cat in categories %}
+					{{ cat.id_category.category_name }}
+				{% endfor %}
+			{% endif %}
+			<p>{{ product.product_q_amount }}</p>
+			<h3>Interesados</h3>
+			{% if bids %}
+				<form method="POST" action="/transactions/choosebid/{{ product.id_product }}">
+				{% csrf_token %}
+				{% for bid in bids %}
+					{% if bid.bid_id_product %}		
+						<input type="radio" name="group_product" value="{{ bid.id_bid }}" >
+						{{ bid.id_bidder.usuario_name }} {{ bid.id_bidder.usuario_lastname }}<br>
+						<image src="/media/{{ bid.bid_id_product.product_img }}/img_1.png" width="70"/><br>
+						{{ bid.bid_id_product.product_name }}
+						<hr>
+					{% else %}
+						<input type="radio" name="group_product" value="{{ bid.id_bid }}" > 
+						{{ bid.id_bidder.usuario_name }} {{ bid.id_bidder.usuario_lastname }}<br>
+						{{ bid.bid_q }} 
+						<hr>
+					{% endif %}
+				{% endfor %}
+				<input type="submit" value="Aceptar"/>
+				</form>
+			{% endif %}
+			<a href="/transactions/bid/{{ product.id_product }}">Hacer trueque</a>
+			
+			
+			<h3>Comentarios</h3>
+			{% if comments %}
+				{% for comment in comments %}
+					<p>{{ comment.id_sender.usuario_name }} {{ comment.id_sender.usuario_lastname }}</p>
+					<p>{{ comment.comment_subject }}</p>
+					<p>{{ comment.comment_text }}</p>
+					<p>{{ comment.comment_datetime|date:"l j/F Y" }}</p>
+					<hr>
+				{% endfor %}
+			{% endif %}
+			<a href="/products/comment/{{ product.id_product }}">Deja tu comentario</a>
+		{% endif %}
+	</body>
+</html>

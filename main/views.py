@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from products.models import Product, Category, ProductCategory
-from main.models import ProductFollower, Comment
+from main.models import ProductFollower
 from usuarios.models import Usuario, Country, City
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf

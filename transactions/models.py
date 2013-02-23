@@ -17,11 +17,11 @@ class Trade(models.Model):
     id_trade = models.AutoField(primary_key=True, db_column='ID_trade') # Field name made lowercase.
     id_dealer = models.ForeignKey(Usuario, null=True, db_column='ID_dealer', blank=True) # Field name made lowercase.
     id_bid = models.ForeignKey(Bid, null=True, db_column='ID_bid', blank=True) # Field name made lowercase.
-    trade_code_dealer = models.CharField(max_length=30, db_column='Trade_code_dealer', blank=True) # Field name made lowercase.
-    trade_code_bidder = models.IntegerField(null=True, db_column='Trade_code_bidder', blank=True) # Field name made lowercase.
-    trade_pending_dealer = models.IntegerField(db_column='Trade_pending_dealer') # Field name made lowercase.
-    trade_pending_bidder = models.IntegerField(db_column='Trade_pending_bidder') # Field name made lowercase.
+    trade_code_dealer = models.CharField(null=True, max_length=30, db_column='Trade_code_dealer', blank=True) # Field name made lowercase.
+    trade_code_bidder = models.CharField(null=True, max_length=30, db_column='Trade_code_bidder', blank=True) # Field name made lowercase.
+    trade_pending_dealer = models.BooleanField(db_column='Trade_pending_dealer') # Field name made lowercase.
+    trade_pending_bidder = models.BooleanField(db_column='Trade_pending_bidder') # Field name made lowercase.
     trade_datetime = models.DateTimeField(db_column='Trade_datetime') # Field name made lowercase.
-    trade_valid = models.IntegerField(db_column='Trade_valid') # Field name made lowercase.
+    trade_valid = models.BooleanField(db_column='Trade_valid') # Field name made lowercase.
     class Meta:
         db_table = u'Trade'

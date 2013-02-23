@@ -2,6 +2,7 @@
 from products.models import Product, Category, ProductCategory, Comment
 from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm, NewCommentForm
 from usuarios.models import Usuario, Country, City
+from usuarios.views import is_loged
 from transactions.models import Bid
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
@@ -16,13 +17,16 @@ import os
 #Muestra el formulario para ingresar un nuevo producto, incluidas
 #imagenes y categorias a las que pertenece.
 def newProduct(request):
-	image_form = ImagesForm(prefix='image')
-	product_form = ProductForm(prefix='product')
-	category_form = CategoryForm(prefix='category')
-	return render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form}, context_instance=RequestContext(request))
+	if is_loged(request):
+		image_form = ImagesForm(prefix='image')
+		product_form = ProductForm(prefix='product')
+		category_form = CategoryForm(prefix='category')
+		return render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form}, context_instance=RequestContext(request))
+	else:
+		return HttpResponse("NO AUTORIZADO")
 
 def saveProduct(request):
-	if request.method == 'POST':
+	if request.method == 'POST' and is_loged(request):
 		product_form = ProductForm(request.POST, prefix='product')
 		if product_form.is_valid():
 			category_form = CategoryForm(data=request.POST, prefix='category')
@@ -48,7 +52,7 @@ def saveProductData(productForm):
 	product.product_name = productForm.cleaned_data['product_name']
 	product.product_description = productForm.cleaned_data['product_description']
 	product.product_q_amount = productForm.cleaned_data['product_q_amount']
-	user = Usuario.objects.get(id_usuario= 1)
+	user = Usuario.objects.get(id_usuario=2)
 	product.id_owner = user
 	product.product_start_datetime = str(datetime.now())
 	product.product_end_datetime = str(datetime.now())
@@ -75,7 +79,6 @@ def saveCategoryData(producto, categoryForm):
 #y las envia a guardar.
 def saveImages(request, path=None):
 	for i in range(1,6):
-		print 'img_'+str(i)
 		handle(path, request.FILES['image-img_'+str(i)], i)
 
 
@@ -93,17 +96,16 @@ def handle(path, file, counter):
 #Muestra los detalles del producto cuya ID es 'idProducto'.
 #Debe enviar un mensaje si no lo encuentra o no se envia una ID.
 def showDetails(request, idProduct=None):
-	#Debe averiguar si el usuario es dueño o no.	
+	#Debe averiguar si el usuario es dueño o no.
 	if idProduct==None:
 		return HttpResponseRedirect("/")
 	else:
 		try:
 			producto = Product.objects.get(id_product=idProduct)
-#			if producto.id_owner == request.session['member_id']:
-#				showOwnerView(request, product)
-#			else:				
-#				showVisitView(request, product)
-			return showVisitView(request, producto)
+			if is_loged(request) and producto.id_owner.id_usuario == request.session['member_id']:
+				return showOwnerView(request, producto)
+			else:				
+				return showVisitView(request, producto)
 		except ObjectDoesNotExist:
 			return HttpResponseRedirect("/")
 
@@ -112,18 +114,18 @@ def showOwnerView(request, product):
 	owner = product.id_owner
 	idProduct = product.id_product
 	try:
-		categories = ProductCategory.objects.get(id_product = idProduct)
+		categories = ProductCategory.objects.filter(id_product = idProduct)
 	except ObjectDoesNotExist:
 		categories = None
 	try:
-		coments = Comment.objects.get(id_product = idProduct).order_by('comment_datetime')
+		comments = Comment.objects.filter(id_product = idProduct).order_by('comment_datetime')
 	except ObjectDoesNotExist:
 		comments = None
 	try:
-		bids = Bid.objects.get(id_product = idProduct).order_by('bid_datetime')
+		bids = Bid.objects.filter(id_product = idProduct).order_by('bid_datetime')
 	except ObjectDoesNotExist:
-		bids = None
-	return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'owner':owner}, context_instance=RequestContext(request))
+		bids = None	
+	return render_to_response("owner_product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'owner':owner}, context_instance=RequestContext(request))
 
 
 #Muestra solo la opcion de hacer comentarios y hacer un Bid. Aumenta el contador de visitas.
@@ -146,27 +148,29 @@ def showVisitView(request, product):
 
 #Vista para dejar comentarios en un producto enviado por parametro
 def newComment(request, idProducto=None):
-	if idProducto!=None:
-		if request.method == "POST":
-			newComment = NewCommentForm(request.POST)
-			if newComment.is_valid():
-				data = {'id_product':idProducto,
-#						'id_sender':request.session['member_id'],
-						'id_sender':2,
-						'comment_subject':newComment.cleaned_data['comment_subject'],
-						'comment_text':newComment.cleaned_data['comment_text'],
-						'comment_datetime': datetime.now(),
-						}	
-				commentForm = CommentForm(data)
-				if commentForm.is_valid():
-					commentForm.save()
-					return HttpResponseRedirect("/products/" + str(idProducto))
+	if is_loged(request):
+		if idProducto!=None:
+			if request.method == "POST":
+				newComment = NewCommentForm(request.POST)
+				if newComment.is_valid():
+					data = {'id_product':idProducto,
+							'id_sender':request.session['member_id'],
+							'comment_subject':newComment.cleaned_data['comment_subject'],
+							'comment_text':newComment.cleaned_data['comment_text'],
+							'comment_datetime': datetime.now(),
+							}	
+					commentForm = CommentForm(data)
+					if commentForm.is_valid():
+						commentForm.save()
+						return HttpResponseRedirect("/products/" + str(idProducto))
+					else:
+						return HttpResponse("DATA_ERROR")
 				else:
-					return HttpResponse("DATA_ERROR")
+					return HttpResponse("NO_VALID")		
 			else:
-				return HttpResponse("NO_VALID")		
+				newComment = NewCommentForm()
+				return render_to_response("new_comment.html", {'form':newComment},context_instance=RequestContext(request))
 		else:
-			newComment = NewCommentForm()
-			return render_to_response("new_comment.html", {'form':newComment},context_instance=RequestContext(request))
+			return HttpResponseRedirect("/")
 	else:
-		return HttpResponseRedirect("/")
+		return HttpResponse("NO AUTORIZADO")
