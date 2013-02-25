@@ -29,7 +29,7 @@ class Category(models.Model):
 
 class ProductCategory(models.Model):
     id_product = models.ForeignKey(Product, primary_key=True, db_column='ID_product') # Field name made lowercase.
-    id_category = models.ForeignKey(Category, db_column='ID_category') # Field name made lowercase.
+    id_category = models.ForeignKey(Category, primary_key=True, db_column='ID_category') # Field name made lowercase.
     class Meta:
         db_table = u'Product_category'
 

@@ -1,0 +1,12 @@
+<html>
+	<head>
+		<title>Categorias</title>
+	</head>
+	<body>
+		<form action="/search/category/" method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input type="submit" value="Buscar"/>
+		</form>
+	</body>
+</html>
