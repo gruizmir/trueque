@@ -13,10 +13,12 @@ from django.db.models import Q
 
 #Search always keep featured elements first.
 
-def showCategories(request):
-	form = CategoryForm()
-	return render_to_response("main.html", {'form':form}, context_instance=RequestContext(request))
-
+#searchByCategory: 	Muestra el formulario de busqueda por categorias (si no recibe formulario). Si recibe un formulario, 
+#					realiza la busqueda por categorias.
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
+#		 page:	pagina de resultados que se solicita. Se considera una pagina igual a 20 resultados.	
+#RETURN: render de la pagina de busqueda usando SOLAMENTE filtro por categorias o el render de los resultados de la
+#		 busqueda.
 def searchByCategory(request, page=None):
 	if request.method == 'POST':
 		form = CategoryForm(request.POST)
@@ -103,8 +105,14 @@ def searchByCategory(request, page=None):
 		else:
 			return HttpResponse("NO VALID")
 	else:
-		return HttpResponseRedirect("/")
+		form = CategoryForm()
+		return render_to_response("main.html", {'form':form}, context_instance=RequestContext(request))
 
+#searchByDate:	Realiza una busqueda normal de productos ordenador por fecha. Muestra primero los 
+#				destacados ('featured')
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
+#		 page:	pagina de resultados que se solicita. Se considera una pagina igual a 20 resultados.	
+#RETURN: render de los resultados de la busqueda ordenados.
 def searchByDate(request, page=None):
 	data = None
 	try:
@@ -117,6 +125,12 @@ def searchByDate(request, page=None):
 		data = None
 	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
 
+
+#searchByPrice:	Realiza una busqueda normal de productos ordenador por precio. Muestra primero los 
+#				destacados ('featured')
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
+#		 page:	pagina de resultados que se solicita. Se considera una pagina igual a 20 resultados.	
+#RETURN: render de los resultados de la busqueda ordenados.
 def searchByPrice(request, page=None):
 	data = None
 	try:
@@ -129,6 +143,12 @@ def searchByPrice(request, page=None):
 		data = None
 	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
 
+
+#searchByPopularity:Realiza una busqueda normal de productos ordenador por fecha. Muestra primero los 
+#					destacados ('featured')
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
+#		 page:	pagina de resultados que se solicita. Se considera una pagina igual a 20 resultados.	
+#RETURN: render de los resultados de la busqueda ordenados.
 def searchByPopularity(request, page=None):
 	data = None
 	try:
@@ -140,7 +160,13 @@ def searchByPopularity(request, page=None):
 	except ObjectDoesNotExist:
 		data = None
 	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
-	
+
+
+#searchByName:	Realiza una busqueda normal de productos segun nombre. Muestra primero los 
+#				destacados ('featured').
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
+#		 page:	pagina de resultados que se solicita. Se considera una pagina igual a 20 resultados.	
+#RETURN: render de los resultados de la busqueda ordenados.	
 def searchByName(request,page=None):
 	data = None
 	if request.method == 'POST':
@@ -156,6 +182,8 @@ def searchByName(request,page=None):
 		return HttpResponseRedirect("/")
 	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
 
-#return the intersection of two lists
+#intersect:	Intersecta dos listas comparando sus elementos (segun teoria de conjuntos)
+#PARAMS: a,b: listas de datos que se van a comparar
+#RETURN: Lista con los elementos en comun de las listas a y b.
 def intersect(a, b):
     return list(set(a) & set(b))

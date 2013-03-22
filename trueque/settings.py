@@ -171,3 +171,8 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_HOST = "mail.trueque.in"
+EMAIL_PORT = 25
+EMAIL_HOST_USER = "trueque"
+EMAIL_HOST_PASSWORD = "kenolamasca2veces"

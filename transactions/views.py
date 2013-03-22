@@ -13,7 +13,13 @@ from django.forms.formsets import formset_factory
 import string
 import random
 
-#Funcion que muestra el formulario para ingresar una nueva oferta
+#newBid: Muestra el formulario para ingresar una nueva oferta. También procesa la oferta ingresada por el usuario
+#		 Comprueba factibilidad de realizar una nueva oferta.
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
+#		 idProduct:	ID del producto al que se le va a hacer una nueva oferta
+#RETURN: Si no se ha enviado formulario, retorna un render con el formulario para el nuevo Bid.
+#		 Si se guarda la nueva Bid, retorna a la página del producto.
+#		 Si no se puede establecer la oferta, retorna un mensaje de error con la posible causa.
 def newBid(request, idProducto=None):	
 	if is_loged(request):
 		if idProducto==None:
@@ -59,7 +65,12 @@ def newBid(request, idProducto=None):
 		return HttpResponse("NO AUTORIZADO")
 
 
-
+#makeTrade: Maneja el intercambio de un producto con la oferta ingresada por otro usuario.
+#			Debe recibir por POST el dato del id_bid elegido para hacer la oferta.
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
+#		 idProduct:	ID del producto que se está intercambiando.
+#RETURN: Si el intercambio es factible y se realiza, retorna a la página del producto.
+#		 Si no se puede hacer el intercambio, retorna un mensaje de error con la posible causa.
 def makeTrade(request, idProduct):
 	if request.method=="POST":
 		if is_loged(request):
@@ -86,11 +97,20 @@ def makeTrade(request, idProduct):
 	else:
 		return HttpResponse("FAIL")
 
-#Genera el codigo de 6 caracteres que se usa para confirmar el intercambio
+
+#id_generator: Genera un codigo de 6 caracteres que se usa para confirmar el intercambio.
+#PARAMS: size: tamaño del string deseado. Por default, su valor es 6.
+#		 chars: coleccion de caracteres desde los que se quiere extraer el codigo. Por default,
+#				se usa el conjunto de letras ascii mayusculas y los digitos.	
+#RETURN: Codigo de 'size' caracteres con valores aleatorios.
 def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 	return ''.join(random.choice(chars) for x in range(size))	
 
 
+#showPending: Muestra las transacciones que el usuario aun no ha confirmado, ya sea como 'vendedor' o 'comprador'.
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario. Contiene datos
+#				  del usuario logueado.
+#RETURN: render de la pagina con los datos de transacciones pendientes.
 def showPending(request):
 	if is_loged(request):
 		dealer_pendings = Trade.objects.filter(id_dealer=request.session['member_id']).filter(trade_pending_dealer=True)
