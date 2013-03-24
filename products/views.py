@@ -4,6 +4,7 @@ from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm, N
 from usuarios.models import Usuario, Country, City
 from usuarios.views import is_loged
 from transactions.models import Bid
+from albums.models import Album, AlbumProduct
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
@@ -46,7 +47,7 @@ def saveProduct(request):
 				producto = saveProductData(request, product_form)
 				saveCategoryData(producto, category_form)
 				imageForm = ImagesForm(request.POST,request.FILES, prefix='image')
-				print imageForm
+				saveAlbumData(producto, request.session['member_id'])
 				if imageForm.is_valid():
 					saveImages(request, producto.product_img)
 				else:
@@ -80,6 +81,16 @@ def saveProductData(request, productForm):
 	product.save()
 	return product
 
+#saveAlbumData: 	Ingresa el registro de que el nuevo producto pertenece al album Garage
+#PARAMS: product: 	Objecto producto recien guardado
+#		 idUsuario:	ID del usuario al que le pertenece el album y el producto
+#RETURN: 
+def saveAlbumData(producto, idUsuario):
+	album = Album.objects.filter(id_owner=idUsuario).get(album_name='My Garage')
+	albumProd = AlbumProduct()
+	albumProd.id_album = album
+	albumProd.id_product = producto
+	albumProd.save()
 
 #saveCategoryData: 	Guarda el dato en la tabla Product_category, según las categorías seleccionadas
 #					('on') en el formulario.

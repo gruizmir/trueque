@@ -4,6 +4,7 @@ from transactions.forms import BidForm, TradeForm, TradeVerification
 from products.models import Product, Category, ProductCategory
 from usuarios.views import is_loged
 from usuarios.models import Usuario
+from albums.models import Album, AlbumProduct
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
@@ -45,7 +46,7 @@ def newBid(request, idProducto=None):
 							bid_q = int(request.POST['bid_q_amount'])
 							user = Usuario.objects.get(id_usuario = request.session['member_id'])
 							bidProductID = None
-							if bid_q == 0 or bid_q > user.usuario_quds :
+							if bid_q == 0 or bid_q > user.usuario_quds or bid_q < 0:
 								return HttpResponse("MONTO NO VALIDO")
 						except ValueError: 
 							return HttpResponse("MONTO NO VALIDO")
@@ -96,7 +97,7 @@ def makeTrade(request, idProduct):
 				product.save()
 				bidder = Bid.objects.get(id_bid = request.POST['group_product']).id_bidder
 				owner = product.id_owner
-				sendTradeMail(owner, bidder, trade.trade_code_dealer, trade.trade_code_bidder)
+				sendTradeMail(owner, bidder, tradeForm.cleaned_data['trade_code_dealer'], tradeForm.cleaned_data['trade_code_bidder'])
 				return HttpResponseRedirect("/products/" + str(idProduct))
 			else:
 				return HttpResponse("DATA ERROR")
@@ -143,7 +144,11 @@ def verifyTrade(request, idTrade=None):
 							exchange(trade.id_bid.id_bid, trade.id_bid.id_product.id_product)
 							trade.trade_valid=True
 							trade.save()
-							return HttpResponseRedirect("/products/" + str(idProduct))
+							#Vuelve a mi nuevo producto recibido si existe, o si no a la busqueda (es el vendedor)
+							if trade.id_bid.bid_q==0
+								return HttpResponseRedirect("/products/" )
+							else:
+								return HttpResponseRedirect("/products/" + str(trade.id_bid.bid_id_product))
 						else:
 							return HttpResponse("FALTA VERIFICACION DEL COMPRADOR")
 					else:
@@ -157,6 +162,8 @@ def verifyTrade(request, idTrade=None):
 							exchange(trade.id_bid.id_bid, trade.id_bid.id_product.id_product)
 							trade.trade_valid=True
 							trade.save()
+							
+							#Vuelve al productp adquirido (es el comprador)
 							return HttpResponseRedirect("/products/" + str(trade.id_bid.id_product.id_product))
 						else:
 							return HttpResponse("FALTA VERIFICACION DEL VENDEDOR")
@@ -183,11 +190,24 @@ def exchange(idBid, idProduct):
 	dealer = product.id_owner
 	bidder = bid.id_bidder
 	product.id_owner = bidder
+	saveAlbumData(product, bidder)
 	if bid.bid_id_product != None:			#Significa que fue un trueque por producto
 		bid.bid_id_product.id_owner = dealer
+		saveAlbumData(bid.bid_id_product, dealer)
 	else:									#Significa que fue un trueque por Q
 		dealer.usuario_quds += bid.bid_q
 		bidder.usuario_quds -= bid.bid_q
+
+#saveAlbumData: 	Ingresa el registro de que el nuevo producto pertenece al album Trueques
+#PARAMS: product: 	Objecto producto recien guardado
+#		 idUsuario:	ID del usuario al que le pertenece el album y el producto
+#RETURN: 
+def saveAlbumData(producto, idUsuario):
+	album = Album.objects.filter(id_owner=idUsuario).get(album_name='Trueques')
+	albumProd = AlbumProduct()
+	albumProd.id_album = album
+	albumProd.id_product = producto
+	albumProd.save()
 
 #Funcion encargada de agregar la calificacion a un usuario
 def rate(usuario, nota):
@@ -202,9 +222,9 @@ def rate(usuario, nota):
 #Al owner se le envia la clave del bidder y viceversa.
 def sendTradeMail(owner, bidder, code_dealer, code_bidder):
 	#Mail para el propietario del producto
-	dealer_msg = 'Usted ha realizado un nuevo trueque con el usuario ' + bidder.usuario_name + " " + bidder.usuario_lastname + ".\nSu correo de contacto es " + bidder.usuario_email_1 + ".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_bidder
+	dealer_msg = u"Usted ha realizado un nuevo trueque con el usuario " + bidder.usuario_name + " " + bidder.usuario_lastname + u".\nSu correo de contacto es " + bidder.usuario_email_1 + u".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_bidder
 	send_mail('Confirmación de Trueque', dealer_msg , 'trueque@trueque.in', [owner.usuario_email_1], fail_silently=False)
 	
 	#Mail para el bidder
-	bidder_msg = 'Usted ha realizado un nuevo trueque con el usuario ' + owner.usuario_name + " " + owner.usuario_lastname + ".\nSu correo de contacto es " + owner.usuario_email_1 + ".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_dealer
+	bidder_msg = u"Usted ha realizado un nuevo trueque con el usuario " + owner.usuario_name + " " + owner.usuario_lastname + u".\nSu correo de contacto es " + owner.usuario_email_1 + u".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_dealer
 	send_mail('Confirmación de Trueque', bidder_msg , 'trueque@trueque.in', [bidder.usuario_email_1], fail_silently=False)
