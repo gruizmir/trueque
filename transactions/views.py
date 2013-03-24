@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from transactions.models import Bid, Trade
-from transactions.forms import BidForm, getBidForm, TradeForm, TradeVerification
+from transactions.forms import BidForm, TradeForm, TradeVerification
 from products.models import Product, Category, ProductCategory
 from usuarios.views import is_loged
+from usuarios.models import Usuario
 from django.template import RequestContext
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.conf import settings
+from django.core.mail import send_mail
 from datetime import datetime
 from django.forms.formsets import formset_factory
 import string
@@ -28,29 +30,32 @@ def newBid(request, idProducto=None):
 			if request.method != "POST":
 				prod = Product.objects.get(id_product=idProducto)
 				if prod.product_active==True:
-					ProductBidForm = formset_factory(getBidForm(request.session['member_id']))
-					preBidForm = ProductBidForm()
-					return render_to_response("new_bid.html", {'bid_form':preBidForm}, context_instance=RequestContext(request))
+					bidderProducts = Product.objects.filter(id_owner = request.session['member_id'])
+					return render_to_response("new_bid.html", {'products':bidderProducts}, context_instance=RequestContext(request))
 				else:
 					return HttpResponse("ESTE PRODUCTO YA FUE INTERCAMBIADO")
 			else:
 				prod = Product.objects.get(id_product=idProducto)
 				if prod.product_active==True:
-					ProductBidForm = formset_factory(getBidForm())
-					preBidForm = ProductBidForm(request.POST)
-					if preBidForm.is_valid() and preBidForm.cleaned_data['bid_product_id']!=idProducto :
-						if preBidForm.cleaned_data['bid_product_id']==0:
+					if 'bid_product' in request.POST:
+						bidProductID = request.POST['bid_product']
+						bid_q = 0
+					else:
+						try:
+							bid_q = int(request.POST['bid_q_amount'])
+							user = Usuario.objects.get(id_usuario = request.session['member_id'])
 							bidProductID = None
-							bidQ = preBidForm.cleaned_data['bid_q_amount']
-						else:
-							bidProductID = preBidForm.cleaned_data['bid_product_id']
-							bidQ = 0
+							if bid_q == 0 or bid_q > user.usuario_quds :
+								return HttpResponse("MONTO NO VALIDO")
+						except ValueError: 
+							return HttpResponse("MONTO NO VALIDO")
+					if bidProductID != idProducto:
 						data = {'id_product':idProducto,
-								'id_bidder':request.session['member_id'],
-								'bid_q':bidQ,
-								'bid_id_product':bidProductID,
-								'bid_datetime': datetime.now(),
-								}	
+							'id_bidder':request.session['member_id'],
+							'bid_q': bid_q,
+							'bid_id_product': bidProductID,
+							'bid_datetime':datetime.now(),
+							}
 						bidForm = BidForm(data)
 						if bidForm.is_valid():
 							bidForm.save()
@@ -58,7 +63,7 @@ def newBid(request, idProducto=None):
 						else:
 							return HttpResponse("DATA ERROR")
 					else:
-						return HttpResponse("FAIL")
+						return HttpResponse("SAME OBJECT")
 				else:
 					return HttpResponse("ESTE PRODUCTO ACABA DE SER INTERCAMBIADO")
 	else:
@@ -89,6 +94,9 @@ def makeTrade(request, idProduct):
 				product = Product.objects.get(id_product=idProduct)
 				product.product_active = False
 				product.save()
+				bidder = Bid.objects.get(id_bid = request.POST['group_product']).id_bidder
+				owner = product.id_owner
+				sendTradeMail(owner, bidder, trade.trade_code_dealer, trade.trade_code_bidder)
 				return HttpResponseRedirect("/products/" + str(idProduct))
 			else:
 				return HttpResponse("DATA ERROR")
@@ -188,3 +196,15 @@ def rate(usuario, nota):
 	usuario.usuario_rating = (prevNota*cant + int(nota))/(cant + 1)
 	usuario.usuario_ranking_qty += 1
 	usuario.save()
+
+
+#Funcion encargada de enviar los correos con las claves de bidder y owner.
+#Al owner se le envia la clave del bidder y viceversa.
+def sendTradeMail(owner, bidder, code_dealer, code_bidder):
+	#Mail para el propietario del producto
+	dealer_msg = 'Usted ha realizado un nuevo trueque con el usuario ' + bidder.usuario_name + " " + bidder.usuario_lastname + ".\nSu correo de contacto es " + bidder.usuario_email_1 + ".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_bidder
+	send_mail('Confirmación de Trueque', dealer_msg , 'trueque@trueque.in', [owner.usuario_email_1], fail_silently=False)
+	
+	#Mail para el bidder
+	bidder_msg = 'Usted ha realizado un nuevo trueque con el usuario ' + owner.usuario_name + " " + owner.usuario_lastname + ".\nSu correo de contacto es " + owner.usuario_email_1 + ".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_dealer
+	send_mail('Confirmación de Trueque', bidder_msg , 'trueque@trueque.in', [bidder.usuario_email_1], fail_silently=False)

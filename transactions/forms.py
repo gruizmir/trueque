@@ -12,13 +12,6 @@ class BidForm(ModelForm):
 		model = Bid
 		exclude = ('id_bid')
 
-def getBidForm(id_owner):
-	class ProductBidForm(Form):
-		bid_q_amount = IntegerField(label="Ofrece Q", widget=TextInput(attrs={'size':20,'value':'0'}))
-		bid_product_id = ModelChoiceField(queryset=Product.objects.filter(id_owner=id_owner))
-	return ProductBidForm
-
-
 class TradeForm(ModelForm):
 	class Meta:
 		model = Trade

@@ -3,10 +3,19 @@
 		<title>Nueva Oferta</title>		
 	</head>
 	<body>	
+	{% if products %}
 		<form method="POST" action="#">
 			{% csrf_token %}
-			{{ bid_form.as_p }}
+			Ofrece Q <input type="text" name="bid_q_amount" value="0" size="20"/><br>
+			o elige un producto <br>
+			{% for product in products %}
+				<input type="radio" name="bid_product" value="{{ product.id_product }}" >
+				<image src="/media/{{ product.product_img }}/img_1.png" width="70"/><br>
+				{{ product.product_name }}
+				<hr>
+			{% endfor %}
 			<input type="submit" value="Ingresar oferta"/>
 		</form>
+	{% endif %}
 	</body>
 </html>

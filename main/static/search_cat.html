@@ -5,7 +5,7 @@
 	<body>
 		{% if data %}
 			{% for cat_prod in data %}
-				<h1><a href="/product/details/{{ cat_prod.id_product.id_product }}">{{ cat_prod.id_product.product_name }}</a></h1>
+				<h1><a href="/products/{{ cat_prod.id_product.id_product }}">{{ cat_prod.id_product.product_name }}</a></h1>
 				<p>{{ cat_prod.id_product.product_description }}</p>
 				<image src="/media/{{ cat_prod.id_product.product_img }}/img_1.png" alt="{{cat_prod.id_product.product_img}}" width="150"/>
 			{% endfor %}	
