@@ -1,0 +1,138 @@
+.user_profile_main_table {
+	padding-top: 25px;
+	width: 100%;
+	height: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.user_info_table_section {
+	width: 250px;
+}
+
+.user_info_table_row {
+	display: table-row;
+	float: right;
+	padding-bottom: 5px;
+}
+
+.user_info_table_column {
+	width: 105px;
+	display: table-cell;
+	vertical-align:middle;
+	text-align: right;
+}
+
+.user_info_table_column_inter {
+	display: table-cell;
+	vertical-align:middle;
+}
+
+.user_photo_name_container {
+	font-family:"Comic Sans", cursive, sans-serif;
+	font-style: italic;
+	text-align:center;
+	height: 240px;
+	width: 210px;
+	background: #FFF;
+	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.3);
+    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.3);
+	-moz-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
+}
+
+.user_profile_edit_button {
+	padding-top: 10px;
+	padding-right: 5px;
+	font-size: 90%;
+	color: #f97f04;
+	text-align: right;
+}
+
+.user_rating_container {
+	color: #AAA;
+	width: 210px;
+	font-size: 110%;
+	text-align: left;
+}
+
+.user_rating_tittle {
+	font-style: italic;
+}
+
+.user_info_q {
+	color: #f97f04;
+	font-size: 160%;
+}
+
+.user_info_q_icon {
+	padding-top: 5px;
+	height: 35px;
+	width: auto;
+}
+
+.user_info_data_names {
+	color: #222;
+	font-size: 80%;
+}
+
+.user_info_numbers {
+	color: #f97f04;
+	font-size: 95%;
+}
+
+.user_info_show_history_button {
+	color: #AAA;
+	width: 210px;
+	font-size: 110%;
+	text-align: left;
+}
+
+.user_info_follow_container {
+	width: 210px;
+	text-align: left;
+}
+
+.user_info_table_follow_column {
+	display: table-cell;
+	vertical-align:middle;
+	text-align: left;
+}
+
+.user_info_follow_button {
+	padding-top: 4px;
+	width: 35px;
+	height: auto;
+}
+
+.user_info_follow_link {
+	text-decoration: none;
+}
+
+.user_info_follow_text {
+	color: #AAA;
+}
+
+.user_info_follow_name {
+	color: #f97f04;
+	font-style: italic;
+}
+
+.user_interaction_table_section {
+	max-width: 100%;
+	padding-left: 50px;
+	padding-top: 20px;
+	vertical-align: top;
+}
+
+.user_interaction_table_tittle {
+	font-size: 210%;
+	letter-spacing: 2px;
+	color: #AAA;
+}
+
+.user_extras_table_section {
+	width: 100px;
+}

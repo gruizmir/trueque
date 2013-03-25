@@ -8,7 +8,7 @@
         </p>
 {% endif %}
 
-<form id="sendMailForm" action="/usuarios/profile/mail/compose"  method="post">
+<form id="sendMailForm" action="/usuarios/profile/mail/compose/"  method="post">
 	{% csrf_token %}
 	<ul>
 		{{ form.as_ul }}

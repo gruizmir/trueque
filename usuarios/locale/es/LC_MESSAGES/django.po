@@ -1,0 +1,53 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-01 15:06-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Translators: Name used on hints
+#: form.py:15
+msgid "Name"
+msgstr "Nombre"
+
+#. Translators: Last Name used on hints
+#: form.py:17
+msgid "Last Name"
+msgstr "Apellido"
+
+#. Translators: Email used on hints
+#: form.py:19
+msgid "mail@trueque.com"
+msgstr "mail@trueque.com"
+
+#. Translators: Password used on hints
+#: form.py:21
+msgid "Password"
+msgstr "Contraseña"
+
+#. Translators: Verify Password used on hints
+#: form.py:23
+msgid "Verify Password"
+msgstr "Verificar Contraseña"
+
+#. Translators: Terms of service agreement
+#: views.py:44
+msgid "I agree with terms and conditions of service."
+msgstr "Acepto los terminos y condiciones de uso."
+
+#. Translators: Bulletins agreement on register
+#: views.py:46
+msgid "I want get email bulletins."
+msgstr "Quiero recibir boletines por correo electrónico"

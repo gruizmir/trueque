@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" media="all" href="/static/style/style_template_main.css" />
+		{% if register_form %}
+			<link rel="stylesheet" media="all" href="/static/style/style_template_user_register.css" />
+		{% endif %}
+		{% if user_profile %}
+			<link rel="stylesheet" media="all" href="/static/style/style_template_user_profile.css" />
+		{% endif %}
+		{% if edit_user_profile %}
+			<link rel="stylesheet" media="all" href="/static/style/style_template_user_edit_profile.css" />
+		{% endif %}
+		<script 
+	    src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript">
+	    </script>
+	    <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+		<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/VkBKbsuHEYsqsduFq9pb1w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+	</head>
+	<body>
+		<header>
+			<div class="left_icons_container">
+				<ul>
+					<li class="left_icon_empty"></li>
+					<li>
+						<img src="/static/img/logo_trueque.png" alt="Trueque" class="main_logo_trueque">
+					</li>
+				</ul>
+			</div>
+			<div class="right_icons_container">
+				<ul>
+					{% if register_form %}
+						<li>
+							About
+						</li>
+						<li>
+							<img src="/static/img/icons/about.png" alt="About" class="main_about_button">
+						</li>
+						<li>
+						 	<p class="main_enter_button">Entrar</p>
+						</li>
+						<li class ="right_icon_empty" ></li>
+					{% endif %}
+				</ul>
+			</div>
+		</header>
+		
+		{% if register_form %}
+		<section class="register_section">
+			<table class="register_table_container" style="background-image:url('/static/img/random_register/{{random_bg}}.jpg');">
+				<tr>
+					<td width="30%" class="register_table_container_message">
+						<p class="register_table_message_welcome"> Bienvenido! </p>
+						<br>
+						<p class="register_table_message_text"> A una comunidad que recicla e intercambia sin dinero</p>
+					</td>
+					<td class="register_table_container_form">
+						{{ register_form|safe }}
+					</td>
+				</tr>
+			</table>
+		</section>
+		{% endif %}
+		
+		{% if user_profile %}
+		<section class="user_profile_section">
+			{{ user_profile|safe }}
+		</section>
+		{% endif %}
+		
+		{% if edit_user_profile %}
+		<section class="edit_user_profile_section">
+			{{ edit_user_profile|safe }}
+		</section>
+		{% endif %}
+		
+		<footer>
+		</footer>
+	</body>
+</html>

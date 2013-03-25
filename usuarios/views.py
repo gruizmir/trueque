@@ -6,22 +6,29 @@ from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, \
     ValidationError
 from django.core.mail import send_mail
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.utils import DatabaseError
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
 from django.utils import simplejson
 from django.utils.datetime_safe import datetime
+from django.utils.translation import ugettext as _
 from messages.form import ComposeMailForm
 from messages.models import Message
 from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm
 from usuarios.models import Usuario, Followers
 import albums.utils as albums_utils
+import autocomplete
+import django
+import os
 import socket
 import usuarios.custom_error as C_error
 import usuarios.form
+import random
+
+version = autocomplete.get_version()
+django_version = django.get_version()
 
 SESSION_EXPIRY = 86400 #Tiempo de expiracion de la sesion encargada de la verificacion.
 
@@ -33,6 +40,11 @@ ALBUM_NAME_RECOMMEND = "Recomiendo"
 ALBUMES = [ALBUM_NAME_GARAGE, ALBUM_NAME_TRUEQUES, ALBUM_NAME_LIKE, ALBUM_NAME_RECOMMEND]
 MAILSENTCOMPLETE = "Mail enviado correctamente"
 
+# Translators: Terms of service agreement
+REGISTER_TERMS_OF_SERVICE = _("I agree with terms and conditions of service.")
+# Translators: Bulletins agreement on register
+REGISTER_USER_BULLETINS = _("I want get email bulletins.")
+
 #register: funcion encargada de desplegar el formulario de registro y de ingresar los datos
 #          del usuario en la base de datos.
 #PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
@@ -41,7 +53,6 @@ def register(request):
     try:
         if request.method == 'POST':
             form = RegisterUserForm(request.POST)
-
             if form.is_valid():
                 new_register = form.save(commit=False)
                 new_register.usuario_register_date = datetime.now()
@@ -63,10 +74,17 @@ def register(request):
                 return send_registration_confirmation(session_s)
         else:
             form = RegisterUserForm()
-        
-        c = { 'form': form }
-        c.update(csrf(request))
-        return render_to_response('register_form.html', c)
+            
+        absolute_path = os.path.dirname(os.path.realpath(__file__))
+        bg_imgs_folder = os.path.join(absolute_path, 'static/img/random_register/')
+        bg_imgs_count = len([name for name in os.listdir(bg_imgs_folder) if os.path.isfile(bg_imgs_folder + name)])
+
+        data_to_render = {'form': form, 'terms_of_service' :  REGISTER_TERMS_OF_SERVICE,
+                          'usuario_bulletins' : REGISTER_USER_BULLETINS}
+        data_to_render.update(csrf(request))
+        render_form = render_to_response('register_form.html', data_to_render)
+        return render_to_response('main_template.html', {'register_form':render_form.content, 
+                                                         'random_bg' : random.randint(1, bg_imgs_count)})
     
     #Exceptions que se activan en caso de no poder registrar al usuario en la base de datos o
     #por alguna accion extraña durante el registro.
@@ -172,7 +190,6 @@ def login(request):
             
             if request.session.test_cookie_worked(): request.session.delete_test_cookie()
             else: return C_error.raise_error(C_error.NOCOOKIE)
-            
             if form.is_valid():
                 form.cleaned_data['usuario_email_1']
                 user = Usuario.objects.get(usuario_email_1=form.cleaned_data['usuario_email_1'])   
@@ -208,11 +225,11 @@ def edit_user_profile(request):
             #Se verifica que la contraseña ingresada sea la que corresponde.
             if form.data['usuario_password'] and forms.CharField().clean(form.data['usuario_password']) and user.usuario_password != forms.CharField().clean(form.data['usuario_password']):
                 form.errors['usuario_password'] = form.error_class([usuarios.form.ERROR_WRONGPASS])
-                
+         
             if form.is_valid():
                 edit_register = form.save(commit=False)
-                if form.cleaned_data["new_password"]:
-                    edit_register.usuario_password = form.cleaned_data["new_password"]
+                if form.cleaned_data["usuario_new_password_1"]:
+                    edit_register.usuario_password = form.cleaned_data["usuario_new_password_1"]
                 edit_register.save()
         else:
             form = EditUserForm(instance=user)
@@ -220,7 +237,9 @@ def edit_user_profile(request):
         request.session.set_test_cookie()
         c = { 'form': form }
         c.update(csrf(request))
-        return render_to_response('register_form.html', c)
+        
+        render_edit_profile = render_to_response('edit_user_profile.html', c)
+        return render_to_response('main_template.html', {'edit_user_profile':render_edit_profile.content})
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except KeyError: return C_error.raise_error(C_error.NEEDLOGIN)
@@ -241,24 +260,76 @@ class ShowProfile():
     def show_profile_default(self, request):
         try:
             user = Usuario.objects.get(id_usuario= request.session['member_id'])
-            vars_view = {'albums' : albums_utils.get_albums(user)} 
-            return self.show_profile_user(request, user, vars_view)
+            albums_list = albums_utils.get_albums(user)
+            
+            random_ints = []
+            for num in range(0,11):
+                random_ints.append(random.randint(-3,3))
+                
+            render_albums = render_to_response('user_albums.html', 
+                                        {'object_list' : albums_list, 'random_ints': random_ints},
+                                        context_instance = RequestContext(request))
+            if request.is_ajax():
+                message = {"albums_data": render_albums.content}
+            else:
+                vars_view = {'albums' : render_albums.content}
+                return self.show_profile_user(request, user, vars_view)
+            
+            json = simplejson.dumps(message)
+            return HttpResponse(json, mimetype='application/json')
         except Exception as e: return self.show_error(e)
-    
+
     def show_profile_using_id(self, request, user_id):
-        try: 
+        try:
             user = Usuario.objects.get(id_usuario = user_id)
-            vars_view = {'albums' : albums_utils.get_albums(user)}
-            return self.show_profile_user(request, user, vars_view)
+            albums_list = albums_utils.get_albums(user)
+            
+            random_ints = []
+            for num in range(0,11):
+                random_ints.append(random.randint(-3,3))
+            
+            render_albums = render_to_response('user_albums.html', 
+                                        {'object_list' : albums_list, 'random_ints': random_ints},
+                                        context_instance = RequestContext(request))
+            if request.is_ajax():
+                    message = {"albums_data": render_albums.content}
+            else:
+                    vars_view = {'albums' : render_albums.content}
+                    if is_loged_edit(request,user):
+                        return self.show_profile_user(request, user, vars_view)
+                    else:
+                        return self.show_another_profile(request, user, vars_view)
+            
+            json = simplejson.dumps(message)
+            return HttpResponse(json, mimetype='application/json')
+        
         except Exception as e: return self.show_error(e)
         
     def show_profile_using_mail(self, request, user_email):
         try: 
             user = Usuario.objects.get(usuario_email_1 = forms.EmailField().clean(user_email))
-            vars_view = {'albums' : albums_utils.get_albums(user)}
-            return self.show_profile_user(request, user, vars_view)
+            albums_list = albums_utils.get_albums(user)
+            
+            random_ints = []
+            for num in range(0,11):
+                random_ints.append(random.randint(-3,3))
+            
+            render_albums = render_to_response('user_albums.html', 
+                                        {'object_list' : albums_list, 'random_ints': random_ints},
+                                        context_instance = RequestContext(request))
+            if request.is_ajax():
+                    message = {"albums_data": render_albums.content}
+            else:
+                    vars_view = {'albums' : render_albums.content}
+                    if is_loged_edit(request,user):
+                        return self.show_profile_user(request, user, vars_view)
+                    else:
+                        return self.show_another_profile(request, user, vars_view)
+            
+            json = simplejson.dumps(message)
+            return HttpResponse(json, mimetype='application/json')
         except Exception as e: return self.show_error(e)
-
+            
     def show_add_album_red(self, request): return HttpResponseRedirect("/usuarios/profile/addalbum")
     
     def show_add_album(self, request):
@@ -376,9 +447,7 @@ class ShowProfile():
             
             json = simplejson.dumps(message)
             return HttpResponse(json, mimetype='application/json')
-        except Exception as e: 
-            print '%s (%s)' % (e.message, type(e))
-            return self.show_error(e)
+        except Exception as e: return self.show_error(e)
     
     def show_mail_sent(self, request):
         try:
@@ -402,23 +471,30 @@ class ShowProfile():
     def show_profile_user(self, request, user, vars_view):
         try:
             user_data = self.get_user_data(user)
-            
+            vars_view.update({'user_data' : user_data, 'islogededit' : is_loged_edit(request, user)})
+            vars_view.update(csrf(request))
+            render_profile = render_to_response('user_profile.html', vars_view)
+            return render_to_response('main_template.html', {'user_profile':render_profile.content})
+        except Exception as e: return self.show_error(e)
+        
+        
+    def show_another_profile(self, request, user, vars_view):
+        try:
             cancel_follow = False
             if is_loged(request) and user.id_usuario != request.session['member_id']:
                 following = None
                 try:
                     following = Followers.objects.filter(id_followed = user, id_follower = Usuario.objects.get(id_usuario= request.session['member_id']))
-                    print following
                 except: pass
                 if following: cancel_follow = True
-                
                 follow = user.id_usuario
             else: follow = False
+            user_data = self.get_user_data(user)
             vars_view.update({'user_data' : user_data, 'islogededit' : is_loged_edit(request, user),
                               'follow' :  follow, 'cancelfollow' : cancel_follow})
             vars_view.update(csrf(request))
-            return render_to_response('user_profile.html', vars_view)
-            
+            render_profile = render_to_response('guest_user_profile.html', vars_view)
+            return render_to_response('main_template.html', {'user_profile':render_profile.content})
         except Exception as e: return self.show_error(e)
         
     def show_error(self, e): 

@@ -8,20 +8,20 @@ function pagPagination(){
 			pagPagination();
 		});
 	});
+	
+	$('.mail_container').bind('click', function () {
+		if ( this.className.match(/(?:^|\s)mail_container(?!\S)/) ){
+			this.classList.remove('mail_container');
+			this.classList.add('mail_container_show');
+		}
+		else{
+			this.classList.remove('mail_container_show');
+			this.classList.add('mail_container');
+		}
+	});
 }
 
 function sendMailForm() {
-	$('.mail').bind('click', function () {
-		lastclick = this.id;
-		$.get("/usuarios/profile/"+this.id, function(data) {
-			result = data.mail_inbox;
-			$('#result')[0].innerHTML = result;
-			sendMailForm();
-		});
-	});
-
-	pagPagination();
-
 	$("#sendMailForm").submit(function(event){
 		event.preventDefault();
 		$.ajax({
@@ -44,6 +44,7 @@ $(document).ready(function() {
 			result = data.mail_inbox;
 			$('#result')[0].innerHTML = result;
 			sendMailForm();
+			pagPagination();
 		});
 	});
 });

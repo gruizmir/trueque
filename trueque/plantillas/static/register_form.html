@@ -1,36 +1,36 @@
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
-    <h1>Register</h1>
+{% if form.errors %}
+    <div class="register_errors_text">
+        Please correct the error{{ form.errors|pluralize }} below.
+    </div> 
+    <div class="register_errors_arrow_down"></div>
+{% endif %}
 
-    {% if form.errors %}
-        <p style="color: red;">
-            Please correct the error{{ form.errors|pluralize }} below.
-        </p>
-    {% endif %}
+<form id="register_user_form" action="" method="post">
+	{% load klass %}
+	{% csrf_token %}
+    <ul>
+		{% for field in form %}
+			{% if field.field.widget|klass == "CheckboxInput"%}
+			<li class="register_form_bulletins_service" >
+			  	{% if field.name == "usuario_terms_service" %}
+			  		{{ field }} {{ field.label_tag }} {{ terms_of_service }}
+			  	{% else %}
+			  		{{ field }} {{ field.label_tag }} {{ usuario_bulletins }}
+			  	{% endif %}
+			{% else %}
+			<li>
+				{{ field }}
+			{% endif %}
+			{% if field.errors.as_text %}
+				<div class="form_error_arrow"></div>
+				<div class="form_error_text"> {{ field.errors.as_text|wordwrap:5 }} </div>
+			{% endif %}
+			</li>
+		{% endfor %}
+		<li>
+			<input type="submit" value="Submit">
+		</li>
+    </ul>
+</form>
 
-    <form action="" method="post">
-    	{% load klass %}
-    	{% csrf_token %}
-        <ul>
-			{% for field in form %}
-				<li>
-				{% if field.field.widget|klass == "CheckboxInput" %}
-				  	{{ field }} {{ field.label_tag }}
-				{% else %}
-					{{ field.label_tag }}: {{ field }}
-				{% endif %}
-				{% if field.errors.as_text %}
-					<b> {{ field.errors.as_text }} </b>
-				{% endif %}
-				</li>
-			{% endfor %}
-        </ul>
-        
-        <input type="submit" value="Submit">
-    </form>
-    
-</body>
-</html>
+<script type="text/javascript" src="/static/js/jq_template_user_register.js"></script>

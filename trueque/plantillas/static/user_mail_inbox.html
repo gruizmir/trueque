@@ -1,15 +1,23 @@
+<style>
+.mail_container{ background: #999; }
+.mail_container_show{ background: #CCC; }
+.mail_container + .mail_message_container{ visibility: collapse; }
+.mail_container_show + .mail_message_container{ visibility: visible; }
+</style>
+
 {% load pagination_tags %}
-
 {% autopaginate object_list 3 %}
-{% for mail in object_list %}
-
-	+---------------------------------------------------------------------+<br>
-    <b>From:</b> {{ mail.id_sender.usuario_name }} {{ mail.id_sender.usuario_lastname }} <br>
-    <b>To:</b> {{ mail.id_receiver.usuario_name }} {{ mail.id_receiver.usuario_lastname }} <br>
-    <b>Subject:</b> {{ mail.message_subject}} <br>
-    <b>Date:</b> {{ mail.message_datetime }} <br>
-    <b>Message:</b> {{ mail.message_text }} <br>
-{% endfor %}
-	+---------------------------------------------------------------------+<br>
+<table>
+	{% for mail in object_list %}
+		<tr class="mail_container"><td>
+		    <b>From:</b> {{ mail.id_sender.usuario_name }} {{ mail.id_sender.usuario_lastname }} <br>
+		    <b>To:</b> {{ mail.id_receiver.usuario_name }} {{ mail.id_receiver.usuario_lastname }} <br>
+		    <b>Subject:</b> {{ mail.message_subject}} <br>
+		    <b>Date:</b> {{ mail.message_datetime }} <br>
+		</td></tr>
+		<tr class="mail_message_container"><td>
+			<b>Message:</b> {{ mail.message_text }} <br>
+		</td></tr>
+	{% endfor %}
+</table>
 {% paginate %}
-

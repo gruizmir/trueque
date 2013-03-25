@@ -1,54 +1,94 @@
-<html>
-<head>
-    <title>PROFILE</title>
-    <script type="text/javascript"
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js">
-    </script>
-</head>
-<body>
-    <h1>PROFILE</h1>
-    {% csrf_token %}
-    {% for item in user_data %}
-    	<br>{{ item.0 }} : {{ item.1 }} </br>
-	{% endfor %}
-	-----------------------------------------
-	{% if albums %}
-		<h1> ALBUMES </h1>
-		{% for album in albums %}
-	    	<br>{{ album.album_name }}</br>
-		{% endfor %}
-	{% endif %}
-	{% if following %}
-		<h1> FOLLOWING </h1>
-		{% for follow in following %}
-		<br> {{follow.id_followed.usuario_name}} {{follow.id_followed.usuario_lastname}}</br>
-		{% endfor %}
-	{% endif %}
-	{% if followers %}
-		<h1> FOLLOWERS </h1>
-		{% for follower in followers %}
-		<br> {{follower.id_follwer.usuario_name}} {{follower.id_follwer.usuario_name}}</br>
-		{% endfor %}
-	{% endif %}
-	-----------------------------------------
-	{% if islogededit %}
-		<a href="addalbum"><div style="color: red; height: 30px; width: 30px; background:#000;"> </div></a>
-	{% endif %}
-	-----------------------------------------
-	{% if follow and not cancelfollow %}
-		<a href="follow/{{follow}}"><div style="color: red; height: 30px; width: 30px; background:#A0F;"> </div></a>
-	{% endif %}
-	{% if follow and cancelfollow %}
-		<a href="cancelfollow/{{follow}}"><div style="color: red; height: 30px; width: 30px; background:#00A;"> </div></a>
-	{% endif %}
-	<br>-----------------------------------------
-	{% if mail %}
-		<div id="mail/inbox/" class="mail">Recibidos</div>
-		<div id="mail/compose/" class="mail">Redactar</div>
-		<div id="mail/sent/" class="mail">Enviados</div>
-		<div id="result"></div>
-	{% endif %}
-	
-</body>
-    <script type="text/javascript" src="/static/js/mail_tab.js"></script>
-</html>
+{% csrf_token %}
+<table class="user_profile_main_table">
+	<tr>
+		<td class="user_info_table_section">
+			<div class="user_info_table_row">
+				<div class="user_photo_name_container">
+					{{ user_data.0.1 }} {{ user_data.1.1 }}
+				</div>
+				<div class="user_profile_edit_button">Editar</div>
+			</div>
+			<div class="user_info_table_row">
+				<div class="user_rating_container">
+				<p>Mi calificación</p>
+				{{ user_data.2.1 }}
+				<p class="user_rating_tittle">Trocador</p>
+				</div>
+			</div>
+			<div class="user_info_table_row"> 
+				<div class="user_info_table_column">
+					<span class="user_info_q">{{ user_data.4.1 }}</span>
+				</div>
+				<div class="user_info_table_column_inter">
+					<img src="/static/img/icons/Q-gris.png" alt="Q" class="user_info_q_icon">
+				</div>
+				<div class="user_info_table_column">
+					<span class="user_info_data_names">Trueques:</span> <span class="user_info_numbers">{{ user_data.5.1 }}</span>
+					<br>
+					<span class="user_info_data_names">Siguiendo:</span> <span class="user_info_numbers">{{ user_data.6.1 }}</span>
+					<br>
+					<span class="user_info_data_names">Me siguen:</span> <span class="user_info_numbers">{{ user_data.7.1 }}</span>
+				</div>
+			</div>
+			<div class="user_info_table_row">
+				<p class="user_info_show_history_button">Ver Mi Historial</p>
+			</div>
+		</td>
+		<td class="user_interaction_table_section">
+			{% if albums %}
+				<span class="user_interaction_table_tittle"> ALBUMES </span>
+				<div id="result">{{ albums|safe }}</div>
+			{% endif %}
+			
+			{% if islogededit %}
+				<a href="addalbum"><div style="color: red; height: 30px; width: 30px; background:#000;"> </div></a>
+			{% endif %}
+			
+			{% if following %}
+				<h1> FOLLOWING </h1>
+				{% for follow in following %}
+				<br> {{follow.id_followed.usuario_name}} {{follow.id_followed.usuario_lastname}}</br>
+				{% endfor %}
+			{% endif %}
+			
+			{% if followers %}
+				<h1> FOLLOWERS </h1>
+				{% for follower in followers %}
+				<br> {{follower.id_follwer.usuario_name}} {{follower.id_follwer.usuario_name}}</br>
+				{% endfor %}
+			{% endif %}
+			
+			{% if mail %}
+				<div id="mail/inbox/" class="mail">Recibidos</div>
+				<div id="mail/compose/" class="mail">Redactar</div>
+				<div id="mail/sent/" class="mail">Enviados</div>
+				<div id="result"></div>
+			{% endif %}
+			
+		</td>
+		<td class="user_extras_table_section">
+			<script>
+			UserVoice = window.UserVoice || [];
+			UserVoice.push(['showTab', 'classic_widget', {
+			  mode: 'full',
+			  primary_color: '#ff8d0a',
+			  link_color: '#08d438',
+			  default_mode: 'feedback',
+			  forum_id: 199649,
+			  support_tab_name: '¿Problemas con Trueque.in?',
+			  feedback_tab_name: '¡Danos tu opinión!',
+			  tab_label: 'Comentarios y soporte',
+			  tab_color: '#ff9012',
+			  tab_position: 'middle-right',
+			  tab_inverted: false
+			}]);
+			</script>
+		</td>
+	</tr>
+</table>
+{% if albums %}
+	<script type="text/javascript" src="/static/js/js_albums_pagination.js"></script>
+{% endif %}
+{% if mail %}
+	<script type="text/javascript" src="/static/js/mail_tab.js"></script>
+{% endif %}

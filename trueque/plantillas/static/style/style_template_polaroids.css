@@ -1,0 +1,19 @@
+.album_polaroids_container {
+	width: 100%;
+}
+
+.album_polaroid {
+	display: inline-block;
+	font-family:"Comic Sans", cursive, sans-serif;
+	margin-right: 10px;
+	margin-top: 10px;
+	font-style: italic;
+	text-align:center;
+	height: 210px;
+	width: 180px;
+	background: #FFF;
+	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
+    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
+}
+	
+

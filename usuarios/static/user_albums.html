@@ -1,0 +1,21 @@
+<link rel="stylesheet" media="all" href="/static/style/style_template_polaroids.css" />
+{% load pagination_tags %}
+{% autopaginate object_list 12 %}
+	<style>
+		{% for rand in random_ints %}
+		#album_polaroid_{{ forloop.counter }} {
+			-moz-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+			-webkit-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+			-o-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+			-ms-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+			transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
+		}
+		{% endfor %}
+	</style>
+	
+	<div class="album_polaroids_container">
+		{% for album in object_list %}
+			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid">{{ album.album_name }}</div>
+		{% endfor %}
+	</div>
+{% paginate %}
