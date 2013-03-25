@@ -92,7 +92,7 @@ class EditUserForm(ModelForm):
         model = Usuario
         fields = ('usuario_email_1','usuario_email_2',
                   'usuario_phone_1', 'usuario_phone_2',
-                  'usuario_city','usuario_language',
+                  'usuario_city','usuario_lang',
                   'usuario_bulletins',      
                   'usuario_art', 'usuario_music',
                   'usuario_tech', 'usuario_cars', 'usuario_travels',

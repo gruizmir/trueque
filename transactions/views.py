@@ -145,7 +145,7 @@ def verifyTrade(request, idTrade=None):
 							trade.trade_valid=True
 							trade.save()
 							#Vuelve a mi nuevo producto recibido si existe, o si no a la busqueda (es el vendedor)
-							if trade.id_bid.bid_q==0
+							if trade.id_bid.bid_q == 0:
 								return HttpResponseRedirect("/products/" )
 							else:
 								return HttpResponseRedirect("/products/" + str(trade.id_bid.bid_id_product))

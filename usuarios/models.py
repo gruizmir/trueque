@@ -32,7 +32,8 @@ class Usuario(models.Model):
     usuario_email_2 = models.EmailField(max_length=90, db_column='Usuario_email_2', blank=True) # Field name made lowercase.
     usuario_phone_1 = models.CharField(max_length=30, db_column='Usuario_phone_1', blank=True) # Field name made lowercase.
     usuario_phone_2 = models.CharField(max_length=30, db_column='Usuario_phone_2', blank=True) # Field name made lowercase.
-    usuario_language = models.CharField(max_length=15, db_column='Usuario_language', blank=True) # Field name made lowercase.
+    usuario_lang = models.IntegerField(null=True, db_column='Usuario_lang', blank=True) # Field name made lowercase.
+    usuario_img = models.CharField(max_length=50L, db_column='Usuario_img', blank=True) # Field name made lowercase.
     usuario_fb_token = models.CharField(max_length=450, db_column='Usuario_FB_Token', blank=True) # Field name made lowercase.
     usuario_tw_token = models.CharField(max_length=480, db_column='Usuario_TW_Token', blank=True) # Field name made lowercase.
     usuario_register_date = models.DateTimeField(db_column='Usuario_register_date') # Field name made lowercase.
@@ -94,3 +95,10 @@ class Warning(models.Model):
     warning_datetime = models.IntegerField(db_column='Warning_datetime') # Field name made lowercase.
     class Meta:
         db_table = u'Warning'
+
+
+class Lang(models.Model):
+    id_lang = models.IntegerField(primary_key=True, db_column='ID_lang') # Field name made lowercase.
+    lang_name = models.CharField(max_length=20L, db_column='Lang_name') # Field name made lowercase.
+    class Meta:
+        db_table = 'Lang'
