@@ -19,16 +19,12 @@ from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm
 from usuarios.models import Usuario, Followers
 import albums.utils as albums_utils
-import autocomplete
 import django
 import os
 import socket
 import usuarios.custom_error as C_error
 import usuarios.form
 import random
-
-version = autocomplete.get_version()
-django_version = django.get_version()
 
 SESSION_EXPIRY = 86400 #Tiempo de expiracion de la sesion encargada de la verificacion.
 
@@ -103,7 +99,7 @@ def send_registration_confirmation(session_s):
         title = "WELCOME TO TRUEQUE!"
         content = ("http://localhost:8000/usuarios/confirm/?=" + str(session_s.session_key) + "&email=" + session_s['user_mail'])
         print content
-        send_mail(title, content, 'no-reply@trueque.com', [session_s['user_mail']], fail_silently=False)
+        send_mail(title, content, 'no-reply@trueque.in', [session_s['user_mail']], fail_silently=False)
         return render_to_response('register_mail_confirmation.html')
     
     #Exceptions que se activan en caso de no poder enviar el mail al usuario.
