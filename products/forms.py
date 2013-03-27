@@ -37,6 +37,7 @@ class ImagesForm(Form):
 	img_3 = FileField(label="Imagen 3", max_length=1024)
 	img_4 = FileField(label="Imagen 4", max_length=1024)
 	img_5 = FileField(label="Imagen 5", max_length=1024)
+	
 
 
 #CommentForm: 	Formulario sin objetivo de ser renderizado, se usa para validar datos al ingresar

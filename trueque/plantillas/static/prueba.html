@@ -1,33 +1,29 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>Ingresar nuevo</title>
-	<!-- UserVoice JavaScript SDK (only needed once on a page) -->
-	<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/VkBKbsuHEYsqsduFq9pb1w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-	<link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<!--
+  Created using jsbin.com
+  Source can be edited via http://jsbin.com/uzekuz/1/edit
+-->
+<head>
+<link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
 <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
 <meta charset=utf-8 />
-	</head>
-	
-	<body>
-		<!-- A tab to launch the Classic Widget -->
-		<script>
-		UserVoice = window.UserVoice || [];
-		UserVoice.push(['showTab', 'classic_widget', {
-		  mode: 'full',
-		  primary_color: '#ff8d0a',
-		  link_color: '#08d438',
-		  default_mode: 'feedback',
-		  forum_id: 199649,
-		  support_tab_name: '¿Problemas con Trueque.in?',
-		  feedback_tab_name: '¡Danos tu opinión!',
-		  tab_label: 'Feedback y contacto',
-		  tab_color: '#ff9012',
-		  tab_position: 'middle-right',
-		  tab_inverted: false
-		}]);
-		</script>
-		<script>
+<title>JS Bin</title>
+<!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<style>
+  article, aside, figure, footer, header, hgroup, 
+  menu, nav, section { display: block; }
+</style>
+
+<style id="jsbin-css">
+
+</style>
+</head>
+<body>
+<script>
 			function readURL(input) {
 			    if (input.files && input.files[0]) {
 			    	if(input.id == "id_image-img_1"){
@@ -58,19 +54,10 @@
 			    }
 			}
 		</script>
-		<form enctype="multipart/form-data" method="post" action="save"> {% csrf_token %}
-		<ul>
 			<input type="file" id="id_image-img_1" name="image-img_1" onchange="readURL(this);"/> <img id="foto1" src="#"/>
 			<input type="file" id="id_image-img_2" name="image-img_2" onchange="readURL(this);"/> <img id="foto2" src="#"/>
 			<input type="file" id="id_image-img_3" name="image-img_3" onchange="readURL(this);"/> <img id="foto3" src="#"/>
 			<input type="file" id="id_image-img_4" name="image-img_4" onchange="readURL(this);"/> <img id="foto4" src="#"/>
 			<input type="file" id="id_image-img_5" name="image-img_5" onchange="readURL(this);"/> <img id="foto5" src="#"/>
-			{{ product_form.as_p }}
-			{{ category_form.as_p }}
-			<li>
-				<br><input class="button_text" type="submit" name="submit" value="Submit">
-			</li>
-		</ul>
-		</form>
-	<body>
+</body>
 </html>

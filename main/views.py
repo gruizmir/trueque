@@ -11,6 +11,9 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 
+def vista(request):
+	return render_to_response("prueba.html", {}, context_instance=RequestContext(request))
+
 #Search always keep featured elements first.
 
 #searchByCategory: 	Muestra el formulario de busqueda por categorias (si no recibe formulario). Si recibe un formulario, 

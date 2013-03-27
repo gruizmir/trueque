@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^usuarios/', include('usuarios.urls')),
     url(r'^album/', include('albums.urls')),
     url(r'^$', 'main.views.searchByPrice' ),
+    url(r'^prueba$', 'main.views.vista' ),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

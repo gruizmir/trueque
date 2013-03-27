@@ -3,6 +3,10 @@
 		<title>Ingresar nuevo</title>
 	<!-- UserVoice JavaScript SDK (only needed once on a page) -->
 	<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/VkBKbsuHEYsqsduFq9pb1w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+	<link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+<meta charset=utf-8 />
 	</head>
 	
 	<body>
@@ -17,15 +21,50 @@
 		  forum_id: 199649,
 		  support_tab_name: '¿Problemas con Trueque.in?',
 		  feedback_tab_name: '¡Danos tu opinión!',
-		  tab_label: 'Comentarios y soporte',
+		  tab_label: 'Feedback y contacto',
 		  tab_color: '#ff9012',
 		  tab_position: 'middle-right',
 		  tab_inverted: false
 		}]);
 		</script>
+		<script>
+			function readURL(input) {
+			    if (input.files && input.files[0]) {
+			    	if(input.id == "id_image-img_1"){
+					    var reader = new FileReader();
+					    reader.onload = function (e) { $('#foto1').attr('src', e.target.result); };
+					    reader.readAsDataURL(input.files[0]);
+			        }
+			        if(input.id == "id_image-img_2"){
+					    var reader = new FileReader();
+					    reader.onload = function (e) { $('#foto2').attr('src', e.target.result); };
+					    reader.readAsDataURL(input.files[0]);
+			        }
+			        if(input.id == "id_image-img_3"){
+					    var reader = new FileReader();
+					    reader.onload = function (e) { $('#foto3').attr('src', e.target.result); };
+					    reader.readAsDataURL(input.files[0]);
+			        }
+			        if(input.id == "id_image-img_4"){
+					    var reader = new FileReader();
+					    reader.onload = function (e) { $('#foto4').attr('src', e.target.result); };
+					    reader.readAsDataURL(input.files[0]);
+			        }
+			        if(input.id == "id_image-img_5"){
+					    var reader = new FileReader();
+					    reader.onload = function (e) { $('#foto5').attr('src', e.target.result); };
+					    reader.readAsDataURL(input.files[0]);
+			        }
+			    }
+			}
+		</script>
 		<form enctype="multipart/form-data" method="post" action="save"> {% csrf_token %}
 		<ul>
-			{{ image_form.as_p }}
+			<input type="file" id="id_image-img_1" name="image-img_1" onchange="readURL(this);"/> <img id="foto1" src="#"/>
+			<input type="file" id="id_image-img_2" name="image-img_2" onchange="readURL(this);"/> <img id="foto2" src="#"/>
+			<input type="file" id="id_image-img_3" name="image-img_3" onchange="readURL(this);"/> <img id="foto3" src="#"/>
+			<input type="file" id="id_image-img_4" name="image-img_4" onchange="readURL(this);"/> <img id="foto4" src="#"/>
+			<input type="file" id="id_image-img_5" name="image-img_5" onchange="readURL(this);"/> <img id="foto5" src="#"/>
 			{{ product_form.as_p }}
 			{{ category_form.as_p }}
 			<li>
