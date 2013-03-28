@@ -27,7 +27,8 @@ def newProduct(request):
 		image_form = ImagesForm(prefix='image')
 		product_form = ProductForm(prefix='product')
 		category_form = CategoryForm(prefix='category')
-		return render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form}, context_instance=RequestContext(request))
+		render_product = render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form}, context_instance=RequestContext(request))
+		return render_to_response('main_template.html', {'product_new':render_product.content})
 	else:
 		return HttpResponse("NO AUTORIZADO")
 
@@ -174,7 +175,8 @@ def showOwnerView(request, product):
 		bids = Bid.objects.filter(id_product = idProduct).order_by('bid_datetime')
 	except ObjectDoesNotExist:
 		bids = None	
-	return render_to_response("owner_product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'owner':owner}, context_instance=RequestContext(request))
+	render_details =  render_to_response("owner_product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'owner':owner}, context_instance=RequestContext(request))
+	return render_to_response('main_template.html', {'product_details':render_details.content})
 
 
 #showVisitView: Muestra los detalles del producto sin detalles de usuario. Incluye los Bids y los 
@@ -198,7 +200,8 @@ def showVisitView(request, product):
 		bids = Bid.objects.filter(id_product = idProduct).order_by('bid_datetime')
 	except ObjectDoesNotExist:
 		bids = None
-	return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids}, context_instance=RequestContext(request))
+	render_details =  render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids}, context_instance=RequestContext(request))
+	return render_to_response('main_template.html', {'product_details':render_details.content})
 
 
 #newComment:Muestra el formulario para ingresar nuevos comentarios en un producto y procesa y guarda 
@@ -233,7 +236,8 @@ def newComment(request, idProducto=None):
 					return HttpResponse("NO_VALID")		
 			else:
 				newComment = NewCommentForm()
-				return render_to_response("new_comment.html", {'form':newComment},context_instance=RequestContext(request))
+				render_comment = render_to_response("new_comment.html", {'form':newComment},context_instance=RequestContext(request))
+				return render_to_response('main_template.html', {'product_new_comment':render_comment.content})
 		else:
 			return HttpResponseRedirect("/")
 	else:

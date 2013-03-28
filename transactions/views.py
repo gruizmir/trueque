@@ -32,7 +32,8 @@ def newBid(request, idProducto=None):
 				prod = Product.objects.get(id_product=idProducto)
 				if prod.product_active==True:
 					bidderProducts = Product.objects.filter(id_owner = request.session['member_id'])
-					return render_to_response("new_bid.html", {'products':bidderProducts}, context_instance=RequestContext(request))
+					render_bid = render_to_response("new_bid.html", {'products':bidderProducts}, context_instance=RequestContext(request))
+					return render_to_response('main_template.html', {'bid_new':render_bid.content})
 				else:
 					return HttpResponse("ESTE PRODUCTO YA FUE INTERCAMBIADO")
 			else:
@@ -124,7 +125,8 @@ def showPending(request):
 	if is_loged(request):
 		dealer_pendings = Trade.objects.filter(id_dealer=request.session['member_id']).filter(trade_pending_dealer=True)
 		bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.session['member_id']).filter(trade_pending_bidder=True)
-		return render_to_response("pendings.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings})
+		render_pendings = render_to_response("pendings.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings})
+		return render_to_response('main_template.html', {'bid_pendings':render_pendings.content})
 	else:
 		return HttpResponse("NO AUTORIZADO")
 
@@ -178,7 +180,8 @@ def verifyTrade(request, idTrade=None):
 	else:
 		if is_loged(request):
 			tradeVer = TradeVerification()
-			return render_to_response("trade_verifier.html", {'form':tradeVer,'id_trade':idTrade}, context_instance=RequestContext(request))
+			render_verifier = render_to_response("trade_verifier.html", {'form':tradeVer,'id_trade':idTrade}, context_instance=RequestContext(request))
+			return render_to_response('main_template.html', {'trade_verifier':render_verifier.content})
 		else:
 			return HttpResponse("NO AUTORIZADO")
 

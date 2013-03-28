@@ -11,9 +11,6 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 
-def vista(request):
-	return render_to_response("prueba.html", {}, context_instance=RequestContext(request))
-
 #Search always keep featured elements first.
 
 #searchByCategory: 	Muestra el formulario de busqueda por categorias (si no recibe formulario). Si recibe un formulario, 
@@ -103,13 +100,15 @@ def searchByCategory(request, page=None):
 					data = None
 			except ObjectDoesNotExist:
 				data= None
-			return render_to_response("search.html", {'data':data})		
+			render_search = render_to_response("search.html", {'data':data})		
+			return render_to_response('main_template.html', {'product_search':render_search.content})
 				
 		else:
 			return HttpResponse("NO VALID")
 	else:
 		form = CategoryForm()
-		return render_to_response("main.html", {'form':form}, context_instance=RequestContext(request))
+		render_search = render_to_response("main.html", {'form':form}, context_instance=RequestContext(request))
+		return render_to_response('main_template.html', {'product_search':render_search.content})
 
 #searchByDate:	Realiza una busqueda normal de productos ordenador por fecha. Muestra primero los 
 #				destacados ('featured')
@@ -126,7 +125,8 @@ def searchByDate(request, page=None):
 			data = Product.objects.filter(product_active=True).order_by('product_datetime').order_by('product_featured')[cant:20]
 	except ObjectDoesNotExist:
 		data = None
-	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
+	render_search = render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
+	return render_to_response('main_template.html', {'product_search':render_search.content})
 
 
 #searchByPrice:	Realiza una busqueda normal de productos ordenador por precio. Muestra primero los 
@@ -144,7 +144,8 @@ def searchByPrice(request, page=None):
 			data = Product.objects.filter(product_active=True).order_by('product_q_amount').order_by('product_featured')[cant:20]
 	except ObjectDoesNotExist:
 		data = None
-	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
+	render_search = render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
+	return render_to_response('main_template.html', {'product_search':render_search.content})
 
 
 #searchByPopularity:Realiza una busqueda normal de productos ordenador por fecha. Muestra primero los 
@@ -162,7 +163,8 @@ def searchByPopularity(request, page=None):
 			data = Product.objects.filter(product_active=True).order_by('product_follower_qty').order_by('product_featured')[cant:20]
 	except ObjectDoesNotExist:
 		data = None
-	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
+	render_search = render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
+	return render_to_response('main_template.html', {'product_search':render_search.content})
 
 
 #searchByName:	Realiza una busqueda normal de productos segun nombre. Muestra primero los 
@@ -183,7 +185,8 @@ def searchByName(request,page=None):
 			data = None
 	else:
 		return HttpResponseRedirect("/")
-	return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
+	render_search = render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
+	return render_to_response('main_template.html', {'product_search':render_search.content})
 
 #intersect:	Intersecta dos listas comparando sus elementos (segun teoria de conjuntos)
 #PARAMS: a,b: listas de datos que se van a comparar

@@ -1,6 +1,11 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		{% if product %}
+			<title>{{ product.product_name }}</title>
+		{% else %}
+			<title>Trueque | Intercambia sin dinero </title>
+		{% endif %}
 		<link rel="stylesheet" media="all" href="/static/style/style_template_main.css" />
 		{% if register_form %}
 			<link rel="stylesheet" media="all" href="/static/style/style_template_user_register.css" />
@@ -19,6 +24,10 @@
 	    </script>
 	    <!-- UserVoice JavaScript SDK (only needed once on a page) -->
 		<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/VkBKbsuHEYsqsduFq9pb1w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+		<link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+		<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+		<meta charset=utf-8 />
 	</head>
 	<body>
 		<header>
@@ -26,7 +35,7 @@
 				<ul>
 					<li class="left_icon_empty"></li>
 					<li>
-						<img src="/static/img/logo_trueque.png" alt="Trueque" class="main_logo_trueque">
+						<a href="/" ><img src="/static/img/logo_trueque.png" alt="Trueque" class="main_logo_trueque"></a>
 					</li>
 				</ul>
 			</div>
@@ -80,6 +89,48 @@
 		{% if user_login %}
 		<section class="user_login_section">
 			{{ user_login|safe }}
+		</section>
+		{% endif %}
+		
+		{% if product_new %}
+		<section class="product_new_section">
+			{{ product_new|safe }}
+		</section>
+		{% endif %}
+		
+		{% if product_search %}
+		<section class="product_search_section">
+			{{ product_search|safe }}
+		</section>
+		{% endif %}
+		
+		{% if product_details %}
+		<section class="product_details_section">
+			{{ product_details|safe }}
+		</section>
+		{% endif %}
+
+		{% if product_new_comment %}
+		<section class="product_new_comment_section">
+			{{ product_new_comment|safe }}
+		</section>
+		{% endif %}
+		
+		{% if bid_new %}
+		<section class="bid_new_section">
+			{{ bid_new|safe }}
+		</section>
+		{% endif %}
+		
+		{% if bid_pendings %}
+		<section class="bid_pendings_section">
+			{{ bid_pendings|safe }}
+		</section>
+		{% endif %}
+		
+		{% if trade_verifier %}
+		<section class="trade_verifier_section">
+			{{ trade_verifier|safe }}
 		</section>
 		{% endif %}
 		
