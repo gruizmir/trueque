@@ -43,6 +43,7 @@ header {
 }
 
 .main_enter_button {
+	text-decoration:  none;
 	margin-left: 20px;
 	color: #e3ec23;
 	font-style: italic;

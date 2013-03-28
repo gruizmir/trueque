@@ -11,6 +11,9 @@
 		{% if edit_user_profile %}
 			<link rel="stylesheet" media="all" href="/static/style/style_template_user_edit_profile.css" />
 		{% endif %}
+		{% if user_login %}
+			<link rel="stylesheet" media="all" href="/static/style/style_template_user_login.css" />
+		{% endif %}
 		<script 
 	    src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript">
 	    </script>
@@ -37,7 +40,7 @@
 							<img src="/static/img/icons/about.png" alt="About" class="main_about_button">
 						</li>
 						<li>
-						 	<p class="main_enter_button">Entrar</p>
+						 	<a href="/usuarios/login" class="main_enter_button">Entrar</a>
 						</li>
 						<li class ="right_icon_empty" ></li>
 					{% endif %}
@@ -71,6 +74,12 @@
 		{% if edit_user_profile %}
 		<section class="edit_user_profile_section">
 			{{ edit_user_profile|safe }}
+		</section>
+		{% endif %}
+		
+		{% if user_login %}
+		<section class="user_login_section">
+			{{ user_login|safe }}
 		</section>
 		{% endif %}
 		

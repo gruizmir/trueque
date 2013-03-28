@@ -109,8 +109,8 @@ class SendConfirmationForm(Form):
 #PARAMS: Form: Class Form
 #RETURN: Se devuelve cleaned_data con el caso de usuario y contraseña incorrectos.
 class LoginForm(Form):
-    usuario_email_1 = forms.EmailField(max_length=90)
-    usuario_password = forms.CharField(widget=forms.PasswordInput(), max_length=75, min_length=6)
+    usuario_email_1 = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': HINT_EMAIL}), max_length=90)
+    usuario_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_PASSWORD1}), max_length=75, min_length=6)
     
     def clean(self): 
         cleaned_data = super(LoginForm, self).clean()

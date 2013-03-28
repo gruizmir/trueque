@@ -19,7 +19,6 @@ from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm
 from usuarios.models import Usuario, Followers
 import albums.utils as albums_utils
-import django
 import os
 import socket
 import usuarios.custom_error as C_error
@@ -200,7 +199,8 @@ def login(request):
         request.session.set_test_cookie()
         c = { 'form': form }
         c.update(csrf(request))
-        return render_to_response('register_form.html', c)
+        render_login = render_to_response('user_login.html', c)
+        return render_to_response('main_template.html', {'user_login':render_login.content})
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)

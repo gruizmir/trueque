@@ -1,0 +1,99 @@
+.user_login_container {
+	border: 1px solid #f97f04;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	width: 550px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin-top: 30px;
+	margin-right:auto;
+	margin-left:auto;
+	padding: 15px;
+	font-size: 90%;
+	color: #f97f04;
+}
+
+.user_login_errors {
+	display: block;
+	text-align: center;
+	margin-top: 10px;
+	font-size: 130%;
+	color: rgb(255,100,0);
+}
+
+.user_login_title_container {
+	width: 550px;
+	height: 30px;
+	font-size: 180%;
+	border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+	display: block;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+.user_login_form_container {
+	width: 550px;
+	display: inline-block;
+}
+
+.user_login_form_message {
+	display: table-cell;
+	width: 200px;
+	height: 100%;
+	vertical-align: middle;
+	text-align: center;
+}
+
+#user_login_form {
+	text-align: left;
+	display: table-cell;
+	width: auto;
+	height: auto;
+}
+
+#user_login_form input[type=text], #user_login_form input[type=password] {
+	background: #f97f04;
+	font-style: italic;
+	padding: 6px;
+	color: #FFF;
+	border: 0px solid #FFF;
+	margin-bottom: 11px;
+}
+
+#user_login_form input[type=text] {
+	width: 350px;
+}
+
+#user_login_form input[type=password] {
+	width: 350px;
+}
+
+#user_login_form input[type=text]:focus, 
+#user_login_form input[type=password]:focus {
+	background: #ffb404;
+	color: #FFF;
+	box-shadow: 0 0 5px rgba(255, 180, 4, 1);
+    -webkit-box-shadow: 0 0 5px rgba(255, 180, 4, 1);
+}
+
+#user_login_form input[type="submit"]{
+	display: inline-block;
+	width: 100px;
+	text-align: center;
+	background: #f97f04;
+	color: #FFF;
+	padding: 3px;
+	border: 0px solid #FFF;
+}
+
+#user_login_form input[type="submit"]:hover {
+	cursor: pointer;
+}
+
+#user_login_form ul {
+	list-style: none;
+}
+
+.user_login_need_register {
+	text-decoration:  none;
+	color: #f97f04;
+}

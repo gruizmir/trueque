@@ -1,0 +1,30 @@
+<div class="user_login_container">
+	<div class="user_login_title_container">Log in </div>
+	
+	<div class="user_login_form_container">
+		<div class="user_login_form_message">
+			<a href="/usuarios/" class="user_login_need_register">
+				<img src="/static/img/icons/+naranjo.png" alt="+" class="user_login_plus_img">
+			</a>
+			<br>
+			<a href="/usuarios/" class="user_login_need_register">
+			Registrate aquí!
+			</a>
+		</div>
+		<form action="" method="post" id="user_login_form">
+			{% csrf_token %}
+			<ul>
+				<li>{{ form.usuario_email_1 }}</li>
+				<li>{{ form.usuario_password }}</li>
+				<li><input type="submit" value="Entrar"></li>
+			</ul>
+		</form>
+		{% if form.errors %}
+			<div class="user_login_errors">
+				Ha ingresado un usuario o contraseña incorrectos, intente nuevamente.
+			</div>
+		{% endif %}
+	</div>
+</div>
+
+<script type="text/javascript" src="/static/js/jq_template_user_register.js"></script>

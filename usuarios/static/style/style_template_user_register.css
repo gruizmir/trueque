@@ -70,7 +70,8 @@
     -webkit-box-shadow: 0 0 5px rgba(255, 180, 4, 1);
 }
 
-#register_user_form input[type="submit"]{	
+#register_user_form input[type="submit"]{
+	cursor: pointer;
 	position: relative;
 	right: 0px;
 	background: #f97f04;
