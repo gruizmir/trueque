@@ -29,20 +29,184 @@
 			    }
 			}
 		</script>
-		<form enctype="multipart/form-data" method="post" action="save"> {% csrf_token %}
-		<ul>
-			<li><input type="file" id="id_image-img_1" name="image-img_1" onchange="readURL(this);"/> <img id="foto1" src="#"/></li> 
-			<li><input type="file" id="id_image-img_2" name="image-img_2" onchange="readURL(this);"/> <img id="foto2" src="#"/></li>
-			<li><input type="file" id="id_image-img_3" name="image-img_3" onchange="readURL(this);"/> <img id="foto3" src="#"/></li>
-			<li><input type="file" id="id_image-img_4" name="image-img_4" onchange="readURL(this);"/> <img id="foto4" src="#"/></li>
-			<li><input type="file" id="id_image-img_5" name="image-img_5" onchange="readURL(this);"/> <img id="foto5" src="#"/></li>
-			{{ product_form.as_p }}
-			{{ category_form.as_p }}
-			<li>
-				<br><input class="button_text" type="submit" name="submit" value="Submit">
-			</li>
-		</ul>
-		</form>
-		<a href="https://www.facebook.com/pages/Trueque/155109701316768"><img id="fb-icon" src="/static/img/facebook.png" width="30" height="30"></a>
-		<a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false"><img id="fb-icon" src="/static/img/twitter.png" width="30" height="30"></a>
-		<a href="http://instagram.com/trueque_in" ><img id="fb-icon" src="/static/img/instagram.png" width="30" height="30"></a>
+		<div class="new_product_main_container">
+			<form enctype="multipart/form-data" method="post" action="save">
+			{% csrf_token %}
+			
+				<div class="product_main_container_left_col">
+					<div id="img_button" class="product_main_add_button_container">
+						<div class="product_main_add_button_cell">
+							<ul>
+								<li>
+									<img src="/static/img/icons/+naranjo.png" alt="+">
+								</li>
+								<li class="product_main_upload_text">
+									Sube tus foto
+								</li>
+								<li>
+									Has click aquí para subir!
+								</li>
+							</ul>
+						</div>
+					</div>
+				
+					<input type="file" id="id_image-img_1" name="image-img_1" onchange="readURL(this);" style="position:absolute;visibility:hidden;"/>
+					<input type="file" id="id_image-img_2" name="image-img_2" onchange="readURL(this);" style="position:absolute;visibility:hidden;"/> 
+					<input type="file" id="id_image-img_3" name="image-img_3" onchange="readURL(this);" style="position:absolute;visibility:hidden;"/> 
+					<input type="file" id="id_image-img_4" name="image-img_4" onchange="readURL(this);" style="position:absolute;visibility:hidden;"/>
+					<input type="file" id="id_image-img_5" name="image-img_5" onchange="readURL(this);" style="position:absolute;visibility:hidden;"/>
+	
+					<div class="main_container_uploaded_container">
+						<ul>
+							<li><div class="new_product_mini_polaroid"><img id="foto1" src="#" class="new_product_mini_polaroid_img"/></div></li>
+							<li><div class="new_product_mini_polaroid"><img id="foto2" src="#" class="new_product_mini_polaroid_img"/></div></li>
+							<li><div class="new_product_mini_polaroid"><img id="foto3" src="#" class="new_product_mini_polaroid_img"/></li>
+							<li><div class="new_product_mini_polaroid"><img id="foto4" src="#" class="new_product_mini_polaroid_img"/></li>
+							<li><div class="new_product_mini_polaroid"><img id="foto5" src="#" class="new_product_mini_polaroid_img"/></li>
+						</ul>
+					</div>
+					
+					<div class="new_product_external_links">
+						<a href="https://www.facebook.com/pages/Trueque/155109701316768"><img id="fb-icon" src="/static/img/facebook.png" width="30" height="30"></a>
+						<a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false"><img id="fb-icon" src="/static/img/twitter.png" width="30" height="30"></a>
+						<a href="http://instagram.com/trueque_in" ><img id="fb-icon" src="/static/img/instagram.png" width="30" height="30"></a>
+					</div>
+							
+				</div>
+				
+				<div class="product_main_container_right_col">
+					<div class="container_right_col_block">
+						<ul class="right_col_block_list">
+							<li class="new_product_name">{{ product_form.product_name }} </li>
+							<li>{{ product_form.product_description }} </li>
+							<li>Categorias de interés para trocar este producto</li>
+							<li>
+								<ul class="product_taste_list">
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_1 }}
+										<label for="id_category-field_1">
+											<img src="/static/img/tecnologia.png" alt="tecnologia">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_2 }}
+										<label for="id_category-field_2">
+											<img src="/static/img/ropa.png" alt="ropa">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_3 }}
+										<label for="id_category-field_3">
+											<img src="/static/img/vinilos.png" alt="vinilos">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_4 }}
+										<label for="id_category-field_4">
+											<img src="/static/img/diseno.png" alt="diseno">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_5 }} 
+										<label for="id_category-field_5">
+											<img src="/static/img/arte.png" alt="arte">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_6 }} 
+										<label for="id_category-field_6">
+											<img src="/static/img/servicio.png" alt="servicio">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_7 }} 
+										<label for="id_category-field_7">
+											<img src="/static/img/espectaculos.png" alt="espectaculos">
+										</label>
+									<li>
+										<div class="taste_checkbox"> 
+										{{ category_form.field_8 }}
+										<label for="id_category-field_8">
+											<img src="/static/img/amor.png" alt="amor">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_9 }}
+										<label for="id_category-field_9">
+											<img src="/static/img/comida.png" alt="comida">
+										</label>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_10 }} 
+										<label for="id_category-field_10">
+											<img src="/static/img/deporte.png" alt="deporte">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_11 }} 
+										<label for="id_category-field_11">
+											<img src="/static/img/musica.png" alt="musica">
+										</label>
+										</div>
+									</li>
+									<li>
+										<div class="taste_checkbox">
+										{{ category_form.field_12 }} 
+										<label for="id_category-field_12">
+											<img src="/static/img/eco.png" alt="eco">
+										</label>
+										</div>
+									</li>
+								</ul>
+							</li>
+							<li>
+							
+							</li>
+							<li>o fija un monto</li>
+							<li>
+								<div class="new_product_q_price_container">
+								{{ product_form.product_q_amount }}
+								<img src="/static/img/icons/Q-gris.png" alt="Q">
+								</div>
+							</li>
+							<li>
+								<input class="button_text" type="submit" name="submit" value="Aceptar">
+							</li>
+						</ul>
+						
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<script>
+			$('#img_button').bind('click', function () { 
+				for (i=1; i < 6; i++){
+					if($("#foto"+i).attr("src") == "#") {
+						$("#id_image-img_"+i).click();
+						break;
+					}
+					if(i==5){
+						alert("No se pueden añadir más fotos!");
+					}
+				}
+			});
+		</script>

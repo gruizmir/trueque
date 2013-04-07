@@ -51,6 +51,11 @@
 	text-align: right;
 }
 
+.user_profile_edit_button a {
+	text-decoration: none;
+	color: #f97f04;
+}
+
 .user_rating_container {
 	color: #AAA;
 	width: 210px;
@@ -135,4 +140,47 @@
 
 .user_extras_table_section {
 	width: 100px;
+}
+
+.add_album_container {
+	display: inline-block;
+	text-align: center;
+	height: 210px;
+	width: 180px;
+	margin-top: 10px;
+	margin-right: 10px;
+	vertical-align:middle;
+	font-family:"Comic Sans", cursive, sans-serif;
+}
+
+.add_album_cell_container {
+	display: table-cell;
+	width: 180px;
+	height: 210px;
+	vertical-align:middle;
+}
+
+.add_album_container ul {
+	list-style: none;
+}
+
+.user_profile_add_album_link {
+	text-decoration: none;
+	font-style: italic;
+	color: #000;
+}
+
+.user_profile_add_album_img {
+	
+}
+
+span.stars, span.stars span {
+    display: block;
+    background: url(/static/img/estrellas3.png) 0 -40px repeat-x;
+    width: 200px;
+    height: 38px;
+}
+
+span.stars span {
+	background-position: 0 0;
 }

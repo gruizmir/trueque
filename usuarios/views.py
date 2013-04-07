@@ -262,9 +262,12 @@ class ShowProfile():
             for num in range(0,11):
                 random_ints.append(random.randint(-3,3))
                 
-            render_albums = render_to_response('user_albums.html', 
-                                        {'object_list' : albums_list, 'random_ints': random_ints},
-                                        context_instance = RequestContext(request))
+            album_list =  {'object_list' : albums_list, 'random_ints': random_ints}
+            
+            if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
+                
+            render_albums = render_to_response('user_albums.html', album_list, context_instance = RequestContext(request))
+            
             if request.is_ajax():
                 message = {"albums_data": render_albums.content}
             else:
@@ -283,10 +286,13 @@ class ShowProfile():
             random_ints = []
             for num in range(0,11):
                 random_ints.append(random.randint(-3,3))
+                
+            album_list =  {'object_list' : albums_list, 'random_ints': random_ints}
             
-            render_albums = render_to_response('user_albums.html', 
-                                        {'object_list' : albums_list, 'random_ints': random_ints},
-                                        context_instance = RequestContext(request))
+            if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
+                
+            render_albums = render_to_response('user_albums.html', album_list, context_instance = RequestContext(request))
+            
             if request.is_ajax():
                     message = {"albums_data": render_albums.content}
             else:
@@ -310,9 +316,12 @@ class ShowProfile():
             for num in range(0,11):
                 random_ints.append(random.randint(-3,3))
             
-            render_albums = render_to_response('user_albums.html', 
-                                        {'object_list' : albums_list, 'random_ints': random_ints},
-                                        context_instance = RequestContext(request))
+            album_list =  {'object_list' : albums_list, 'random_ints': random_ints}
+            
+            if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
+                
+            render_albums = render_to_response('user_albums.html', album_list, context_instance = RequestContext(request))
+            
             if request.is_ajax():
                     message = {"albums_data": render_albums.content}
             else:

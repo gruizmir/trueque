@@ -11,7 +11,7 @@
 				<div class="user_rating_container">
 				<br>
 				<p>Calificación</p>
-				{{ user_data.2.1 }}
+				<span class="stars">{{ user_data.2.1 }}</span>
 				<p class="user_rating_tittle">Trocador</p>
 				</div>
 			</div>
@@ -85,6 +85,7 @@
 		</td>
 	</tr>
 </table>
+	<script type="text/javascript" src="/static/js/jq_star_rating.js"></script>
 {% if albums %}
 	<script type="text/javascript" src="/static/js/js_albums_pagination.js"></script>
 {% endif %}

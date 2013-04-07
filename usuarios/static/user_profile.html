@@ -6,12 +6,14 @@
 				<div class="user_photo_name_container">
 					{{ user_data.0.1 }} {{ user_data.1.1 }}
 				</div>
-				<div class="user_profile_edit_button">Editar</div>
+				<div class="user_profile_edit_button">
+					<a href="/usuarios/profile/editprofile">Editar</a>
+				</div>
 			</div>
 			<div class="user_info_table_row">
 				<div class="user_rating_container">
 				<p>Mi calificación</p>
-				{{ user_data.2.1 }}
+				<span class="stars">{{ user_data.2.1 }}</span>
 				<p class="user_rating_tittle">Trocador</p>
 				</div>
 			</div>
@@ -39,11 +41,7 @@
 				<span class="user_interaction_table_tittle"> ALBUMES </span>
 				<div id="result">{{ albums|safe }}</div>
 			{% endif %}
-			
-			{% if islogededit %}
-				<a href="addalbum"><div style="color: red; height: 30px; width: 30px; background:#000;"> </div></a>
-			{% endif %}
-			
+
 			{% if following %}
 				<h1> FOLLOWING </h1>
 				{% for follow in following %}
@@ -86,6 +84,7 @@
 		</td>
 	</tr>
 </table>
+	<script type="text/javascript" src="/static/js/jq_star_rating.js"></script>
 {% if albums %}
 	<script type="text/javascript" src="/static/js/js_albums_pagination.js"></script>
 {% endif %}

@@ -5,9 +5,9 @@ from products.models import Product, Category, Comment
 
 #ProductForm:	Formulario para ingresar los datos principales de un nuevo producto.
 class ProductForm(ModelForm):
-	product_name = CharField(label='Titulo Producto', widget=TextInput(attrs={'size':40, 'value':'Titulo Producto'}))
-	product_description = CharField(label='Descripcion', widget=Textarea(attrs={}))
-	product_q_amount = IntegerField(label='Monto', widget=TextInput(attrs={'size':10}))
+	product_name = CharField(label='Titulo Producto', widget=TextInput(attrs={'size':40, 'placeholder':'Título Producto'}))
+	product_description = CharField(label='Descripcion', widget=Textarea(attrs={'size':500, 'placeholder':"Describe tu objeto"}))
+	product_q_amount = IntegerField(label='Monto', widget=TextInput(attrs={'size':10, 'placeholder':"000"}))
 	class Meta:
 		model = Product
 		fields = ('product_name', 'product_description', 'product_q_amount')

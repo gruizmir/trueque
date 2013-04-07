@@ -8,10 +8,10 @@ urlpatterns = patterns('usuarios.views',
     url(r'^login/$', 'login'),
     url(r'^profile/editprofile/{0,1}$', 'edit_user_profile'),
     url(r'^profile/$', ShowProfile().show_profile_default),
-    url(r'^profile/addalbum/$', ShowProfile().show_add_album),
+    url(r'^profile/addalbum/{0,1}$', ShowProfile().show_add_album),
     
-    url(r'^profile/[\d]+/addalbum$', ShowProfile().show_add_album_red),
-    url(r'^profile/[\w.@]{0,90}/addalbum$', ShowProfile().show_add_album_red),
+    url(r'^profile/[\d]+/addalbum/{0,1}$', ShowProfile().show_add_album_red),
+    url(r'^profile/[\w.@]{0,90}/addalbum/{0,1}$', ShowProfile().show_add_album_red),
     
     url(r'^profile/followers$', ShowProfile().show_followers),
     url(r'^profile/following$', ShowProfile().show_following),
