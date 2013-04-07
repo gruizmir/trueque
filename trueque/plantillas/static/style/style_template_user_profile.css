@@ -6,6 +6,7 @@
 }
 
 .user_info_table_section {
+	vertical-align:top;
 	width: 250px;
 }
 
@@ -183,4 +184,32 @@ span.stars, span.stars span {
 
 span.stars span {
 	background-position: 0 0;
+}
+
+.pagination {
+	text-align: right;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.pagination span{
+	cursor: pointer;
+	color: #f97f04;
+	border: 1px solid #f97f04;
+	padding: 2px;
+	margin: 2px;
+}
+
+.pagination span:hover{
+	background: #DDD;
+}
+
+.current_page, .disabled_prev, .disabled_next {
+	cursor: default !important;
+	color: #888 !important;
+	border: 1px solid #888 !important;
 }

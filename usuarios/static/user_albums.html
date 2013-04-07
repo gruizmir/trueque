@@ -1,6 +1,7 @@
 <link rel="stylesheet" media="all" href="/static/style/style_template_polaroids.css" />
+<link href="/static/style/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
 {% load pagination_tags %}
-{% autopaginate object_list 12 %}
+{% autopaginate object_list 15 %}
 	<style>
 		{% for rand in random_ints %}
 		#album_polaroid_{{ forloop.counter }} {
@@ -12,11 +13,9 @@
 		}
 		{% endfor %}
 	</style>
-	
+	{% paginate %}
+	<br>
 	<div class="album_polaroids_container">
-		{% for album in object_list %}
-			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid">{{ album.album_name }}</div>
-		{% endfor %}
 		{% if is_loged_edit %}
 			<div class="add_album_container"><div class="add_album_cell_container">
 				<ul>
@@ -33,5 +32,7 @@
 				</ul>
 			</div></div>
 		{% endif %}
+		{% for album in object_list %}
+			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid">{{ album.album_name }}</div>
+		{% endfor %}
 	</div>
-{% paginate %}
