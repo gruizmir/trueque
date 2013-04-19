@@ -15,6 +15,7 @@ from django.conf import settings
 import uuid
 import os
 from django.core.mail import send_mail
+import Image
 
 
 #newProduct:Muestra el formulario para ingresar un nuevo producto, incluidas imagenes 
@@ -127,10 +128,31 @@ def handle(path, file, counter):
 	if os.path.isdir(os.path.join(settings.MEDIA_ROOT, path)) == False:
 		os.mkdir(os.path.join(settings.MEDIA_ROOT, path))
 	if file:
-		destination = open(settings.MEDIA_ROOT + "/" +path + "/" + "img_" + str(counter) + ".png", 'wb+')
+		filename = settings.MEDIA_ROOT + "/" +path + "/" + "img_" + str(counter) + ".png"
+		destination = open(filename, 'wb+')
 		for chunk in file.chunks():
 			destination.write(chunk)
 		destination.close()
+		resize(filename, counter)
+
+
+def resize(filename, counter):
+	img = Image.open(filename)
+	width, height = img.size
+	if width>=height:
+		nWidth = 60
+		nHeight = 60*height/width
+		mWidth = 128
+		mHeight = 128*height/width
+	else:
+		nHeight = 60
+		nWidth = 60*width/height
+		mHeight = 128
+		mWidth = 128*width/height
+	thumb1 = img.thumbnail((nWidth, nHeight), Image.ANTIALIAS)
+	thumb2 = img.thumbnail((mWidth, mHeight), Image.ANTIALIAS)
+	thumb1.save(filename.replace(".png", "_small.png"))
+	thumb2.save(filename.replace(".png", "_medium.png"))
 
 
 #showDetails: Muestra los detalles del producto cuya ID es 'idProducto'. Comprueba que vista debe enviar
