@@ -28,8 +28,9 @@ def newProduct(request):
 		image_form = ImagesForm(prefix='image')
 		product_form = ProductForm(prefix='product')
 		category_form = CategoryForm(prefix='category')
-		render_product = render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form}, context_instance=RequestContext(request))
-		return render_to_response('main_template.html', {'product_new':render_product.content})
+		title = "Nuevo producto"
+		usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
+		return render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
 	else:
 		return HttpResponse("NO AUTORIZADO")
 
@@ -197,8 +198,8 @@ def showOwnerView(request, product):
 		bids = Bid.objects.filter(id_product = idProduct).order_by('bid_datetime')
 	except ObjectDoesNotExist:
 		bids = None	
-	render_details =  render_to_response("owner_product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'owner':owner}, context_instance=RequestContext(request))
-	return render_to_response('main_template.html', {'product_details':render_details.content})
+	title = product.product_name
+	return render_to_response("owner_product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'title':title, 'user':owner}, context_instance=RequestContext(request))
 
 
 #showVisitView: Muestra los detalles del producto sin detalles de usuario. Incluye los Bids y los 
@@ -222,9 +223,12 @@ def showVisitView(request, product):
 		bids = Bid.objects.filter(id_product = idProduct).order_by('bid_datetime')
 	except ObjectDoesNotExist:
 		bids = None
-	render_details =  render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids}, context_instance=RequestContext(request))
-	return render_to_response('main_template.html', {'product_details':render_details.content})
-
+	title = product.product_name
+	if is_loged(request):
+		usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
+		return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
+	else:
+		return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'title':title}, context_instance=RequestContext(request))
 
 #newComment:Muestra el formulario para ingresar nuevos comentarios en un producto y procesa y guarda 
 #			los comentarios nuevos.
@@ -258,8 +262,10 @@ def newComment(request, idProducto=None):
 					return HttpResponse("NO_VALID")		
 			else:
 				newComment = NewCommentForm()
-				render_comment = render_to_response("new_comment.html", {'form':newComment},context_instance=RequestContext(request))
-				return render_to_response('main_template.html', {'product_new_comment':render_comment.content})
+				product = Product.objects.get(id_product=idProducto)
+				title = "Nuevo comentario para " + product.product_name
+				user = Usuario.objects.get(id_usuario=request.session['member_id'])
+				return render_to_response("new_comment.html", {'form':newComment, 'title':title, 'user':user},context_instance=RequestContext(request))
 		else:
 			return HttpResponseRedirect("/")
 	else:

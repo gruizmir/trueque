@@ -1,18 +1,21 @@
-<h3>Trueques pendientes </h3>
-{% if dealer_pendings %}
-	{% for pend in dealer_pendings %}
-		<h4>{{ pend.id_bid.id_product.product_name }}</h4>
-		{{ pend.id_bid.id_bidder.usuario_name }} {{ pend.id_bid.id_bidder.usuario_lastname }} <br>
-		<a href="/transactions/verify/{{ pend.id_trade }}">Verificar trueque</a>
-		<br>
-	{% endfor %}
-{% endif %}
+{% extends "main_template.html" %}
+{% block content %}
+	<h3>Trueques pendientes </h3>
+	{% if dealer_pendings %}
+		{% for pend in dealer_pendings %}
+			<h4>{{ pend.id_bid.id_product.product_name }}</h4>
+			{{ pend.id_bid.id_bidder.usuario_name }} {{ pend.id_bid.id_bidder.usuario_lastname }} <br>
+			<a href="/transactions/verify/{{ pend.id_trade }}">Verificar trueque</a>
+			<br>
+		{% endfor %}
+	{% endif %}
 
-{% if bidder_pendings %}
-	{% for pend in bidder_pendings %}
-		<h4>{{ pend.id_bid.id_product.product_name }}</h4>
-		{{ pend.id_dealer.usuario_name }} {{ pend.id_dealer.usuario_lastname }} <br>
-		<a href="/transactions/verify/{{ pend.id_trade }}">Verificar trueque</a>
-		<br>
-	{% endfor %}
-{% endif %}
+	{% if bidder_pendings %}
+		{% for pend in bidder_pendings %}
+			<h4>{{ pend.id_bid.id_product.product_name }}</h4>
+			{{ pend.id_dealer.usuario_name }} {{ pend.id_dealer.usuario_lastname }} <br>
+			<a href="/transactions/verify/{{ pend.id_trade }}">Verificar trueque</a>
+			<br>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

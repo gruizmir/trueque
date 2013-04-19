@@ -1,3 +1,5 @@
+{% extends "main_template.html" %}
+{% block content %}
 	{% if product %}
 		<title>{{ product.product_name }}</title>
 	{% endif %}
@@ -5,23 +7,6 @@
 	<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/VkBKbsuHEYsqsduFq9pb1w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
 	</head>
 	<body>
-	<!-- A tab to launch the Classic Widget -->
-		<script>
-		UserVoice = window.UserVoice || [];
-		UserVoice.push(['showTab', 'classic_widget', {
-		  mode: 'full',
-		  primary_color: '#ff8d0a',
-		  link_color: '#08d438',
-		  default_mode: 'feedback',
-		  forum_id: 199649,
-		  support_tab_name: '¿Problemas con Trueque.in?',
-		  feedback_tab_name: '¡Danos tu opinión!',
-		  tab_label: 'Comentarios y soporte',
-		  tab_color: '#ff9012',
-		  tab_position: 'middle-right',
-		  tab_inverted: false
-		}]);
-		</script>
 		{% if product %}
 			<img src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}_01" width="200"></img>
 			</br>
@@ -49,7 +34,9 @@
 					{% endif %}
 				{% endfor %}
 			{% endif %}
+			{% if user %}
 			<a href="/transactions/bid/{{ product.id_product }}">Hacer trueque</a>
+			{% endif %}
 			
 			
 			<h3>Comentarios</h3>
@@ -61,5 +48,8 @@
 					<p>{{ comment.comment_datetime|date:"l j/F Y" }}</p>
 				{% endfor %}
 			{% endif %}
+			{% if user %}
 			<a href="/products/comment/{{ product.id_product }}">Deja tu comentario</a>
+			{% endif %}
 		{% endif %}
+{% endblock %}

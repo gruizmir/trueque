@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from usuarios.views import is_loged
 
 #Search always keep featured elements first.
 
@@ -100,15 +101,20 @@ def searchByCategory(request, page=None):
 					data = None
 			except ObjectDoesNotExist:
 				data= None
-			render_search = render_to_response("search.html", {'data':data})		
-			return render_to_response('main_template.html', {'product_search':render_search.content})
-				
+			if is_loged(request):
+				user = Usuario.objects.get(id_usuario=request.session['member_id'])
+				return render_to_response("search.html", {'data':data, 'user':user})		
+			else:
+				return render_to_response("search.html", {'data':data})						
 		else:
 			return HttpResponse("NO VALID")
 	else:
 		form = CategoryForm()
-		render_search = render_to_response("main.html", {'form':form}, context_instance=RequestContext(request))
-		return render_to_response('main_template.html', {'product_search':render_search.content})
+		if is_loged(request):
+			user = Usuario.objects.get(id_usuario=request.session['member_id'])
+			return render_to_response("main.html", {'form':form, 'user':user}, context_instance=RequestContext(request))
+		else:
+			return render_to_response("main.html", {'form':form}, context_instance=RequestContext(request))
 
 #searchByDate:	Realiza una busqueda normal de productos ordenador por fecha. Muestra primero los 
 #				destacados ('featured')
@@ -125,8 +131,11 @@ def searchByDate(request, page=None):
 			data = Product.objects.filter(product_active=True).order_by('product_datetime').order_by('product_featured')[cant:20]
 	except ObjectDoesNotExist:
 		data = None
-	render_search = render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
-	return render_to_response('main_template.html', {'product_search':render_search.content})
+	if is_loged(request):
+		user = Usuario.objects.get(id_usuario=request.session['member_id'])
+		return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
+	else:
+		return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
 
 
 #searchByPrice:	Realiza una busqueda normal de productos ordenador por precio. Muestra primero los 
@@ -144,8 +153,11 @@ def searchByPrice(request, page=None):
 			data = Product.objects.filter(product_active=True).order_by('product_q_amount').order_by('product_featured')[cant:20]
 	except ObjectDoesNotExist:
 		data = None
-	render_search = render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
-	return render_to_response('main_template.html', {'product_search':render_search.content})
+	if is_loged(request):
+		user = Usuario.objects.get(id_usuario=request.session['member_id'])
+		return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})		
+	else:
+		return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
 
 
 #searchByPopularity:Realiza una busqueda normal de productos ordenador por fecha. Muestra primero los 
@@ -163,8 +175,11 @@ def searchByPopularity(request, page=None):
 			data = Product.objects.filter(product_active=True).order_by('product_follower_qty').order_by('product_featured')[cant:20]
 	except ObjectDoesNotExist:
 		data = None
-	render_search = render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
-	return render_to_response('main_template.html', {'product_search':render_search.content})
+	if is_loged(request):
+		user = Usuario.objects.get(id_usuario=request.session['member_id'])
+		return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
+	else:
+		return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
 
 
 #searchByName:	Realiza una busqueda normal de productos segun nombre. Muestra primero los 
@@ -185,8 +200,11 @@ def searchByName(request,page=None):
 			data = None
 	else:
 		return HttpResponseRedirect("/")
-	render_search = render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})		
-	return render_to_response('main_template.html', {'product_search':render_search.content})
+	if is_loged(request):
+		user = Usuario.objects.get(id_usuario=request.session['member_id'])
+		return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
+	else:
+		return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
 
 #intersect:	Intersecta dos listas comparando sus elementos (segun teoria de conjuntos)
 #PARAMS: a,b: listas de datos que se van a comparar

@@ -1,5 +1,8 @@
-<form method="POST" action="/transactions/verify/{{ id_trade }}">
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="Ingrese código del trueque">
-</form>
+{% extends "main_template.html" %}
+{% block content %}
+	<form method="POST" action="/transactions/verify/{{ id_trade }}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Ingrese código del trueque">
+	</form>
+{% endblock %}

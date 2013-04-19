@@ -1,11 +1,12 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		{% if product %}
+		{% if title %}
 			<title>{{ product.product_name }}</title>
 		{% else %}
 			<title>Trueque | Intercambia sin dinero </title>
 		{% endif %}
+		
 		<link rel="stylesheet" media="all" href="/static/style/style_template_main.css" />
 		{% if register_form %}
 			<link rel="stylesheet" media="all" href="/static/style/style_template_user_register.css" />
@@ -33,6 +34,7 @@
 		<meta charset=utf-8 />
 	</head>
 	<body>
+		
 		<header>
 			<div class="left_icons_container">
 				<ul>
@@ -44,15 +46,21 @@
 			</div>
 			<div class="right_icons_container">
 				<ul>
-					{% if register_form %}
 						<li>
 							About
 						</li>
 						<li>
 							<img src="/static/img/icons/about.png" alt="About" class="main_about_button">
 						</li>
+					{% if user %}
 						<li>
-						 	<a href="/usuarios/login" class="main_enter_button">Entrar</a>
+						 	<a href="/usuarios/profile/{{ user.id_usuario }}" class="main_enter_button">{{ user.usuario_name }} {{ user.usuario_lastname }}</a>
+						</li>
+						<li class ="right_icon_empty" ></li>
+					
+					{% else %}
+						<li>
+						 	<a href="/login" class="main_enter_button">Entrar</a>
 						</li>
 						<li class ="right_icon_empty" ></li>
 					{% endif %}
@@ -60,22 +68,26 @@
 			</div>
 		</header>
 		
-		{% if register_form %}
-		<section class="register_section">
-			<table class="register_table_container" style="background-image:url('/static/img/random_register/{{random_bg}}.jpg');">
-				<tr>
-					<td width="30%" class="register_table_container_message">
-						<p class="register_table_message_welcome"> Bienvenido! </p>
-						<br>
-						<p class="register_table_message_text"> A una comunidad que recicla e intercambia sin dinero</p>
-					</td>
-					<td class="register_table_container_form">
-						{{ register_form|safe }}
-					</td>
-				</tr>
-			</table>
-		</section>
-		{% endif %}
+		{% block content %}
+			{% if register_form %}
+			<section class="register_section">
+				<table class="register_table_container" style="background-image:url('/static/img/random_register/{{random_bg}}.jpg');">
+					<tr>
+						<td width="30%" class="register_table_container_message">
+							<p class="register_table_message_welcome"> Bienvenido! </p>
+							<br>
+							<p class="register_table_message_text"> A una comunidad que recicla e intercambia sin dinero</p>
+						</td>
+						<td class="register_table_container_form">
+							{{ register_form|safe }}
+						</td>
+					</tr>
+				</table>
+			</section>
+			{% endif %}
+		{% endblock %}
+		
+		
 		
 		{% if user_profile %}
 		<section class="user_profile_section">
@@ -95,50 +107,24 @@
 		</section>
 		{% endif %}
 		
-		{% if product_new %}
-		<section class="product_new_section">
-			{{ product_new|safe }}
-		</section>
-		{% endif %}
-		
-		{% if product_search %}
-		<section class="product_search_section">
-			{{ product_search|safe }}
-		</section>
-		{% endif %}
-		
-		{% if product_details %}
-		<section class="product_details_section">
-			{{ product_details|safe }}
-		</section>
-		{% endif %}
-
-		{% if product_new_comment %}
-		<section class="product_new_comment_section">
-			{{ product_new_comment|safe }}
-		</section>
-		{% endif %}
-		
-		{% if bid_new %}
-		<section class="bid_new_section">
-			{{ bid_new|safe }}
-		</section>
-		{% endif %}
-		
-		{% if bid_pendings %}
-		<section class="bid_pendings_section">
-			{{ bid_pendings|safe }}
-		</section>
-		{% endif %}
-		
-		{% if trade_verifier %}
-		<section class="trade_verifier_section">
-			{{ trade_verifier|safe }}
-		</section>
-		{% endif %}
-		
 		<footer>
 		</footer>
+		<script>
+			UserVoice = window.UserVoice || [];
+			UserVoice.push(['showTab', 'classic_widget', {
+			  mode: 'full',
+			  primary_color: '#ff8d0a',
+			  link_color: '#08d438',
+			  default_mode: 'feedback',
+			  forum_id: 199649,
+			  support_tab_name: '¿Problemas con Trueque.in?',
+			  feedback_tab_name: '¡Danos tu opinión!',
+			  tab_label: 'Comentarios y soporte',
+			  tab_color: '#ff9012',
+			  tab_position: 'middle-right',
+			  tab_inverted: false
+			}]);
+			</script>
 	</body>
 </html>
 

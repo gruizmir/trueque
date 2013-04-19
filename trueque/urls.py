@@ -8,6 +8,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
 	url(r'^products/', include('products.urls')),
 	url(r'^search/', include('main.urls')),
+	url(r'^register/', 'usuarios.views.register'),
+	url(r'^login/', 'usuarios.views.login'),
 	url(r'^transactions/', include('transactions.urls')),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -17,5 +19,4 @@ urlpatterns = patterns('',
     url(r'^usuarios/', include('usuarios.urls')),
     url(r'^album/', include('albums.urls')),
     url(r'^$', 'main.views.searchByPrice' ),
-    url(r'^prueba$', 'main.views.vista' ),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

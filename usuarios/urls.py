@@ -2,10 +2,8 @@ from django.conf.urls import patterns, url
 from usuarios.views import ShowProfile
 
 urlpatterns = patterns('usuarios.views',
-    url(r'^$', 'register'),
     url(r'^confirm/$', 'confirm'),
     url(r'^reconfirm/$', 'resend_confirmation'),
-    url(r'^login/$', 'login'),
     url(r'^profile/editprofile/{0,1}$', 'edit_user_profile'),
     url(r'^profile/$', ShowProfile().show_profile_default),
     url(r'^profile/addalbum/{0,1}$', ShowProfile().show_add_album),
