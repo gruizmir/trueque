@@ -24,6 +24,7 @@ import socket
 import usuarios.custom_error as C_error
 import usuarios.form
 import random
+from django.conf import settings
 
 SESSION_EXPIRY = 86400 #Tiempo de expiracion de la sesion encargada de la verificacion.
 
