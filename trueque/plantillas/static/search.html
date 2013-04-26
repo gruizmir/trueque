@@ -1,11 +1,25 @@
 {% extends "main_template.html" %}
 {% block content %}
-	</script>
-	{% if data %}
-		{% for product in data %}
-			<h1><a href="/products/{{ product.id_product }}">{{ product.product_name }}</a></h1>
-			<p>{{ product.product_description }}</p>
-			<image src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}" width="150"/>
-		{% endfor %}	
-	{% endif %}
+<link rel="stylesheet" media="all" href="/static/style/style_template_polaroids.css" />
+<link href="/static/style/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+{% load pagination_tags %}
+	<style>
+		{% for rand in random_ints %}
+		#album_polaroid_{{ forloop.counter }} {
+			-moz-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+			-webkit-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+			-o-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+			-ms-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+			transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
+		}
+		{% endfor %}
+	</style>
+	<br>
+	<div class="album_polaroids_container">
+		{% if data %}
+			{% for product in data %}
+				<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><a href="/products/{{ product.id_product }}">{{ product.product_name }}<br /><image src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}" width="100"/></a></div>
+			{% endfor %}	
+		{% endif %}
+	</div>
 {% endblock %}

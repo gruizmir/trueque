@@ -182,7 +182,8 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = "mail.trueque.in"
-EMAIL_PORT = 25
-EMAIL_HOST_USER = "no-reply"
-EMAIL_HOST_PASSWORD = "kenolamasca2veces"
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'no-reply@trueque.in'
+EMAIL_HOST_PASSWORD = 'kenolamasca2veces'
+EMAIL_USE_TLS = True

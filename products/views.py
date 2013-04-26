@@ -15,7 +15,7 @@ from django.conf import settings
 import uuid
 import os
 from django.core.mail import send_mail
-import Image
+from PIL import Image
 
 
 #newProduct:Muestra el formulario para ingresar un nuevo producto, incluidas imagenes 
@@ -150,8 +150,8 @@ def resize(filename, counter):
 		nWidth = 60*width/height
 		mHeight = 128
 		mWidth = 128*width/height
-	thumb1 = img.thumbnail((nWidth, nHeight), Image.ANTIALIAS)
-	thumb2 = img.thumbnail((mWidth, mHeight), Image.ANTIALIAS)
+	thumb1 = img.resize((nWidth, nHeight), Image.ANTIALIAS)
+	thumb2 = img.resize((mWidth, mHeight), Image.ANTIALIAS)
 	thumb1.save(filename.replace(".png", "_small.png"))
 	thumb2.save(filename.replace(".png", "_medium.png"))
 
