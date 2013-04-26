@@ -187,3 +187,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'no-reply@trueque.in'
 EMAIL_HOST_PASSWORD = 'kenolamasca2veces'
 EMAIL_USE_TLS = True
+
+#WEB_URL = "http://localhost:8000"
+WEB_URL = "http://pruebas.trueque.in"

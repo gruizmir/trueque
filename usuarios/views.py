@@ -96,7 +96,7 @@ def register(request):
 def send_registration_confirmation(session_s):
     try:
         title = "WELCOME TO TRUEQUE!"
-        content = ("http://localhost:8000/usuarios/confirm/?=" + str(session_s.session_key) + "&email=" + session_s['user_mail'])
+        content = (settings.WEB_URL +"/usuarios/confirm/?=" + str(session_s.session_key) + "&email=" + session_s['user_mail'])
         print content
         send_mail(title, content, 'no-reply@trueque.in', [session_s['user_mail']], fail_silently=False)
         return render_to_response('register_mail_confirmation.html')
