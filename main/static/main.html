@@ -1,10 +1,54 @@
 {% extends "main_template.html" %}
 {% block content %}
+<link rel="stylesheet" media="all" href="/static/style/style_template_polaroids.css" />
+<link rel="stylesheet" media="all" href="/static/style/style_main_search.css" />
+<link href="/static/style/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+<div class="main_left_section">
+	
+</div>
+
+<div class="main_right_section">
 	<section class="product_search_section">
 		<form action="/search/category/" method="POST">
 			{% csrf_token %}
-			{{ form.as_p }}
+			<img src="/static/img/cat/tecnologia.png">{{ form.field_1 }}	<label class="cat_label">TECNOLOGÍA</label>
+			<img src="/static/img/cat/ropa.png">{{ form.field_2 }} 			<label class="cat_label">ROPA</label>
+			<img src="/static/img/cat/vinilos.png">{{ form.field_3 }}		<label class="cat_label">VINILOS</label>
+			<img src="/static/img/cat/diseno.png">{{ form.field_4 }}		<label class="cat_label">DISEÑO</label>
+			<br />
+			<img src="/static/img/cat/arte.png">{{ form.field_5 }}			<label class="cat_label">ARTE</label>
+			<img src="/static/img/cat/servicios.png">{{ form.field_6 }}		<label class="cat_label">SERVICIOS</label>
+			<img src="/static/img/cat/espectaculos.png">{{ form.field_7 }}	<label class="cat_label">ESPECTÁCULOS</label>
+			<img src="/static/img/cat/amor.png">{{ form.field_8 }}			<label class="cat_label">AMOR</label>
+			<br />
+			<img src="/static/img/cat/comida.png">{{ form.field_9 }}		<label class="cat_label">COMIDA</label>
+			<img src="/static/img/cat/deporte.png">{{ form.field_10 }}		<label class="cat_label">DEPORTE</label>
+			<img src="/static/img/cat/musica.png">{{ form.field_11 }}		<label class="cat_label">MÚSICA</label>
+			<img src="/static/img/cat/eco.png">{{ form.field_12 }}			<label class="cat_label">ECO</label>
+			
 			<input type="submit" value="Buscar"/>
 		</form>
 	</section>
+	
+	{% load pagination_tags %}
+		<style>
+			{% for rand in random_ints %}
+			#album_polaroid_{{ forloop.counter }} {
+				-moz-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+				-webkit-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+				-o-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+				-ms-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+				transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
+			}
+			{% endfor %}
+		</style>
+		<br>
+		<div class="album_polaroids_container">
+			{% if data %}
+				{% for product in data %}
+					<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><a class="product_name" href="/products/{{ product.id_product }}"><image src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}" width="100"/><br />{{ product.product_name }}</a></div>
+				{% endfor %}	
+			{% endif %}
+		</div>
+</div>
 {% endblock %}

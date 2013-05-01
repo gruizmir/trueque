@@ -1,0 +1,25 @@
+.main_left_section {
+	padding-top: 25px;
+	width: 25%;
+	height: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.main_left_section {
+	padding-top: 25px;
+	width: 75%;
+	height: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.cat_label {
+	text-decoration:  none;
+	margin-right: 20px;
+	color: #a8a9ab;
+	font-family: Arial;
+}
+
+.product_name {
+	text-decoration:  none;
+	color: black;
+}
