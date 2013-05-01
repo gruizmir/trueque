@@ -140,7 +140,8 @@
 }
 
 .user_extras_table_section {
-	width: 100px;
+	width: 30px;
+	banckroudn: #000;
 }
 
 .add_album_container {
