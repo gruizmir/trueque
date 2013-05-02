@@ -211,3 +211,20 @@ def searchByName(request,page=None):
 #RETURN: Lista con los elementos en comun de las listas a y b.
 def intersect(a, b):
     return list(set(a) & set(b))
+
+def search(request, page=None):
+	data = None
+	try:
+		if page==None or page=="":
+			data = Product.objects.filter(product_active=True).order_by('product_q_amount').order_by('product_featured')[:20]
+		else:
+			cant = 20*(int(page) - 1)
+			data = Product.objects.filter(product_active=True).order_by('product_q_amount').order_by('product_featured')[cant:20]
+	except ObjectDoesNotExist:
+		data = None
+	form = CategoryForm()
+	if is_loged(request):
+		user = Usuario.objects.get(id_usuario=request.session['member_id'])
+		return render_to_response("main.html", {'form':form, 'user':user, 'data':data,'direccion':settings.MEDIA_ROOT}, context_instance=RequestContext(request))
+	else:
+		return render_to_response("main.html", {'form':form, 'data':data, 'direccion':settings.MEDIA_ROOT}, context_instance=RequestContext(request))

@@ -38,6 +38,9 @@
 		<header>
 			<div class="left_icons_container">
 				<ul>
+					<li >
+						<a href="/notifications/"><img src="/static/img/icons/notificacion.png" alt="Notificaciones"/></a>
+					</li>
 					<li class="left_icon_empty"></li>
 					<li>
 						<a href="/" ><img src="/static/img/logo_trueque.png" alt="Trueque" class="main_logo_trueque"></a>
@@ -45,26 +48,44 @@
 				</ul>
 			</div>
 			<div class="right_icons_container">
-				<ul>
+				   <ul id="trans-nav">
+					{% if user %}
 						<li>
-							About
+							<a href="/products/">Nuevo trueque<img src="/static/img/icons/nuevo-trueque.png" alt="New" class="main_about_button"></a>
 						</li>
-						<li>
-							<img src="/static/img/icons/about.png" alt="About" class="main_about_button">
-						</li>
+					{% endif %}
+					<li class="parent"><a href="#">About<img src="/static/img/icons/about.png" alt="About" class="main_about_button"></a>
+						 <ul>
+							<li><a href="#">Ayuda</a></li>
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">Copyright</a></li>
+							<li><a href="#">Condiciones de servicio</a></li>
+							<li><a href="#">Políticas de privacidad</a></li>
+							<li><a href="#">Equipo</a></li>
+							<li><a href="#">Empleo</a></li>
+						 </ul>
+					  </li>
+					  <li class="parent"><a href="#">Contacts<img src="/static/img/icons/contacts.png" alt="Contacts" class="main_about_button"></a>
+						 <ul>
+							<li><a href="#">Sigo</a></li>
+							<li><a href="#">Me siguen</a></li>
+							<li><a href="#">Invitar</a></li>
+							<li><a href="#">Buscar personas</a></li>
+							<li><a href="#">Me gusta</a></li>
+						 </ul>
+					  </li>
 					{% if user %}
 						<li>
 						 	<a href="/usuarios/profile/{{ user.id_usuario }}" class="main_enter_button">{{ user.usuario_name }} {{ user.usuario_lastname }}</a>
 						</li>
-						<li class ="right_icon_empty" ></li>
-					
 					{% else %}
 						<li>
 						 	<a href="/login" class="main_enter_button">Entrar</a>
 						</li>
-						<li class ="right_icon_empty" ></li>
+						
 					{% endif %}
-				</ul>
+						<li class ="right_icon_empty" ></li>
+					  </ul>
 			</div>
 		</header>
 		
