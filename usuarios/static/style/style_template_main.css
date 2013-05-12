@@ -7,17 +7,18 @@
 body { width: 100%; height: 100%; }
 
 header {
+    display: inline-block;
 	width: 100%;
 	right: 0;
-	height: 55px;
+	min-height: 55px;
 	background: #312d2e;
 	border-bottom: 3px solid #e3ec23;
 }
 
-.left_icons_container { float: left; }
+.left_icons_container { float: left; display: inline-block;}
 .left_icon_empty { height: 55px; margin-left: 80px; }
 
-.right_icons_container { float: right; }
+.right_icons_container { float: right; position: relative; display: inline-block;}
 .right_icon_empty { height: 55px; margin-right: 80px; }
 
 .left_icons_container ul {
@@ -37,7 +38,7 @@ header {
 }
 
 .main_about_button {
-	height: 55px;
+	height: 40px;
 	width: auto;
 }
 
