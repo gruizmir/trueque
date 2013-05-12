@@ -1,13 +1,22 @@
-.main_left_section {
+.main_search_table {
 	padding-top: 25px;
-	width: 25%;
+	width: 100%;
 	height: 100%;
 	font-family: Arial, Helvetica, sans-serif;
 }
 
 .main_left_section {
-	padding-top: 25px;
-	width: 75%;
+	vertical-align:top;
+	width: 20%;
+	text-align:right;
+	height: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.main_right_section {
+	vertical-align:top;
+	padding-left: 15px;
+	width: 80%;
 	height: 100%;
 	font-family: Arial, Helvetica, sans-serif;
 }
@@ -22,4 +31,33 @@
 .product_name {
 	text-decoration:  none;
 	color: black;
+}
+
+.search_filter {
+	text-decoration:  none;
+	color: #a8a9ab;
+	font-size:75%;
+	margin-left:15px;
+}
+
+.search_secondary_filter {
+	text-decoration:  none;
+	color: #a8a9ab;
+	font-size:70%;
+	font-style: italic;
+}
+
+.left_bar_p {
+	margin-bottom:20px;
+	color: black;
+	font-size:85%;
+	font-style: italic;
+}
+
+#search_button {
+	background:none;
+	padding-top: 10px;
+	padding-right: 5px;
+	color: #a8a9ab;
+	text-align: right;
 }
