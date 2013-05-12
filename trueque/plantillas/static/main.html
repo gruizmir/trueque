@@ -39,7 +39,7 @@
 		<p> Categorías <label class="search_filter" id="filter_popularity">Popularidad</label> <label class="search_filter" id="filter_price">Valor</label> <label class="search_filter" id="filter_recent">Recientes</label>
 		</p>
 		<section class="product_search_section">
-			<form action="/search/category/" method="POST">
+			<form id="productSearchForm" action="/search/category/" method="POST">
 				{% csrf_token %}
 				<img src="/static/img/cat/tecnologia.png">{{ form.field_1 }}	<label class="cat_label">TECNOLOGÍA</label>
 				<img src="/static/img/cat/ropa.png">{{ form.field_2 }} 			<label class="cat_label">ROPA</label>
@@ -73,14 +73,16 @@
 				{% endfor %}
 			</style>
 			<br>
-			<div class="album_polaroids_container">
-				{% if data %}
+			<div id="result">
+                {% if data %}
 					{% for product in data %}
 						<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><a class="product_name" href="/products/{{ product.id_product }}"><image src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}" width="100"/><br />{{ product.product_name }}</a></div>
 					{% endfor %}	
 				{% endif %}
+				
 			</div>
 		</td>
 	</tr>
 </table>
+<script type="text/javascript" src="/static/js/js_product_search.js"></script>
 {% endblock %}
