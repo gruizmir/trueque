@@ -1,24 +1,13 @@
-<html>
-<head>
-    <title>ADD ALBUM</title>
-</head>
-<body>
-    <h1>ADD ALBUM</h1>
+<form id="add_album_form" action="/usuarios/profile/addalbum" method="post">
+	{% csrf_token %}
+	{% for field in form %}
+		{{ field }}
+	{% endfor %}
+    <input type="submit" value="Aceptar">
+</form>
 
-    {% if form.errors %}
-        <p style="color: red;">
-            Please correct the error{{ form.errors|pluralize }} below.
-        </p>
-    {% endif %}
-
-    <form action="" method="post">
-    	{% csrf_token %}
-        <ul>
-			{{ form.as_ul }}
-        </ul>
-        
-        <input type="submit" value="Submit">
-    </form>
-    
-</body>
-</html>
+{% if form.errors %}
+    <p style="color: red;">
+        Please correct the error{{ form.errors|pluralize }} below.
+    </p>
+{% endif %}

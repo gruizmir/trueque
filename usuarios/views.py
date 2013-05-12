@@ -338,15 +338,22 @@ class ShowProfile():
     def show_add_album(self, request):
         try:
             user = Usuario.objects.get(id_usuario= request.session['member_id'])
-            if request.method == 'POST':
-                form = AddAlbumForm(request.POST)
-                form.id_owner = user
-                if form.is_valid():
-                    return HttpResponseRedirect("/usuarios/profile")
-                else:
-                    form.id_owner = None
-            else:
-                form = AddAlbumForm()
+            
+            if request.is_ajax():
+                if request.method == 'POST':
+                    form = AddAlbumForm(request.POST)
+                    form.id_owner = user
+                    if form.is_valid():
+                        message = {"album_form_result": True, "add_album_message": "Album añadido correctamente"}
+                    else:
+                        c = { 'form': form }
+                        c.update(csrf(request))
+                        message = {"album_form_result": False, "add_album_render":render_to_response('album_add.html', c).content}
+                    
+                    json = simplejson.dumps(message)
+                    return HttpResponse(json, mimetype='application/json')
+
+            form = AddAlbumForm()
                     
             c = { 'form': form }
             c.update(csrf(request))

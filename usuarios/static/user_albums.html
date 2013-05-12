@@ -19,15 +19,11 @@
 		{% if is_loged_edit %}
 			<div class="add_album_container"><div class="add_album_cell_container">
 				<ul>
-					<li>
-						<a href="/usuarios/profile/addalbum" class="user_profile_add_album_link">
-							<img src="/static/img/icons/+naranjo.png" alt="+" class="user_profile_add_album_img">
-						</a>
+					<li id="add_album_button">
+						<img src="/static/img/icons/+naranjo.png" alt="+" class="user_profile_add_album_img">
 					</li>
-					<li>
-						<a href="/usuarios/profile/addalbum" class="user_profile_add_album_link">
-							Crear un álbum
-						</a>
+					<li id="add_album_button">
+						Crear un álbum
 					</li>
 				</ul>
 			</div></div>
@@ -35,4 +31,10 @@
 		{% for album in object_list %}
 			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid">{{ album.album_name }}</div>
 		{% endfor %}
+		<a href="/usuarios/profile/addalbum" class="user_profile_add_album_link"></a>
+	
+		<div id="dialog_add_album" style="display:none">
+			<div id="dialog_add_album_result"></div>
+		</div>
+		
 	</div>

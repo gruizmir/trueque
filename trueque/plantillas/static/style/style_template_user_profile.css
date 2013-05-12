@@ -155,6 +155,10 @@
 	font-family:"Comic Sans", cursive, sans-serif;
 }
 
+#add_album_button:hover {
+	cursor: pointer;
+}
+
 .add_album_cell_container {
 	display: table-cell;
 	width: 180px;

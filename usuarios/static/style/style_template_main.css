@@ -15,6 +15,11 @@ header {
 	border-bottom: 3px solid #e3ec23;
 }
 
+#trans-nav li a{
+	text-align: center;
+	font-size: 70%;
+}
+
 .left_icons_container { float: left; display: inline-block;}
 .left_icon_empty { height: 55px; margin-left: 80px; }
 
@@ -38,7 +43,7 @@ header {
 }
 
 .main_about_button {
-	height: 40px;
+	height: 30px;
 	width: auto;
 }
 
