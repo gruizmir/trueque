@@ -21,10 +21,10 @@ urlpatterns = patterns('usuarios.views',
 
     url(r'^profile/follow/(?P<user_id>[\d]+)$', ShowProfile().add_follow),
     url(r'^profile/follow/(?P<user_id>[\d]+)$', ShowProfile().add_follow),
-    
+
     url(r'^profile/cancelfollow/(?P<user_id>[\d]+)$', ShowProfile().cancel_follow),
     url(r'^profile/cancelfollow/(?P<user_id>[\d]+)$', ShowProfile().cancel_follow),
-    
+
     url(r'^profile/(?P<user_id>[\d]+)/{0,1}$',  ShowProfile().show_profile_using_id),
     url(r'^profile/(?P<user_email>[\w.@]{0,90})/{0,1}$', ShowProfile().show_profile_using_mail),
     

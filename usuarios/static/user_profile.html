@@ -1,3 +1,7 @@
+{% extends "main_template.html" %}
+{% block content %}
+<link rel="stylesheet" media="all" href="/static/style/style_template_user_profile.css" />
+<section class="user_profile_section">
 {% csrf_token %}
 <table class="user_profile_main_table">
 	<tr>
@@ -78,3 +82,5 @@
 {% if mail %}
 	<script type="text/javascript" src="/static/js/mail_tab.js"></script>
 {% endif %}
+</section>
+{% endblock %}

@@ -1,3 +1,7 @@
+{% extends "main_template.html" %}
+{% block content %}
+<link rel="stylesheet" media="all" href="/static/style/style_template_user_edit_profile.css" />
+<section class="edit_user_profile_section">
 <div class="edit_profile_table_container">
 	<form action="" method="post" id="edit_profile_form">
 		{% csrf_token %}
@@ -75,3 +79,5 @@
 </div>
 
 <script type="text/javascript" src="/static/js/jq_template_user_register.js"></script>
+</section>
+{% endblock %}

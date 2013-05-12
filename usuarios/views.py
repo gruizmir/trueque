@@ -200,8 +200,7 @@ def login(request):
         request.session.set_test_cookie()
         c = { 'form': form }
         c.update(csrf(request))
-        render_login = render_to_response('user_login.html', c)
-        return render_to_response('main_template.html', {'user_login':render_login.content})
+        return render_to_response('user_login.html', c)
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
@@ -234,9 +233,7 @@ def edit_user_profile(request):
         request.session.set_test_cookie()
         c = { 'form': form }
         c.update(csrf(request))
-        
-        render_edit_profile = render_to_response('edit_user_profile.html', c)
-        return render_to_response('main_template.html', {'edit_user_profile':render_edit_profile.content})
+        return render_to_response('edit_user_profile.html', c)
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except KeyError: return C_error.raise_error(C_error.NEEDLOGIN)
@@ -263,7 +260,7 @@ class ShowProfile():
             for num in range(0,11):
                 random_ints.append(random.randint(-3,3))
                 
-            album_list =  {'object_list' : albums_list, 'random_ints': random_ints}
+            album_list =  {'object_list' : albums_list, 'random_ints': random_ints, 'user':user}
             
             if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
                 
@@ -288,7 +285,7 @@ class ShowProfile():
             for num in range(0,11):
                 random_ints.append(random.randint(-3,3))
                 
-            album_list =  {'object_list' : albums_list, 'random_ints': random_ints}
+            album_list =  {'object_list' : albums_list, 'random_ints': random_ints, 'user':user}
             
             if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
                 
@@ -317,7 +314,7 @@ class ShowProfile():
             for num in range(0,11):
                 random_ints.append(random.randint(-3,3))
             
-            album_list =  {'object_list' : albums_list, 'random_ints': random_ints}
+            album_list =  {'object_list' : albums_list, 'random_ints': random_ints, 'user':user}
             
             if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
                 
@@ -477,30 +474,35 @@ class ShowProfile():
     def show_profile_user(self, request, user, vars_view):
         try:
             user_data = self.get_user_data(user)
-            vars_view.update({'user_data' : user_data, 'islogededit' : is_loged_edit(request, user)})
+            vars_view.update({'user_data' : user_data, 'islogededit' : is_loged_edit(request, user), 'user':user})
             vars_view.update(csrf(request))
-            render_profile = render_to_response('user_profile.html', vars_view)
-            return render_to_response('main_template.html', {'user_profile':render_profile.content})
+            return render_to_response('user_profile.html', vars_view)
         except Exception as e: return self.show_error(e)
         
         
     def show_another_profile(self, request, user, vars_view):
         try:
             cancel_follow = False
-            if is_loged(request) and user.id_usuario != request.session['member_id']:
-                following = None
-                try:
-                    following = Followers.objects.filter(id_followed = user, id_follower = Usuario.objects.get(id_usuario= request.session['member_id']))
-                except: pass
-                if following: cancel_follow = True
-                follow = user.id_usuario
-            else: follow = False
+            active_user = None 
+            if is_loged(request):
+                if user.id_usuario != request.session['member_id']:
+                    following = None
+                    active_user = Usuario.objects.get(id_usuario=request.session['member_id'])
+    	            try:
+    	                following = Followers.objects.filter(id_followed = user, id_follower = Usuario.objects.get(id_usuario= request.session['member_id']))
+    	            except: 
+    	                pass
+    	            if following: cancel_follow = True
+    	            follow = user.id_usuario
+    	        else:
+    	            active_user = user
+            else: 
+            	follow = False
             user_data = self.get_user_data(user)
             vars_view.update({'user_data' : user_data, 'islogededit' : is_loged_edit(request, user),
-                              'follow' :  follow, 'cancelfollow' : cancel_follow})
+                              'follow' :  follow, 'cancelfollow' : cancel_follow, 'user':active_user})
             vars_view.update(csrf(request))
-            render_profile = render_to_response('guest_user_profile.html', vars_view)
-            return render_to_response('main_template.html', {'user_profile':render_profile.content})
+            return render_to_response('guest_user_profile.html', vars_view)
         except Exception as e: return self.show_error(e)
         
     def show_error(self, e): 

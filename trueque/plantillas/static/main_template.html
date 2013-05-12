@@ -6,19 +6,9 @@
 		{% else %}
 			<title>Trueque | Intercambia sin dinero </title>
 		{% endif %}
-		
 		<link rel="stylesheet" media="all" href="/static/style/style_template_main.css" />
 		{% if register_form %}
 			<link rel="stylesheet" media="all" href="/static/style/style_template_user_register.css" />
-		{% endif %}
-		{% if user_profile %}
-			<link rel="stylesheet" media="all" href="/static/style/style_template_user_profile.css" />
-		{% endif %}
-		{% if edit_user_profile %}
-			<link rel="stylesheet" media="all" href="/static/style/style_template_user_edit_profile.css" />
-		{% endif %}
-		{% if user_login %}
-			<link rel="stylesheet" media="all" href="/static/style/style_template_user_login.css" />
 		{% endif %}
 		{% if product_new %}
 			<link rel="stylesheet" media="all" href="/static/style/style_template_new_product.css" />
@@ -106,26 +96,6 @@
 			</section>
 			{% endif %}
 		{% endblock %}
-		
-		
-		
-		{% if user_profile %}
-		<section class="user_profile_section">
-			{{ user_profile|safe }}
-		</section>
-		{% endif %}
-		
-		{% if edit_user_profile %}
-		<section class="edit_user_profile_section">
-			{{ edit_user_profile|safe }}
-		</section>
-		{% endif %}
-		
-		{% if user_login %}
-		<section class="user_login_section">
-			{{ user_login|safe }}
-		</section>
-		{% endif %}
 		
 		<footer>
 		</footer>
