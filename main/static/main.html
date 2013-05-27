@@ -6,25 +6,26 @@
 <table class="main_search_table">
 	<tr>
 	<td class="main_left_section">
-		<p class="left_bar_p">Búsqueda <br />
-			<label class="search_secondary_filter" id="filter_global">Global</label><br />
-			<label class="search_secondary_filter" id="filter_local">Local</label><br />
-		</p>
-		<p class="left_bar_p">País <br />
-			<label class="search_secondary_filter" id="filter_global">Chile</label><br />
-			<label class="search_secondary_filter" id="filter_local">España</label><br />
-		</p>
+		<label class="left_bar_p">Búsqueda </label><br/>
+			<label class="search_global_filter" id="filter_global">Global</label><br />
+			<label class="search_global_filter" id="filter_local">Local</label><br />
+		<br/>
+		
+		<label class="left_bar_p">País </label><br/>
+		    <div id="countries">
+			</div>
+	    <br/>
+	    
+		<label class="left_bar_p">Localidad </label><br/>
+    		<div id="cities">
+			</div>
+		<br/>
 	
-		<p class="left_bar_p">Localidad <br />
-			<label class="search_secondary_filter" id="filter_global">Santiago</label><br />
-			<label class="search_secondary_filter" id="filter_local">Valparaíso</label><br />
-		</p>
-	
-		<p class="left_bar_p">Valor <br />
-			<label class="search_secondary_filter" id="filter_low">Bajo</label><br />
-			<label class="search_secondary_filter" id="filter_medium">Medio</label><br />
-			<label class="search_secondary_filter" id="filter_high">Alto</label><br />
-		</p>
+		<label class="left_bar_p">Valor </label><br/>
+			<label class="search_price_filter" id="filter_low">Bajo</label><br />
+			<label class="search_price_filter" id="filter_medium">Medio</label><br />
+			<label class="search_price_filter" id="filter_high">Alto</label><br />
+		<br/>
 		
 		<p>Amistad sugerida</p>
 		{% if rec_users %}

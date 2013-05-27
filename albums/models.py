@@ -17,6 +17,6 @@ class Album(models.Model):
 
 class AlbumProduct(models.Model):
     id_album = models.ForeignKey(Album, primary_key=True, db_column='ID_album') # Field name made lowercase.
-    id_product = models.ForeignKey(Product, db_column='ID_product') # Field name made lowercase.
+    id_product = models.ForeignKey(Product, primary_key=True, db_column='ID_product') # Field name made lowercase.
     class Meta:
         db_table = u'Album_product'

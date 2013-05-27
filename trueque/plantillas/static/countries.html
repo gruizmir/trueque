@@ -1,0 +1,5 @@
+{% if countries %}
+    {% for country in countries %}
+        <label class="search_country_filter" id="{{ country.country_name }}" onClick="enableCity(this.id)">{{ country.country_name }}</label><br />
+	{% endfor %}	
+{% endif %}

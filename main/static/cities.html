@@ -1,0 +1,5 @@
+{% if cities %}
+    {% for city in cities %}
+        <label class="search_city_filter" id="{{ city.city_name }}" onClick="searchByCity(this.id)">{{ city.city_name }}</label><br />
+	{% endfor %}	
+{% endif %}

@@ -90,9 +90,9 @@ def saveProductData(request, productForm):
 #RETURN: 
 def saveAlbumData(producto, idUsuario):
 	album = Album.objects.filter(id_owner=idUsuario).get(album_name='My Garage')
-	albumProd = AlbumProduct()
-	albumProd.id_album = album
-	albumProd.id_product = producto
+	albumProd = AlbumProduct(id_album=album, id_product=producto)
+#	albumProd.id_album = album
+#	albumProd.id_product = producto
 	albumProd.save()
 
 #saveCategoryData: 	Guarda el dato en la tabla Product_category, según las categorías seleccionadas
