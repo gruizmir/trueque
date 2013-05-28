@@ -1,3 +1,16 @@
+.cat_tast_list {
+	list-style: none;
+}
+
+.cat_taste_list li{
+	display: inline-block;
+	margin-left: -15px;
+	-webkit-user-select: none;  
+	-moz-user-select: none;    
+	-ms-user-select: none;      
+	user-select: none;
+}
+
 .main_search_table {
 	padding-top: 25px;
 	width: 100%;
@@ -19,13 +32,6 @@
 	width: 80%;
 	height: 100%;
 	font-family: Arial, Helvetica, sans-serif;
-}
-
-.cat_label {
-	text-decoration:  none;
-	margin-right: 20px;
-	color: #a8a9ab;
-	font-family: Arial;
 }
 
 .product_name {
@@ -66,6 +72,32 @@
 	color: #a8a9ab;
 	font-size:70%;
 	font-style: italic;
+}
+
+.taste_checkbox input[type=checkbox] {
+	visibility: hidden;
+}
+
+.taste_checkbox label {
+	cursor:pointer;
+}
+.taste_checkbox label img {
+	width: 30px;
+	height: auto;
+}
+
+.taste_checkbox label label {
+	text-decoration:  none;
+	margin-right: 20px;
+	color: #a8a9ab;
+	font-family: Arial;
+}
+
+.taste_checkbox input[type=checkbox]:checked + label label{
+	cursor:pointer;
+	width: 30px;
+	height: 30px;
+	color: #463a2f;
 }
 
 .left_bar_p {

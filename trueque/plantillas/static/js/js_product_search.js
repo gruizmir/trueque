@@ -32,6 +32,16 @@ function enableCity(value){
 		success: function(data) {
 			result = data.cities;
 			$('#cities')[0].innerHTML = result;
+			$.ajax({
+		        data: $("#productSearchForm").serialize(),
+        		type: $("#productSearchForm").attr('method'),
+        		url: $("#productSearchForm").attr('action') + "country/" + value,
+        		success: function(data) {
+            		result = data.products;
+        			$('#result')[0].innerHTML = result;
+		        	productSearchForm();
+        		},
+        	});
 		},
 	});
 }
@@ -40,11 +50,22 @@ function searchByCity(city){
 	$.ajax({
 		data: $("#productSearchForm").serialize(),
 		type: $("#productSearchForm").attr('method'),
-		url: $("#productSearchForm").attr('action') + city,
+		url: $("#productSearchForm").attr('action') + "city/" + city,
 		success: function(data) {
 			result = data.products;
-			$('#result')[0].innerHTML = "";
-			console.log(result);
+			$('#result')[0].innerHTML = result;
+			productSearchForm();
+		},
+	});
+}
+
+function cleanSearch(){
+	$.ajax({
+		data: $("#productSearchForm").serialize(),
+		type: $("#productSearchForm").attr('method'),
+		url: $("#productSearchForm").attr('action'),
+		success: function(data) {
+			result = data.products;
 			$('#result')[0].innerHTML = result;
 			productSearchForm();
 		},
@@ -56,5 +77,7 @@ $(document).ready(function() {
 	$('#filter_local').bind('click', function () {
 		enableCountry();
 	});
-	
+	$('#filter_global').bind('click', function () {
+	    cleanSearch();
+	});
 });

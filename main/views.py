@@ -15,13 +15,29 @@ from django.utils import simplejson
 
 #Search always keep featured elements first.
 
+def searchByCountry(request, country=None):
+    if country!=None:
+        return searchFilter(request,country=country, isCountry=True)
+    else:
+        return searchByCategory(request)
+
+def searchByCity(request, city=None):
+    if city!=None:
+        return searchFilter(request,city=city, isCity=True)
+    else:
+        return searchByCategory(request)
+
+
 #searchByCategory:   Muestra el formulario de busqueda por categorias (si no recibe formulario). Si recibe un formulario, 
 #                    realiza la busqueda por categorias.
 #PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
 #        page:    pagina de resultados que se solicita. Se considera una pagina igual a 20 resultados.    
 #RETURN: render de la pagina de busqueda usando SOLAMENTE filtro por categorias o el render de los resultados de la
 #         busqueda.
-def searchByCategory(request, city=None):
+def searchByCategory(request):
+    return searchFilter(request)
+
+def searchFilter(request, city=None, isCity=False, country=None, isCountry=False):
     try:
         if request.is_ajax():
             if request.method == 'POST':
@@ -112,17 +128,20 @@ def searchByCategory(request, city=None):
                             else:
                                 prodCat = prodCat2
                         if prodCat!=None:
-                            if city!=None:
+                            if isCity:
                                 data = Product.objects.filter(id_product__in=prodCat).filter(id_owner__usuario_city__city_name=city)
+                            elif isCountry:
+                                data = Product.objects.filter(id_product__in=prodCat).filter(id_owner__usuario_city__id_country__country_name=country)
                             else:
                                 data = Product.objects.filter(id_product__in=prodCat)
                         else:
                             if selected==True:
                                 data = None
                             else:
-                                if city!=None:
-                                    print city
+                                if isCity:
                                     data = Product.objects.filter(id_owner__usuario_city__city_name=city)
+                                elif isCountry:
+                                    data = Product.objects.filter(id_owner__usuario_city__id_country__country_name=country)
                                 else:
                                     data = Product.objects.all()
                     except ObjectDoesNotExist:
