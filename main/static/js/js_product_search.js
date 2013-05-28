@@ -14,13 +14,47 @@ function productSearchForm() {
 	});
 }
 
+function enableCountry(){
+    $.ajax({
+		type: "GET",
+		url: "/search/get_countries",
+		success: function(data) {
+			result = data.countries;
+			$('#countries')[0].innerHTML = result;
+		},
+	});
+}
+
+function enableCity(value){
+    $.ajax({
+		type: "GET",
+		url: "/search/get_cities/" + value,
+		success: function(data) {
+			result = data.cities;
+			$('#cities')[0].innerHTML = result;
+		},
+	});
+}
+
+function searchByCity(city){
+	$.ajax({
+		data: $("#productSearchForm").serialize(),
+		type: $("#productSearchForm").attr('method'),
+		url: $("#productSearchForm").attr('action') + city,
+		success: function(data) {
+			result = data.products;
+			$('#result')[0].innerHTML = "";
+			console.log(result);
+			$('#result')[0].innerHTML = result;
+			productSearchForm();
+		},
+	});
+}
+
 $(document).ready(function() {
     productSearchForm();
-//	$('.search_secondary_filter').bind('click', function () {
-//		$.get("/search/category/", function(data) {
-//			result = data.products;
-//			$('#result')[0].innerHTML = result;
-			
-//		});
-//	});
+	$('#filter_local').bind('click', function () {
+		enableCountry();
+	});
+	
 });

@@ -40,7 +40,28 @@
 	margin-left:15px;
 }
 
-.search_secondary_filter {
+.search_global_filter {
+	text-decoration:  none;
+	color: #a8a9ab;
+	font-size:70%;
+	font-style: italic;
+}
+
+.search_country_filter {
+	text-decoration:  none;
+	color: #a8a9ab;
+	font-size:70%;
+	font-style: italic;
+}
+
+.search_city_filter {
+	text-decoration:  none;
+	color: #a8a9ab;
+	font-size:70%;
+	font-style: italic;
+}
+
+.search_price_filter {
 	text-decoration:  none;
 	color: #a8a9ab;
 	font-size:70%;
