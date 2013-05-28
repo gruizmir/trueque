@@ -62,6 +62,32 @@ function albumsPagination(){
 	});
 }
 
+function albumContentPagination(){
+	$('.pag').bind('click', function () {
+		var url = window.location + "";
+		if(!url.match("/$")){ url = url + "/showalbum/"}
+		else{ url = url + "showalbum/"}
+		
+		$.get(url + this.id, function(data) {
+			result = data.album_content_data;
+			$('#result')[0].innerHTML = result;
+			albumContentPagination();
+		});
+	});
+}
+
+function showContent(num){
+	var url = window.location + "";
+	if(!url.match("/$")){ url = url + "/showalbum/?albumID="}
+	else{ url = url + "showalbum/?albumID="}
+	
+	$.get(url + num, function(data) {
+		result = data.album_content_data;
+		$('#result')[0].innerHTML = result;
+		albumContentPagination();
+	});
+} 
+
 $(document).ready(function() {
 	$(".album_polaroids_container").mCustomScrollbar();
 	$('#dialog_add_album').dialog({

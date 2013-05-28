@@ -360,6 +360,24 @@ class ShowProfile():
             return render_to_response('album_add.html', c)
         except Exception as e: return self.show_error(e)
     
+    def show_album(self, request):
+        try:
+            if request.is_ajax():
+                products = albums_utils.get_products_by_id_album(request.GET['albumID'])
+                random_ints = []
+                
+                for num in range(0,11):
+                    random_ints.append(random.randint(-3,3))
+                
+                products_list =  {'album_id':request.GET['albumID'], 'object_list' : products, 'random_ints': random_ints}
+                
+                render_content = render_to_response('user_album_content.html', products_list, context_instance = RequestContext(request))
+                message = {"album_content_data": render_content.content}
+                json = simplejson.dumps(message)
+                return HttpResponse(json, mimetype='application/json')
+            
+        except Exception as e: return self.show_error(e)
+        
     def add_follow(self, request, user_id):
         try:
             followed = Usuario.objects.get(id_usuario = user_id)

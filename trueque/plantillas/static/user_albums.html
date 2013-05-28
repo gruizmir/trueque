@@ -4,7 +4,7 @@
 {% autopaginate object_list 15 %}
 	<style>
 		{% for rand in random_ints %}
-		#album_polaroid_{{ forloop.counter }} {
+		.album_polaroid_{{ forloop.counter }} {
 			-moz-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
 			-webkit-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
 			-o-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
@@ -29,7 +29,7 @@
 			</div></div>
 		{% endif %}
 		{% for album in object_list %}
-			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid">{{ album.album_name }}</div>
+			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid" onclick="showContent({{ album.id_album }})">{{ album.album_name }}</div>
 		{% endfor %}
 		<a href="/usuarios/profile/addalbum" class="user_profile_add_album_link"></a>
 	

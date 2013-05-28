@@ -41,32 +41,33 @@
 			</div>
 		</td>
 		<td class="user_interaction_table_section">
-			{% if albums %}
-				<span class="user_interaction_table_tittle"> ALBUMES </span>
-				<div id="result">{{ albums|safe }}</div>
-			{% endif %}
+			{% block right_panel %}
+				{% if albums %}
+					<span class="user_interaction_table_tittle"> ALBUMES </span>
+					<div id="result">{{ albums|safe }}</div>
+				{% endif %}
 
-			{% if following %}
-				<h1> FOLLOWING </h1>
-				{% for follow in following %}
-				<br> {{follow.id_followed.usuario_name}} {{follow.id_followed.usuario_lastname}}</br>
-				{% endfor %}
-			{% endif %}
+				{% if following %}
+					<h1> FOLLOWING </h1>
+					{% for follow in following %}
+					<br> {{follow.id_followed.usuario_name}} {{follow.id_followed.usuario_lastname}}</br>
+					{% endfor %}
+				{% endif %}
 			
-			{% if followers %}
-				<h1> FOLLOWERS </h1>
-				{% for follower in followers %}
-				<br> {{follower.id_follwer.usuario_name}} {{follower.id_follwer.usuario_name}}</br>
-				{% endfor %}
-			{% endif %}
+				{% if followers %}
+					<h1> FOLLOWERS </h1>
+					{% for follower in followers %}
+					<br> {{follower.id_follwer.usuario_name}} {{follower.id_follwer.usuario_name}}</br>
+					{% endfor %}
+				{% endif %}
 			
-			{% if mail %}
-				<div id="mail/inbox/" class="mail">Recibidos</div>
-				<div id="mail/compose/" class="mail">Redactar</div>
-				<div id="mail/sent/" class="mail">Enviados</div>
-				<div id="result"></div>
-			{% endif %}
-			
+				{% if mail %}
+					<div id="mail/inbox/" class="mail">Recibidos</div>
+					<div id="mail/compose/" class="mail">Redactar</div>
+					<div id="mail/sent/" class="mail">Enviados</div>
+					<div id="result"></div>
+				{% endif %}
+			{% endblock %}
 		</td>
 		<td class="user_extras_table_section">
 			

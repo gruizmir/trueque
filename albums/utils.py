@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from albums.models import Album
+from albums.models import Album, AlbumProduct
+from products.models import Product
 
 #get_albums: Obtiene los albums de un usuario
 #PARAMS: user : Usuario del cual se quiere obtener los albums
@@ -19,7 +20,14 @@ def get_album(user, name_album):
         return Album.objects.filter(id_owner = user, album_name = name_album)
     except Exception:
         raise Exception("albums.get_album : Can't get album")
-
+    
+def get_products_by_id_album(id_album):
+    try:
+        album = AlbumProduct.objects.filter(id_album = id_album)
+        return Product.objects.filter(id_product__in = album)
+    except Exception:
+        raise Exception("albums.get_products_by_id_album : Can't get products")
+    
 #add_album: Se guarda un album en la db del usuario entregado por parametro, adicionalmente
 #           se debe añadir el nombre del album, si es que se puede editar o no y si se quiere
 #           forzar la insercion en la db.
