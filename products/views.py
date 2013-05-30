@@ -32,7 +32,7 @@ def newProduct(request):
 		usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
 		return render_to_response("newproduct.html", {'image_form':image_form, 'product_form':product_form, 'category_form':category_form, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
 	else:
-		return HttpResponse("NO AUTORIZADO")
+		return HttpResponseRedirect("/login")
 
 
 #saveProduct: 	Guarda el producto que el usuario ingreso. Comprueba sesion del usuario, validez de los datos
@@ -91,8 +91,6 @@ def saveProductData(request, productForm):
 def saveAlbumData(producto, idUsuario):
 	album = Album.objects.filter(id_owner=idUsuario).get(album_name='My Garage')
 	albumProd = AlbumProduct(id_album=album, id_product=producto)
-#	albumProd.id_album = album
-#	albumProd.id_product = producto
 	albumProd.save()
 
 #saveCategoryData: 	Guarda el dato en la tabla Product_category, según las categorías seleccionadas
@@ -224,11 +222,10 @@ def showVisitView(request, product):
 	except ObjectDoesNotExist:
 		bids = None
 	title = product.product_name
+	usuario = None
 	if is_loged(request):
 		usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
-		return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
-	else:
-		return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'title':title}, context_instance=RequestContext(request))
+	return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
 
 #newComment:Muestra el formulario para ingresar nuevos comentarios en un producto y procesa y guarda 
 #			los comentarios nuevos.
@@ -269,4 +266,4 @@ def newComment(request, idProducto=None):
 		else:
 			return HttpResponseRedirect("/")
 	else:
-		return HttpResponse("NO AUTORIZADO")
+		return HttpResponse("/login")

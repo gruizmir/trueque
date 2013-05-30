@@ -70,7 +70,7 @@ def newBid(request, idProducto=None):
 				else:
 					return HttpResponse("ESTE PRODUCTO ACABA DE SER INTERCAMBIADO")
 	else:
-		return HttpResponse("NO AUTORIZADO")
+		return HttpResponse("/login")
 
 
 #makeTrade: Maneja el intercambio de un producto con la oferta ingresada por otro usuario.
@@ -104,7 +104,7 @@ def makeTrade(request, idProduct):
 			else:
 				return HttpResponse("DATA ERROR")
 		else:
-			return HttpResponse("NO AUTORIZADO")
+			return HttpResponse("/login")
 	else:
 		return HttpResponse("FAIL")
 
@@ -130,7 +130,7 @@ def showPending(request):
 		usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
 		return render_to_response("pendings.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario})
 	else:
-		return HttpResponse("NO AUTORIZADO")
+		return HttpResponse("/login")
 
 
 def verifyTrade(request, idTrade=None):
@@ -178,7 +178,7 @@ def verifyTrade(request, idTrade=None):
 			else:
 				return HttpResponse("DATA ERROR")
 		else:
-			return HttpResponse("NO AUTORIZADO")
+			return HttpResponse("/login")
 	else:
 		if is_loged(request):
 			tradeVer = TradeVerification()
@@ -186,7 +186,7 @@ def verifyTrade(request, idTrade=None):
 			usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
 			return render_to_response("trade_verifier.html", {'form':tradeVer,'id_trade':idTrade, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
 		else:
-			return HttpResponse("NO AUTORIZADO")
+			return HttpResponse("/login")
 
 #Funcion llamada para cambiar de Owner a un producto, y restar la cantidad de Q ofrecida
 #en caso de "compra"

@@ -46,13 +46,20 @@
 					{% endif %}
 					<li class="parent"><a href="#"><img src="/static/img/icons/about.png" alt="About" class="main_about_button"><br/>About</a>
 						 <ul>
-							<li><a href="#">Ayuda</a></li>
-							<li><a href="#">Blog </a></li>
-							<li><a href="#">Copyright</a></li>
-							<li><a href="#">Condiciones de servicio</a></li>
-							<li><a href="#">Privacidad</a></li>
-							<li><a href="#">Equipo</a></li>
-							<li><a href="#">Empleo</a></li>
+    						 <li><a href="#">Blog </a></li>
+						    {% if about %}
+    						    <li><a href="#condiciones">Condiciones de servicio</a></li>
+							    <li><a href="#copyright">Copyright</a></li>
+							    <li><a href="#privacidad">Privacidad</a></li>
+							    <li><a href="#equipo">Equipo</a></li>
+							    <li><a href="#empleo">Empleo</a></li>
+							{% else %}
+    							<li><a href="about#condiciones">Condiciones de servicio</a></li>
+							    <li><a href="about#copyright">Copyright</a></li>
+							    <li><a href="about#privacidad">Privacidad</a></li>
+							    <li><a href="about#equipo">Equipo</a></li>
+							    <li><a href="about#empleo">Empleo</a></li>
+							{% endif %}
 						 </ul>
 					  </li>
 					  <li class="parent"><a href="#"><img src="/static/img/icons/contacts.png" alt="Contacts" class="main_about_button"><br>Contacts</a>

@@ -146,13 +146,11 @@ def searchFilter(request, city=None, isCity=False, country=None, isCountry=False
                                     data = Product.objects.all()
                     except ObjectDoesNotExist:
                         data= None
+                    user = None
                     if is_loged(request):
                         user = Usuario.objects.get(id_usuario=request.session['member_id'])
-                        c = {'data':data, 'user':user}
-                        c.update(csrf(request))
-                    else:
-                        c = {'data':data}
-                        c.update(csrf(request))
+                    c = {'data':data, 'user':user}
+                    c.update(csrf(request))
                     response = render_to_response("search.html", c)        
                 else:
                     response = HttpResponse("NO VALID")
@@ -182,11 +180,10 @@ def searchByDate(request, page=None):
             data = Product.objects.filter(product_active=True).order_by('product_datetime').order_by('product_featured')[cant:20]
     except ObjectDoesNotExist:
         data = None
+    user = None
     if is_loged(request):
         user = Usuario.objects.get(id_usuario=request.session['member_id'])
-        return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
-    else:
-        return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
+    return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
 
 
 #searchByPrice:    Realiza una busqueda normal de productos ordenador por precio. Muestra primero los 
@@ -226,11 +223,10 @@ def searchByPopularity(request, page=None):
             data = Product.objects.filter(product_active=True).order_by('product_follower_qty').order_by('product_featured')[cant:20]
     except ObjectDoesNotExist:
         data = None
+    user = None
     if is_loged(request):
         user = Usuario.objects.get(id_usuario=request.session['member_id'])
-        return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
-    else:
-        return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
+    return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
 
 
 #searchByName:    Realiza una busqueda normal de productos segun nombre. Muestra primero los 
@@ -251,11 +247,10 @@ def searchByName(request,page=None):
             data = None
     else:
         return HttpResponseRedirect("/")
+    user = None
     if is_loged(request):
         user = Usuario.objects.get(id_usuario=request.session['member_id'])
-        return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
-    else:
-        return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})
+    return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
 
 #intersect:    Intersecta dos listas comparando sus elementos (segun teoria de conjuntos)
 #PARAMS: a,b: listas de datos que se van a comparar
@@ -291,8 +286,14 @@ def search(request, page=None):
     except ObjectDoesNotExist:
         data = None
     form = CategoryForm()
+    user = None
     if is_loged(request):
         user = Usuario.objects.get(id_usuario=request.session['member_id'])
-        return render_to_response("main.html", {'form':form, 'user':user, 'data':data,'direccion':settings.MEDIA_ROOT}, context_instance=RequestContext(request))
-    else:
-        return render_to_response("main.html", {'form':form, 'data':data, 'direccion':settings.MEDIA_ROOT}, context_instance=RequestContext(request))
+    return render_to_response("main.html", {'form':form, 'user':user, 'data':data,'direccion':settings.MEDIA_ROOT}, context_instance=RequestContext(request))
+
+
+def about(request):
+    user = None
+    if is_loged(request):
+        user = Usuario.objects.get(id_usuario=request.session['member_id'])
+    return render_to_response('about.html', {'about':True, 'user':user})
