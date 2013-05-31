@@ -11,6 +11,14 @@
 	user-select: none;
 }
 
+.left_bar_p {
+	margin-bottom:20px;
+	color: black;
+	font-size:85%;
+	font-style: italic;
+	cursor:pointer;
+}
+
 .main_search_table {
 	padding-top: 25px;
 	width: 100%;
@@ -39,11 +47,33 @@
 	color: black;
 }
 
+.search_filter input[type=radio] {
+	display:none;
+}
+
 .search_filter {
+    display:inline;
 	text-decoration:  none;
 	color: #a8a9ab;
 	font-size:75%;
 	margin-left:15px;
+	padding-right:5px;
+	padding-left:10px;
+}
+
+.search_filter input selected{
+    display:inline;
+	text-decoration:  none;
+	color: black;
+	font-size:75%;
+	margin-left:15px;
+	padding-right:5px;
+	padding-left:10px;
+}
+
+.search_filter label{
+    padding:10px;
+    cursor:pointer;
 }
 
 .search_global_filter {
@@ -51,6 +81,7 @@
 	color: #a8a9ab;
 	font-size:70%;
 	font-style: italic;
+	cursor:pointer;
 }
 
 .search_country_filter {
@@ -58,6 +89,7 @@
 	color: #a8a9ab;
 	font-size:70%;
 	font-style: italic;
+	cursor:pointer;
 }
 
 .search_city_filter {
@@ -65,6 +97,7 @@
 	color: #a8a9ab;
 	font-size:70%;
 	font-style: italic;
+	cursor:pointer;
 }
 
 .search_price_filter {
@@ -72,6 +105,7 @@
 	color: #a8a9ab;
 	font-size:70%;
 	font-style: italic;
+	cursor:pointer;
 }
 
 .taste_checkbox input[type=checkbox] {
@@ -98,13 +132,6 @@
 	width: 30px;
 	height: 30px;
 	color: #463a2f;
-}
-
-.left_bar_p {
-	margin-bottom:20px;
-	color: black;
-	font-size:85%;
-	font-style: italic;
 }
 
 #search_button {

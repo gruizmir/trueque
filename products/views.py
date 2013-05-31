@@ -55,7 +55,7 @@ def saveProduct(request):
 					saveImages(request, producto.product_img)
 				else:
 					return HttpResponse("NO FILES")
-				return HttpResponse("INGRESO OK")
+				return HttpResponseRedirect("/products/" + str(producto.id_product))
 			else:			
 				return HttpResponse("CATEGORY FAIL")
 		else:			
