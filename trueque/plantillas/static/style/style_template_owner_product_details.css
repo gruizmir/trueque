@@ -85,6 +85,12 @@
 	transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
 }
 
+.product_main_img img{
+	cursor: pointer;
+	max-width: 200px;
+	max-height: 250px;
+}
+
 .new_product_mini_polaroid {
 	display:inline-block;
 	vertical-align:top;

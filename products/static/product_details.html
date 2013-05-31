@@ -1,55 +1,145 @@
 {% extends "main_template.html" %}
 {% block content %}
 	{% if product %}
-		<title>{{ product.product_name }}</title>
-	{% endif %}
-	<!-- UserVoice JavaScript SDK (only needed once on a page) -->
-	<script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/VkBKbsuHEYsqsduFq9pb1w.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-	</head>
-	<body>
-		{% if product %}
-			<img src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}_01" width="200"></img>
-			</br>
-			<img src="/media/{{ product.product_img }}/img_2.png" alt="{{product.product_img}}_02" width="70"></img>
-			<img src="/media/{{ product.product_img }}/img_3.png" alt="{{product.product_img}}_03" width="70"/>
-			<img src="/media/{{ product.product_img }}/img_4.png" alt="{{product.product_img}}_04" width="70"/>
-			<img src="/media/{{ product.product_img }}/img_5.png" alt="{{product.product_img}}_05" width="70"/>
-			<h2>{{ product.product_name }}</h2>
-			<p>{{ product.product_description }}</p>
-			<a href="/album/toalbum/{{product.id_product}}">Agregar a un album</a><br>
+		<link rel="stylesheet" media="all" href="/static/style/style_template_owner_product_details.css" />
+		<link href="/static/style/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+		
+		<div class="owner_product_main_container">
+	
+		<div class="product_main_container_left_col">
+		
+			<div class="product_main_img">
+				<img src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}_01" h/>
+			</div>
+			
+			<div class="main_container_uploaded_container">
+				<ul>
+					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.product_img }}/img_2.png" alt="{{product.product_img}}_02" class="new_product_mini_polaroid_img"/></div></li>
+					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.product_img }}/img_3.png" alt="{{product.product_img}}_03" class="new_product_mini_polaroid_img"/></div></li>
+					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.product_img }}/img_4.png" alt="{{product.product_img}}_04" class="new_product_mini_polaroid_img"/></div></li>
+					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.product_img }}/img_5.png" alt="{{product.product_img}}_05" class="new_product_mini_polaroid_img"/></div></li>
+				</ul>
+			</div>
+		
+		</div>
+		
+		<div class="product_main_container_center_col">
+			<p class="center_container_product_title">{{ product.product_name }}</p>
+			<p class="center_container_product_description">{{ product.product_description }}</p>
+			<p class="center_container_product_subtitle">Categorías de interes para trocar este producto</p>
 			{% if categories %}
 				{% for cat in categories %}
 					{{ cat.id_category.category_name }}
 				{% endfor %}
 			{% endif %}
-			<p>{{ product.product_q_amount }}</p>
-			<h3>Interesados</h3>
+			<p class="center_container_product_subtitle">Categorías:</p>
+
+			<div class="product_q_price_container">
+				<span>{{ product.product_q_amount }}</span>
+				<img src="/static/img/icons/Q-gris.png" alt="Q">
+			</div>
+			
+			<a href="/album/toalbum/{{product.id_product}}" style="text-decoration: none;">
+				<div class="owner_product_new_comment_button">
+					Agregar a un album
+				</div>
+			</a>
+			
+		</div>
+		
+		<div class="product_main_container_right_col">
+			<div class="right_col_buttons">
+				<ul>
+					<li class="right_col_buttons_interested_button">Interesados</li>
+					<li class="right_col_buttons_comments_button">Comentarios</li>
+				</ul>
+			</div>
+			
 			{% if bids %}
-				{% for bid in bids %}
-					<p>{{ bid.id_bidder.usuario_name }} {{ bid.id_bidder.usuario_lastname }}</p>
-					{% if bid.bid_id_product %}					
-						<p> <img src="/media/{{ bid.bid_id_product.product_img }}/img_1.png" width="70"/>    {{ bid.bid_id_product.product_name }}</p>
-					{% else %}
-						<p> {{ bid.bid_q }} </p>
-					{% endif %}
-				{% endfor %}
-			{% endif %}
-			{% if user %}
-			<a href="/transactions/bid/{{ product.id_product }}">Hacer trueque</a>
+				<div class="bids_container">
+					{% csrf_token %}
+					{% for bid in bids %}
+						{% if bid.bid_id_product %}		
+							{{ bid.id_bidder.usuario_name }} {{ bid.id_bidder.usuario_lastname }}<br>
+							<image src="/media/{{ bid.bid_id_product.product_img }}/img_1.png" width="70"/><br>
+							{{ bid.bid_id_product.product_name }}
+							<hr>
+						{% else %}
+							{{ bid.id_bidder.usuario_name }} {{ bid.id_bidder.usuario_lastname }}<br>
+							{{ bid.bid_q }} 
+							<hr>
+						{% endif %}
+					{% endfor %}
+				</div>
+				{% if user %}
+				     <a href="/transactions/bid/{{ product.id_product }}" style="text-decoration: none;" class="owner_product_new_comment_button_href">
+					    <div class="owner_product_new_comment_button">
+						    Ofrecer trueque
+					    </div>
+				    </a>
+			    {% endif %}
 			{% endif %}
 			
 			
-			<h3>Comentarios</h3>
+			
+			
+		
 			{% if comments %}
+				<div class="comments_container">
 				{% for comment in comments %}
-					<p>{{ comment.id_sender.usuario_name }} {{ comment.id_sender.usuario_lastname }}</p>
-					<p>{{ comment.comment_subject }}</p>
-					<p>{{ comment.comment_text }}</p>
-					<p>{{ comment.comment_datetime|date:"l j/F Y" }}</p>
-				{% endfor %}
+					<div class="comments_comment_container">
+						<p class="comments_name">{{ comment.id_sender.usuario_name }} {{ comment.id_sender.usuario_lastname }}</p>
+						<p class="comments_title">{{ comment.comment_subject }}</p>
+						<div class="comments_message_date_container">
+							<p class="comments_message">{{ comment.comment_text }}</p>
+							<p class="comments_date">{{ comment.comment_datetime|date:"l j/F/Y" }}</p>
+						</div>
+					</div>
+				{% endfor %}	
+				</div>
+				
+				{% if user %}
+				    <a href="/products/comment/{{ product.id_product }}" style="text-decoration: none;" class="owner_product_new_comment_button_href">
+					    <div class="owner_product_new_comment_button">
+						    Deja tu comentario
+					    </div>
+				    </a>
+				{% endif %}
 			{% endif %}
-			{% if user %}
-			<a href="/products/comment/{{ product.id_product }}">Deja tu comentario</a>
-			{% endif %}
-		{% endif %}
+			</div>
+		</div>
+	{% endif %}
+	
+	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$(".comments_container").mCustomScrollbar();
+			
+			$(".right_col_buttons_interested_button").bind('click', function () {
+				$(".comments_container").hide();
+				$(".bids_container").show();
+				$(this).css("border-bottom", "1px solid #f97f04");
+				$(".right_col_buttons_comments_button").css("border-bottom", "0px solid #f97f04");
+				$(".owner_product_new_comment_button_href").hide();
+			});
+			
+			$('.right_col_buttons_comments_button').bind('click', function () {
+				$(".bids_container").hide();
+				$(".comments_container").show();
+				$(this).css("border-bottom", "1px solid #f97f04");
+				$(".right_col_buttons_interested_button").css("border-bottom", "0px solid #f97f04");
+				$(".owner_product_new_comment_button_href").show();
+			});
+			
+			$('.comments_comment_container').bind('click', function () {
+				if($(this).find(".comments_message_date_container").is(":hidden")){
+					$(this).find(".comments_message_date_container").show();
+				}
+				else{
+					$(this).find(".comments_message_date_container").hide();
+				}
+				$(".comments_container").mCustomScrollbar("update");
+			});
+		});
+	</script>
 {% endblock %}
