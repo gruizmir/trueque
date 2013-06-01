@@ -20,11 +20,14 @@
     		<div id="cities">
 			</div>
 		<br/>
-	
-		<label class="left_bar_p">Valor </label><br/>
-			<label class="search_price_filter" id="filter_low">Bajo</label><br />
-			<label class="search_price_filter" id="filter_medium">Medio</label><br />
-			<label class="search_price_filter" id="filter_high">Alto</label><br />
+	    <form id="productSearchForm" action="/search/category/" method="POST">
+		{% csrf_token %}
+		    <label class="left_bar_p">Valor </label><br/>
+    		<div class="search_price_filter">
+                <input type="checkbox" name="price_filter_low"><label id="filter_low">Bajo</label></input>
+                <input type="checkbox" name="price_filter_medium"><label id="filter_medium">Medio</label></input>
+                <input type="checkbox" id="price_filter_high"><label id="filter_high">Alto</label></input>
+            </div>
 		<br/>
 		
 		<p>Amistad sugerida</p>
@@ -38,8 +41,6 @@
 
 	<td class="main_right_section">
 		<section class="product_search_section">
-			<form id="productSearchForm" action="/search/category/" method="POST">
-				{% csrf_token %}
     				Categorías <div class="search_filter">
 		                <input type="radio"  id="filter_popularity" name="filter" value="popularity"><label id="pop_text">Popularidad</label></input>
 		                <input type="radio"  id="filter_price" name="filter" value="price"><label id="price_text">Valor</label></input>

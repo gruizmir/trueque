@@ -108,6 +108,26 @@
 	cursor:pointer;
 }
 
+.search_price_filter input[type=checkbox] {
+	display:none;
+}
+
+.search_price_filter input selected{
+    display:inline;
+	text-decoration:  none;
+	color: black;
+	font-size:75%;
+	margin-left:15px;
+	padding-right:5px;
+	padding-left:10px;
+}
+
+.search_price_filter label{
+    padding:10px;
+    cursor:pointer;
+}
+
+
 .taste_checkbox input[type=checkbox] {
 	visibility: hidden;
 }

@@ -68,12 +68,17 @@
 							<li><a href="#">Me siguen</a></li>
 							<li><a href="#">Invitar</a></li>
 							<li><a href="#">Buscar personas</a></li>
-							<li><a href="#">Me gusta</a></li>
 						 </ul>
 					  </li>
 					{% if user %}
-						<li>
+						<li class="parent">
 						 	<a href="/usuarios/profile/{{ user.id_usuario }}" class="main_enter_button"><img src=""/>{{ user.usuario_name }} {{ user.usuario_lastname }}</a>
+						 <ul>
+							<li><a href="#">Me gusta</a></li>
+							<li><a href="/usuarios/profile/editprofile">Editar</a></li>
+							<li><a href="/logout">Logout</a></li>
+						 </ul>
+					  </li>
 						</li>
 					{% else %}
 						<li>
