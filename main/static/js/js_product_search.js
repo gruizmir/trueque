@@ -128,6 +128,71 @@ function selectRecent(){
 	});
 }
 
+//===== Precios ===============
+
+function selectLow(){
+    if(document.getElementById('filter_low').checked){
+        document.getElementById('filter_low').checked = false;
+        document.getElementById('filter_low').style.color="#a8a9ab";
+    }
+    else{
+        document.getElementById('filter_low').checked = true;
+        document.getElementById('filter_low').style.color="#000000";
+    }
+    $.ajax({
+		data: $("#productSearchForm").serialize(),
+		type: $("#productSearchForm").attr('method'),
+		url: $("#productSearchForm").attr('action'),
+		success: function(data) {
+			result = data.products;
+			$('#result')[0].innerHTML = result;
+		},
+	});
+}
+
+function selectMedium(){
+    if(document.getElementById('filter_medium').checked){
+        document.getElementById('filter_medium').checked = false;
+        document.getElementById('filter_medium').style.color="#a8a9ab";
+    }
+    else{
+        document.getElementById('filter_medium').checked = true;
+        document.getElementById('filter_medium').style.color="#000000";
+    }
+    $.ajax({
+		data: $("#productSearchForm").serialize(),
+		type: $("#productSearchForm").attr('method'),
+		url: $("#productSearchForm").attr('action'),
+		success: function(data) {
+			result = data.products;
+			$('#result')[0].innerHTML = result;
+		},
+	});
+}
+
+function selectHigh(){
+    if(document.getElementById('filter_high').checked){
+        document.getElementById('filter_high').checked = false;
+        document.getElementById('filter_high').style.color="#a8a9ab";
+    }
+    else{
+        document.getElementById('filter_high').checked = true;
+        document.getElementById('filter_high').style.color="#000000";
+    }
+    
+    $.ajax({
+		data: $("#productSearchForm").serialize(),
+		type: $("#productSearchForm").attr('method'),
+		url: $("#productSearchForm").attr('action'),
+		success: function(data) {
+			result = data.products;
+			$('#result')[0].innerHTML = result;
+		},
+	});
+}
+
+
+//===== Post cargado ==========
 $(document).ready(function() {
     productSearchForm();
 	$('#filter_local').bind('click', function () {
@@ -149,4 +214,14 @@ $(document).ready(function() {
 	$('#recent_text').bind('click', function () {
 	    selectRecent();
 	});
+	$('#filter_low').bind('click', function () {
+	    selectLow();
+	});
+	$('#filter_medium').bind('click', function () {
+	    selectMedium();
+	});
+	$('#filter_high').bind('click', function () {
+	    selectHigh();
+	});
+
 });

@@ -549,4 +549,11 @@ def is_loged(request):
 def is_loged_edit(request, user):
     try: 
         if request.session['member_id'] == user.id_usuario: return True
-    except: return False 
+    except: return False
+
+def logout(request):
+    try:
+        del request.session['member_id']
+    except KeyError:
+        pass
+    return HttpResponseRedirect("/")
