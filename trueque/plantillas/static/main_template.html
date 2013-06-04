@@ -7,6 +7,7 @@
 			<title>Trueque | Intercambia sin dinero </title>
 		{% endif %}
 		<link rel="stylesheet" media="all" href="/static/style/style_template_main.css" />
+		<link rel="stylesheet" media="all" href="/static/style/style_invite_dialog.css" />
 		{% if register_form %}
 			<link rel="stylesheet" media="all" href="/static/style/style_template_user_register.css" />
 		{% endif %}
@@ -64,9 +65,11 @@
 					  </li>
 					  <li class="parent"><a href="#"><img src="/static/img/icons/contacts.png" alt="Contacts" class="main_about_button"><br>Contacts</a>
 						 <ul>
+						 {% if user %}
 							<li><a href="#">Sigo</a></li>
 							<li><a href="#">Me siguen</a></li>
-							<li><a href="#">Invitar</a></li>
+							<li><a href="#invitePeople">Invitar</a></li>
+				        {% endif %}
 							<li><a href="#">Buscar personas</a></li>
 						 </ul>
 					  </li>
@@ -129,6 +132,17 @@
 			  tab_inverted: false
 			}]);
 			</script>
+		<div id="invitePeople" class="modalDialog">
+	        <div>
+		        <a href="#close" title="Close" class="close">X</a>
+		        <p>Ingresa los correos de las personas que quieres invitar  </p>
+		        <form action="/invitation/sendInvitation" method="POST">
+		        <textarea class="mailTextBox" autofocus></textarea>
+		        <p >Te quedan <label class="numeros">{{ user.usuario_remaining_invitations }}</label> invitaciones </p>
+		        <p><label class="numeros"> 00 </label> sugeridos </p>
+		        <input type="reset" value="cancelar" class="inviteButton"/><input type="submit" value="aceptar" class="inviteButton"/>
+	        </div>
+        </div>
 	</body>
 </html>
 
