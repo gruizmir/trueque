@@ -136,11 +136,17 @@
 	        <div>
 		        <a href="#close" title="Close" class="close">X</a>
 		        <p>Ingresa los correos de las personas que quieres invitar  </p>
-		        <form action="/invitation/sendInvitation" method="POST">
-		        <textarea class="mailTextBox" autofocus></textarea>
+		        <form action="/invitation/send/" method="POST">
+		        <textarea class="mailTextBox" name="mails" id="mails" autofocus></textarea>
 		        <p >Te quedan <label class="numeros">{{ user.usuario_remaining_invitations }}</label> invitaciones </p>
 		        <p><label class="numeros"> 00 </label> sugeridos </p>
 		        <input type="reset" value="cancelar" class="inviteButton"/><input type="submit" value="aceptar" class="inviteButton"/>
+	        </div>
+        </div>
+        <div id="sent" class="modalSentDialog">
+	        <div>
+		        <a href="#close" title="Close" class="close">X</a>
+		        <p>Tus invitaciones fueron enviadas.</p>
 	        </div>
         </div>
 	</body>
