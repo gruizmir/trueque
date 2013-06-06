@@ -27,6 +27,7 @@
 }
 
 .main_left_section {
+    position:fixed;
 	vertical-align:top;
 	width: 20%;
 	text-align:right;
