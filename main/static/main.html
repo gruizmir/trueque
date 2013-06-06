@@ -2,6 +2,7 @@
 {% block content %}
 <link rel="stylesheet" media="all" href="/static/style/style_template_polaroids.css" />
 <link rel="stylesheet" media="all" href="/static/style/style_main_search.css" />
+<link rel="stylesheet" media="all" href="/static/style/style_login_button_div.css" />
 <link href="/static/style/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
 <table class="main_search_table">
 	<tr>
@@ -37,6 +38,20 @@
 			{% endfor %}
 		{% endif %}
 		<p>Actividad reciente</p>
+		
+		{% if not user %}
+		<div id="loginButtons" class="loginButtonsContainer">
+		    <p> <em>¡Únete ahora!</em></p>
+		    <button type="button" id="twitterBtn">
+		        <img src="/static/img/twitter.png" alt="tw-logo" class="mini_social_logo"/>
+		        <strong>Entrar con Twitter</strong>
+		    </button>
+		    <button type="button" id="facebookBtn">
+    		    <img src="/static/img/facebook.png" alt="fb-logo" class="mini_social_logo"/>
+		        <strong>Entrar con Facebook</strong>
+		    </button>
+		</div>
+		{% endif %}
 	</td>
 
 	<td class="main_right_section">

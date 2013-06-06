@@ -1,0 +1,68 @@
+#loginButtons {
+    width:150px;
+    float:right;    
+}
+
+#loginButtons p{
+    text-decoration:underline;
+    margin-top:30px;
+    color:#d6de28;
+    cursor:pointer;
+    font-size:20px;
+    vertical-align:center;
+}
+
+#twitterBtn {
+    width:135px;
+    height:30px;
+    padding:5px 5px 5px 5px;
+    font-size:9px;
+    color:#ffffff;
+    cursor:pointer;
+    background:#3ec3f0;
+    text-align:left;
+    margin-left:5px;
+    margin-top:10px;
+    float:right;
+    cursor:pointer;
+    text-shadow:0px;
+    border:0px;
+    border-radius:3px;
+    box-shadow:0px 0px 0px 0px;
+}
+
+#facebookBtn {
+    text-decoration:bold;
+    color:#ffffff;
+    cursor:pointer;
+    background:#3f5996;
+    width:135px;
+    text-align:left;
+    margin-left:5px;
+    margin-top:5px;
+    padding:5px;
+    font-size:9px;
+    float:right;
+    cursor:pointer;
+    text-shadow:0px;
+    border:0px;
+    border-radius:3px;
+    box-shadow:0px 0px 0px 0px;
+}
+
+#twitterBtn > * {
+    vertical-align:middle;
+}
+
+#facebookBtn > * {
+    vertical-align:middle;
+}
+
+.mini_social_logo {
+    max-width:20px;
+    max-height:20px;
+    height:18px;
+    width:auto;
+    margin-right:5px;
+    
+}
