@@ -128,7 +128,6 @@
     cursor:pointer;
 }
 
-
 .taste_checkbox input[type=checkbox] {
 	visibility: hidden;
 }
@@ -152,7 +151,7 @@
 	cursor:pointer;
 	width: 30px;
 	height: 30px;
-	color: #463a2f;
+	color: #f77f04;
 }
 
 #search_button {
