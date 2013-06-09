@@ -38,14 +38,14 @@
 				</ul>
 			</div>
 			<div class="right_icons_container">
-    			<nav>
+    			<nav class="nav_container">
 				   <ul id="trans-nav">
 					{% if user %}
 						<li>
 							<a href="/products/"><img src="/static/img/icons/nuevo-trueque.png" alt="New" class="main_about_button"><br/>Trueque</a>
 						</li>
 					{% endif %}
-					<li class="parent"><a href="#"><img src="/static/img/icons/about.png" alt="About" class="main_about_button"><br/>About</a>
+					<li class="parent"><a href="#"><img src="/static/img/icons/about.png" alt="About" class="main_about_button" /><br/>About</a>
 						 <ul>
     						 <li><a href="#">Blog </a></li>
 						    {% if about %}
@@ -89,8 +89,8 @@
 						
 					{% endif %}
 						<li class ="right_icon_empty" ></li>
-					  </ul>
-					 </nav>
+					</ul>
+				</nav>
 			</div>
 		</header>
 		

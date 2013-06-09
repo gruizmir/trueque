@@ -90,15 +90,10 @@ header {
 	color: #FFF;
 	font-size: 90%;
 	display: inline-block;
-	vertical-align: middle 
-	float: left; 
 	position: relative;
 	z-index: 5;
 }
 
-#trans-nav li:hover { 
-	background-position: 0 -40px; 
-}
 #trans-nav li a { 
 	display: block; 
 	padding: 0 15px; 
@@ -113,7 +108,7 @@ header {
 }
 
 #trans-nav li ul { 
-	opacity: 0; 
+	display: none;
 	position: absolute; 
 	left: 0; 
 	width: 8em; 
@@ -123,7 +118,7 @@ header {
 	margin: 0; 
 }
 
-#trans-nav li:hover ul { opacity: 1; }
+#trans-nav li:hover ul { display: block; }
 
 #trans-nav li ul li { 
 	float: none; 
