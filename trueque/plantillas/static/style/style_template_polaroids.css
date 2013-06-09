@@ -1,4 +1,5 @@
 .album_polaroids_container {
+	cursor: pointer;
 	width: 100%; 
 	height: 700px; 
 	overflow: auto;
@@ -31,4 +32,12 @@
 	height:auto;
 	width:auto;
 	
+}
+
+.go_back_button {
+	cursor: pointer;
+}
+
+.go_back_button img{
+	height: 25px;
 }
