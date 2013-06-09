@@ -1,14 +1,22 @@
+.cat_container_button_up_down, .cat_list_container{
+	-webkit-transition: all 350ms ease;
+	-moz-transition: all 350ms ease;
+	-ms-transition: all 350ms ease;
+	-o-transition: all 350ms ease;
+	transition: all 350ms ease;
+}
+
 .cat_tast_list {
 	list-style: none;
 }
 
 .cat_taste_list li{
 	display: inline-block;
-	margin-left: -15px;
 	-webkit-user-select: none;  
 	-moz-user-select: none;    
 	-ms-user-select: none;      
 	user-select: none;
+	margin-bottom: 5px;
 }
 
 .left_bar_p {
@@ -138,13 +146,15 @@
 .taste_checkbox label img {
 	width: 30px;
 	height: auto;
+	vertical-align: bottom;
 }
 
 .taste_checkbox label label {
 	text-decoration:  none;
-	margin-right: 20px;
+	margin-right: 10px;
 	color: #a8a9ab;
-	font-family: Arial;
+	font-size: 150%;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .taste_checkbox input[type=checkbox]:checked + label label{
@@ -154,10 +164,59 @@
 	color: #f77f04;
 }
 
-#search_button {
+.cat_list_container {
+	margin-top: 15px;
+	margin-left: -15px;
+	visibility: visible;
+	display: block;
+}
+
+.buttons_container {
+	list-style: none;
+}
+
+.search_button {
 	background:none;
+	cursor: pointer;
 	padding-top: 10px;
 	padding-right: 5px;
 	color: #a8a9ab;
 	text-align: right;
+	font-size: 160%;
+	border: 0px solid #FFF;
+}
+
+.search_button:hover {
+	color: #f77f04;
+}
+
+.search_box {
+	max-height: 50px;
+	min-height: 50px;
+}
+
+.search_button_box{
+    float: right;
+    padding-right: 30px;
+}
+.search_box_line {
+	overflow: hidden;
+	margin: auto;
+    height: 24px;
+    width: 80%;
+    border-bottom: 1px solid #f77f04;
+}
+
+.cat_container_button_up_down {
+	text-align: right;
+	padding-right: 40px;
+	margin-top: -5px;
+	margin-bottom: -15px;
+	cursor: pointer;
+}
+
+.text_cat {
+	color: #f77f04;
+	font-size: 120%;
+	padding-left: 10px;
 }

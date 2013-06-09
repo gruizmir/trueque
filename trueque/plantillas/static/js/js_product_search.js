@@ -1,3 +1,14 @@
+function showHiddeSearchForm() {
+	if($(".cat_list_container").css("display") == "block") {
+		$(".cat_list_container").css("display", "none");
+		$(".up_down_button_img").attr("src", "/static/img/icons/drop-down-icon20.png");
+	}
+	else{
+		$(".cat_list_container").css("display", "block");
+		$(".up_down_button_img").attr("src", "/static/img/icons/drop-up-icon20.png");
+	}
+}
+
 function productSearchForm() {
 	$("#productSearchForm").submit(function(event){
 		event.preventDefault();

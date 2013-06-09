@@ -67,137 +67,149 @@
 
 	<td class="main_right_section">
 		<section class="product_search_section">
-    				Categorías <div class="search_filter">
+    				<span class="text_cat"> Categorías </span> 
+    				<div class="search_filter">
 		                <input type="radio"  id="filter_popularity" name="filter" value="popularity"><label id="pop_text">Popularidad</label></input>
 		                <input type="radio"  id="filter_price" name="filter" value="price"><label id="price_text">Valor</label></input>
 		                <input type="radio"  id="filter_recent" name="filter" value="recent" checked ><label id="recent_text">Recientes</label></input>
 		            </div>
-				<ul class="cat_taste_list">
-    				<li>
-				        <div class="taste_checkbox">
-				        {{ form.field_1 }}
-				        <label for="id_field_1">
-					        <img src="/static/img/tecnologia.png" alt="tecnologia">
-					        <label >TECNOLOGÍA</label>
-				        </label>
-				        </div>
-    				</li>
-    				
-				    <li>
-				        <div class="taste_checkbox">
-				        {{ form.field_2 }}
-				        <label for="id_field_2">
-					        <img src="/static/img/ropa.png" alt="ropa">
-					        <label >ROPA</label>
-				        </label>
-				        </div>
-				    </li>
-				
-	    			<li>
-		            	<div class="taste_checkbox">
-				        {{ form.field_3 }}
-				        <label for="id_field_3">
-					        <img src="/static/img/vinilos.png" alt="vinilos">
-					        <label >VINILOS</label>
-				        </label>
-    				</div>
-    				</li>
-    				
-    				<li>
-            		    <div class="taste_checkbox">
-				        {{ form.field_4 }}
-				        <label for="id_field_4">
-					        <img src="/static/img/diseno.png" alt="diseno">
-					        <label >DISEÑO</label>
-				        </label>
-    				</div>
-    				</li>
-                </ul>
-                
-                <ul class="cat_taste_list">
-    				<li>
-				        <div class="taste_checkbox">
-				        {{ form.field_5 }}
-				        <label for="id_field_5">
-					        <img src="/static/img/arte.png" alt="arte">
-					        <label >ARTE</label>
-				        </label>
-				        </div>
-    				</li>
-    				
-    				<li>
-				        <div class="taste_checkbox">
-				        {{ form.field_6 }}
-				        <label for="id_field_6">
-					        <img src="/static/img/servicio.png" alt="servicios">
-					        <label >SERVICIOS</label>
-				        </label>
-				        </div>
-    				</li>
-				
-    				<li>
-				        <div class="taste_checkbox">
-				        {{ form.field_7 }}
-				        <label for="id_field_7">
-					        <img src="/static/img/espectaculos.png" alt="espectaculos">
-					        <label >ESPECTÁCULOS</label>
-				        </label>
-				        </div>
-    				</li>
-    				
-				    <li>
-				        <div class="taste_checkbox">
-				        {{ form.field_8 }}
-				        <label for="id_field_8">
-					        <img src="/static/img/amor.png" alt="amor">
-					        <label >AMOR</label>
-				        </label>
-				        </div>
-    				</li>
+		            
+		        <div class="cat_list_container">
+					<ul class="cat_taste_list">
+	    				<li>
+					        <div class="taste_checkbox">
+					        {{ form.field_1 }}
+					        <label for="id_field_1">
+						        <img src="/static/img/tecnologia.png" alt="tecnologia">
+						        <label >TECNOLOGÍA</label>
+					        </label>
+					        </div>
+	    				</li>
+	    				
+					    <li>
+					        <div class="taste_checkbox">
+					        {{ form.field_2 }}
+					        <label for="id_field_2">
+						        <img src="/static/img/ropa.png" alt="ropa">
+						        <label >ROPA</label>
+					        </label>
+					        </div>
+					    </li>
+					
+		    			<li>
+			            	<div class="taste_checkbox">
+					        {{ form.field_3 }}
+					        <label for="id_field_3">
+						        <img src="/static/img/vinilos.png" alt="vinilos">
+						        <label >VINILOS</label>
+					        </label>
+	    				</div>
+	    				</li>
+	    				
+	    				<li>
+	            		    <div class="taste_checkbox">
+					        {{ form.field_4 }}
+					        <label for="id_field_4">
+						        <img src="/static/img/diseno.png" alt="diseno">
+						        <label >DISEÑO</label>
+					        </label>
+	    				</div>
+	    				</li>
+	    				
+	    				<li>
+					        <div class="taste_checkbox">
+					        {{ form.field_5 }}
+					        <label for="id_field_5">
+						        <img src="/static/img/arte.png" alt="arte">
+						        <label >ARTE</label>
+					        </label>
+					        </div>
+	    				</li>
+	    				
+	    				<li>
+					        <div class="taste_checkbox">
+					        {{ form.field_6 }}
+					        <label for="id_field_6">
+						        <img src="/static/img/servicio.png" alt="servicios">
+						        <label >SERVICIOS</label>
+					        </label>
+					        </div>
+	    				</li>
+					
+	    				<li>
+					        <div class="taste_checkbox">
+					        {{ form.field_7 }}
+					        <label for="id_field_7">
+						        <img src="/static/img/espectaculos.png" alt="espectaculos">
+						        <label >ESPECTÁCULOS</label>
+					        </label>
+					        </div>
+	    				</li>
+	    				
+					    <li>
+					        <div class="taste_checkbox">
+					        {{ form.field_8 }}
+					        <label for="id_field_8">
+						        <img src="/static/img/amor.png" alt="amor">
+						        <label >AMOR</label>
+					        </label>
+					        </div>
+	    				</li>
+	    				
+	    				<li>				
+					        <div class="taste_checkbox">
+					        {{ form.field_9 }}
+					        <label for="id_field_9">
+						        <img src="/static/img/comida.png" alt="comida">
+						        <label >COMIDA</label>
+					        </label>
+					        </div>
+	    				</li>
+					
+		    			<li>
+					        <div class="taste_checkbox">
+					        {{ form.field_10 }}
+					        <label for="id_field_10">
+						        <img src="/static/img/deporte.png" alt="deporte">
+						        <label >DEPORTE</label>
+					        </label>
+					        </div>
+				        </li>
+					
+	    				<li>
+					        <div class="taste_checkbox">
+					        {{ form.field_11 }}
+					        <label for="id_field_11">
+						        <img src="/static/img/musica.png" alt="musica">
+						        <label >MÚSICA</label>
+					        </label>
+					        </div>
+	    				</li>
+					
+		    			<li>
+					        <div class="taste_checkbox">
+					        {{ form.field_12 }}
+					        <label for="id_field_12">
+						        <img src="/static/img/eco.png" alt="eco">
+						        <label >ECO</label>
+					        </label>
+	    				</div>
+	    				</li>
+		            </ul>
+	            </div>
+	            
+	            <ul class="buttons_container">
+	            	<li class="cat_container_button_up_down">
+	            		<img src="/static/img/icons/drop-up-icon20.png" alt="" onclick="showHiddeSearchForm()" class="up_down_button_img"/>
+	            	</li>
+	            	<li class="search_box" >
+					    <div class="search_button_box">
+					    	<input class="search_button" type="submit" value="BUSCAR"/>
+					    </div>
+						<div class="search_box_line"></div>
+					</li>
 				</ul>
 				
-				<ul class="cat_taste_list">
-    				<li>				
-				        <div class="taste_checkbox">
-				        {{ form.field_9 }}
-				        <label for="id_field_9">
-					        <img src="/static/img/comida.png" alt="comida">
-					        <label >COMIDA</label>
-				        </label>
-				        </div>
-    				</li>
-				
-	    			<li>
-				        <div class="taste_checkbox">
-				        {{ form.field_10 }}
-				        <label for="id_field_10">
-					        <img src="/static/img/deporte.png" alt="deporte">
-					        <label >DEPORTE</label>
-				        </label>
-				        </div>
-			        </li>
-				
-    				<li>
-				        <div class="taste_checkbox">
-				        {{ form.field_11 }}
-				        <label for="id_field_11">
-					        <img src="/static/img/musica.png" alt="musica">
-					        <label >MÚSICA</label>
-				        </label>
-				        </div>
-    				</li>
-				
-	    			<li>
-				        <div class="taste_checkbox">
-				        {{ form.field_12 }}
-				        <label for="id_field_12">
-					        <img src="/static/img/eco.png" alt="eco">
-					        <label >ECO</label>
-				        </label>
-    				</div>
-    				</li>
-	            </ul>		
-				<input type="submit" value="BUSCAR"/>
 			</form>
 		</section>
 	
