@@ -45,6 +45,14 @@
 				</div>
 			</a>
 			
+			{% if user %}
+			     <a href="/transactions/bid/{{ product.id_product }}" style="text-decoration: none;" class="owner_product_new_comment_button_href">
+				    <div class="owner_product_new_comment_button">
+					    Ofrecer trueque
+				    </div>
+			    </a>
+			{% endif %}
+			
 		</div>
 		
 		<div class="product_main_container_right_col">
@@ -71,19 +79,9 @@
 						{% endif %}
 					{% endfor %}
 				</div>
-				{% if user %}
-				     <a href="/transactions/bid/{{ product.id_product }}" style="text-decoration: none;" class="owner_product_new_comment_button_href">
-					    <div class="owner_product_new_comment_button">
-						    Ofrecer trueque
-					    </div>
-				    </a>
-			    {% endif %}
+				
 			{% endif %}
-			
-			
-			
-			
-		
+
 			{% if comments %}
 				<div class="comments_container">
 				{% for comment in comments %}
@@ -120,7 +118,7 @@
 				$(".bids_container").show();
 				$(this).css("border-bottom", "1px solid #f97f04");
 				$(".right_col_buttons_comments_button").css("border-bottom", "0px solid #f97f04");
-				$(".owner_product_new_comment_button_href").hide();
+				
 			});
 			
 			$('.right_col_buttons_comments_button').bind('click', function () {
@@ -128,7 +126,7 @@
 				$(".comments_container").show();
 				$(this).css("border-bottom", "1px solid #f97f04");
 				$(".right_col_buttons_interested_button").css("border-bottom", "0px solid #f97f04");
-				$(".owner_product_new_comment_button_href").show();
+				
 			});
 			
 			$('.comments_comment_container').bind('click', function () {

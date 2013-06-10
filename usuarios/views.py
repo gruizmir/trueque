@@ -76,11 +76,11 @@ def register(request):
         bg_imgs_count = len([name for name in os.listdir(bg_imgs_folder) if os.path.isfile(bg_imgs_folder + name)])
 
         data_to_render = {'form': form, 'terms_of_service' :  REGISTER_TERMS_OF_SERVICE,
-                          'usuario_bulletins' : REGISTER_USER_BULLETINS}
+                          'usuario_bulletins' : REGISTER_USER_BULLETINS,
+                          'random_bg' : random.randint(1, bg_imgs_count)}
         data_to_render.update(csrf(request))
-        render_form = render_to_response('register_form.html', data_to_render)
-        return render_to_response('main_template.html', {'register_form':render_form.content, 
-                                                         'random_bg' : random.randint(1, bg_imgs_count)})
+        
+        return render_to_response('register_form.html', data_to_render)
     
     #Exceptions que se activan en caso de no poder registrar al usuario en la base de datos o
     #por alguna accion extraña durante el registro.

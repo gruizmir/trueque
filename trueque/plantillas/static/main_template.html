@@ -8,9 +8,6 @@
 		{% endif %}
 		<link rel="stylesheet" media="all" href="/static/style/style_template_main.css" />
 		<link rel="stylesheet" media="all" href="/static/style/style_invite_dialog.css" />
-		{% if register_form %}
-			<link rel="stylesheet" media="all" href="/static/style/style_template_user_register.css" />
-		{% endif %}
 		{% if product_new %}
 			<link rel="stylesheet" media="all" href="/static/style/style_template_new_product.css" />
 		{% endif %}
@@ -95,22 +92,6 @@
 		</header>
 		
 		{% block content %}
-			{% if register_form %}
-			<section class="register_section">
-				<table class="register_table_container" style="background-image:url('/static/img/random_register/{{random_bg}}.jpg');">
-					<tr>
-						<td width="30%" class="register_table_container_message">
-							<p class="register_table_message_welcome"> Bienvenido! </p>
-							<br>
-							<p class="register_table_message_text"> A una comunidad que recicla e intercambia sin dinero</p>
-						</td>
-						<td class="register_table_container_form">
-							{{ register_form|safe }}
-						</td>
-					</tr>
-				</table>
-			</section>
-			{% endif %}
 		{% endblock %}
 		
 		<footer>
