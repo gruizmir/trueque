@@ -1,17 +1,38 @@
-{% extends "main_template.html" %}
-{% block content %}
-	{% if products %}
-		<form method="POST" action="#">
-			{% csrf_token %}
-			Ofrece Q <input type="text" name="bid_q_amount" value="0" size="20"/><br>
-			o elige un producto <br>
+<link rel="stylesheet" media="all" href="/static/style/style_template_new_bid.css" />
+<p class="bid_text_title">Elige tu trueque</p>
+<p class="bid_text_title">entre tus cosas</p>
+<br>
+
+{% if products %}
+	<form method="POST" action="#">
+		{% csrf_token %}
+		
+		<div class="mini_bid_polaroid_container">
+			<ul>
 			{% for product in products %}
-				<input type="radio" name="bid_product" value="{{ product.id_product }}" >
-				<image src="/media/{{ product.product_img }}/img_1.png" width="70"/><br>
-				{{ product.product_name }}
-				<hr>
+				<li>
+					<div class="radio_polaroids">
+						<input type="radio" name="bid_product" id="id_radio-field_{{ product.id_product }}" value="{{ product.id_product }}" >
+						<label for="id_radio-field_{{ product.id_product }}">
+							<div class="mini_radio_polaroid">
+								<img src="/media/{{ product.product_img }}/img_1.png" width="70"/>
+								<br>
+								{{ product.product_name }}
+							</div>
+						</label>
+					</div>
+				</li>
 			{% endfor %}
-			<input type="submit" value="Ingresar oferta"/>
-		</form>
-	{% endif %}
-{% endblock %}
+				<li style="width:20px;"> 
+				</li>
+			</ul>
+		</div>
+		
+		<p class="bid_text_title">o Fija un monto</p>
+		<br>
+		<input type="text" name="bid_q_amount" placeholder="000" id="q_bid_quantity"/>
+		<img src="/static/img/icons/Q-gris.png" alt="Q" id="q_bid_img">
+		<br><br><br>
+		<input type="submit" value="Aceptar" id="accept_bid_button"/>
+	</form>
+{% endif %}

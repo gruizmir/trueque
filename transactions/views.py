@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-from transactions.models import Bid, Trade
-from transactions.forms import BidForm, TradeForm, TradeVerification
-from products.models import Product, Category, ProductCategory
-from usuarios.views import is_loged
-from usuarios.models import Usuario
 from albums.models import Album, AlbumProduct
-from django.template import RequestContext
+from datetime import datetime
+from django.conf import settings
+from django.core.context_processors import csrf
+from django.core.mail import send_mail
+from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
-from django.core.context_processors import csrf
-from django.conf import settings
-from django.core.mail import send_mail
-from datetime import datetime
-from django.forms.formsets import formset_factory
-import string
+from django.template import RequestContext
+from django.utils import simplejson
+from products.models import Product, Category, ProductCategory
+from transactions.forms import BidForm, TradeForm, TradeVerification
+from transactions.models import Bid, Trade
+from usuarios.models import Usuario
+from usuarios.views import is_loged
 import random
+import string
 
 #newBid: Muestra el formulario para ingresar una nueva oferta. También procesa la oferta ingresada por el usuario
 #		 Comprueba factibilidad de realizar una nueva oferta.
@@ -28,13 +29,17 @@ def newBid(request, idProducto=None):
 		if idProducto==None:
 			return HttpResponseRedirect("/")
 		else:
-			if request.method != "POST":
+			if request.is_ajax():
 				prod = Product.objects.get(id_product=idProducto)
 				if prod.product_active==True:
 					bidderProducts = Product.objects.filter(id_owner = request.session['member_id'])
 					title = "Nueva oferta"
 					usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
-					return render_to_response("new_bid.html", {'products':bidderProducts, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
+					render_bid = render_to_response('new_bid.html', {'products':bidderProducts, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
+					message = {"bid_data": render_bid.content}
+					json = simplejson.dumps(message)
+					return HttpResponse(json, mimetype='application/json')
+				
 				else:
 					return HttpResponse("ESTE PRODUCTO YA FUE INTERCAMBIADO")
 			else:

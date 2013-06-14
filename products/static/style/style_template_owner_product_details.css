@@ -143,16 +143,24 @@
 }
 
 .owner_product_new_comment_button {
+	cursor: pointer;
 	background: #f97f04;
 	width: auto;
 	color: #FFF;
 	text-align: center;
 	margin-top: 15px;
 	padding: 5px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 .owner_product_new_comment_button:hover {
 	background: #333;
+	cursor: pointer;
 }
 
 .comments_name {

@@ -3,6 +3,7 @@
 	{% if product %}
 		<link rel="stylesheet" media="all" href="/static/style/style_template_owner_product_details.css" />
 		<link href="/static/style/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" media="all" href="/static/style/style_template_new_bid.css" />
 		
 		<div class="owner_product_main_container">
 	
@@ -46,11 +47,9 @@
 			</a>
 			
 			{% if user %}
-			     <a href="/transactions/bid/{{ product.id_product }}" style="text-decoration: none;" class="owner_product_new_comment_button_href">
-				    <div class="owner_product_new_comment_button">
+			    <div class="owner_product_new_comment_button" id="new_bid_button">
 					    Ofrecer trueque
-				    </div>
-			    </a>
+				</div>
 			{% endif %}
 			
 		</div>
@@ -112,6 +111,18 @@
 	<script>
 		$(document).ready(function() {
 			$(".comments_container").mCustomScrollbar();
+			
+			$("#new_bid_button").bind('click', function () {
+				var url = "/transactions/bid/{{ product.id_product }}";
+				
+				$.get(url, function(data) {
+					result = data.bid_data;
+					$('.product_main_container_right_col')[0].innerHTML = result;
+					$('.mini_bid_polaroid_container').mCustomScrollbar({
+					    horizontalScroll:true
+					});
+				});
+			});
 			
 			$(".right_col_buttons_interested_button").bind('click', function () {
 				$(".comments_container").hide();
