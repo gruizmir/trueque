@@ -94,22 +94,46 @@
 					</div>
 				{% endfor %}	
 				</div>
-				
-				{% if user %}
-				    <a href="/products/comment/{{ product.id_product }}" style="text-decoration: none;" class="owner_product_new_comment_button_href">
-					    <div class="owner_product_new_comment_button">
-						    Deja tu comentario
-					    </div>
-				    </a>
-				{% endif %}
 			{% endif %}
+			
+			{% if user %}
+				<div class="owner_product_new_comment_button">
+				    Deja tu comentario
+			    </div>
+			{% endif %}
+			
 			</div>
+		</div>
+		
+		<div id="dialog_add_comment" style="display:none">
+			<div id="dialog_add_comment_result"></div>
 		</div>
 	{% endif %}
 	
 	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			$('.owner_product_new_comment_button').bind('click', function () {
+				$('#dialog_add_comment').dialog({
+						 buttons: {
+							Cerrar: function() {
+								var options = {
+								    buttons: {}
+								};
+								$(this).dialog('option', options);
+								location.reload();
+								$(this).dialog( "close" );
+							}
+						}
+					});
+				$.get("/products/comment/{{ product.id_product }}", function(data) {
+					result = data;
+					$('#dialog_add_comment_result')[0].innerHTML = result;
+					add_album_form();
+				});
+				
+			});
+		
 			$(".comments_container").mCustomScrollbar();
 			
 			$("#new_bid_button").bind('click', function () {
@@ -126,6 +150,7 @@
 			
 			$(".right_col_buttons_interested_button").bind('click', function () {
 				$(".comments_container").hide();
+				$(".owner_product_new_comment_button_href").hide();
 				$(".bids_container").show();
 				$(this).css("border-bottom", "1px solid #f97f04");
 				$(".right_col_buttons_comments_button").css("border-bottom", "0px solid #f97f04");
@@ -135,6 +160,7 @@
 			$('.right_col_buttons_comments_button').bind('click', function () {
 				$(".bids_container").hide();
 				$(".comments_container").show();
+				$(".owner_product_new_comment_button_href").show();
 				$(this).css("border-bottom", "1px solid #f97f04");
 				$(".right_col_buttons_interested_button").css("border-bottom", "0px solid #f97f04");
 				

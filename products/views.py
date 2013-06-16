@@ -251,7 +251,7 @@ def newComment(request, idProducto=None):
 					if commentForm.is_valid():
 						commentForm.save()
 						user = Usuario.objects.get(id_usuario = request.session['member_id'])
-						send_mail('Comentario enviado', 'Usted hizo un nuevo comentario.', 'no-reply@trueque.in', [user.usuario_email_1], fail_silently=False)
+						send_mail('Comentario enviado', 'Usted hizo un nuevo comentario.', settings.EMAIL_HOST_USER , [user.usuario_email_1], fail_silently=False)
 						return HttpResponseRedirect("/products/" + str(idProducto))
 					else:
 						return HttpResponse("DATA_ERROR")

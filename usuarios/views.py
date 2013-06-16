@@ -99,7 +99,7 @@ def send_registration_confirmation(session_s):
         title = "WELCOME TO TRUEQUE!"
         content = (settings.WEB_URL +"/usuarios/confirm/?=" + str(session_s.session_key) + "&email=" + session_s['user_mail'])
         print content
-        send_mail(title, content, 'no-reply@trueque.in', [session_s['user_mail']], fail_silently=False)
+        send_mail(title, content, settings.EMAIL_HOST_USER, [session_s['user_mail']], fail_silently=False)
         return render_to_response('register_mail_confirmation.html')
     
     #Exceptions que se activan en caso de no poder enviar el mail al usuario.
