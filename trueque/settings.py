@@ -182,9 +182,9 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = 'smtp.zoho.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'contacto@skyvortex.cl'
+EMAIL_HOST = 'smtp.google.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mail.trueque@gmail.com'
 EMAIL_HOST_PASSWORD = 'kenolamasca2veces'
 EMAIL_USE_TLS = True
 

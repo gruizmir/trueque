@@ -1,8 +1,14 @@
-{% extends "main_template.html" %}
-{% block content %}
-	<form method="POST" action="#">	
-	{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="Ingresar"/>
-	</form>
-{% endblock %}
+<link rel="stylesheet" media="all" href="/static/style/style_template_new_comment.css" />
+
+<form method="POST" action="/products/comment/{{idproducto}}" class="new_comment_form">	
+{% csrf_token %}
+	<span>Título</span>
+	<br>
+	{{ form.comment_subject }}
+	<br>
+	<span>Comentario</span>
+	<br>
+	{{ form.comment_text }}
+	<br>
+	<input type="submit" value="Comentar"/>
+</form>

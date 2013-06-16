@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
-from products.models import Product, Category, ProductCategory, Comment
-from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm, NewCommentForm
-from usuarios.models import Usuario, Country, City
-from usuarios.views import is_loged
-from transactions.models import Bid
+from PIL import Image
 from albums.models import Album, AlbumProduct
-from django.shortcuts import render_to_response
-from django.core.context_processors import csrf
-from django.template import RequestContext
-from django.http import HttpResponseRedirect, HttpResponse
-from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from django.conf import settings
-import uuid
-import os
+from django.core.context_processors import csrf
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail
-from PIL import Image
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.utils import simplejson
+from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm, \
+	NewCommentForm
+from products.models import Product, Category, ProductCategory, Comment
+from transactions.models import Bid
+from usuarios.models import Usuario, Country, City
+from usuarios.views import is_loged
+import os
+import uuid
 
 
 #newProduct:Muestra el formulario para ingresar un nuevo producto, incluidas imagenes 
@@ -257,12 +259,14 @@ def newComment(request, idProducto=None):
 						return HttpResponse("DATA_ERROR")
 				else:
 					return HttpResponse("NO_VALID")		
-			else:
+			elif request.is_ajax():
 				newComment = NewCommentForm()
 				product = Product.objects.get(id_product=idProducto)
 				title = "Nuevo comentario para " + product.product_name
 				user = Usuario.objects.get(id_usuario=request.session['member_id'])
-				return render_to_response("new_comment.html", {'form':newComment, 'title':title, 'user':user},context_instance=RequestContext(request))
+				message = {"add_comment_data": render_to_response("new_comment.html", {'form':newComment, 'title':title, 'user':user, 'idproducto':idProducto},context_instance=RequestContext(request)).content}
+				json = simplejson.dumps(message)
+				return HttpResponse(json, mimetype='application/json')
 		else:
 			return HttpResponseRedirect("/")
 	else:

@@ -105,7 +105,7 @@
 			</div>
 		</div>
 		
-		<div id="dialog_add_comment" style="display:none">
+		<div id="dialog_add_comment" style="display:none;">
 			<div id="dialog_add_comment_result"></div>
 		</div>
 	{% endif %}
@@ -115,19 +115,11 @@
 		$(document).ready(function() {
 			$('.owner_product_new_comment_button').bind('click', function () {
 				$('#dialog_add_comment').dialog({
-						 buttons: {
-							Cerrar: function() {
-								var options = {
-								    buttons: {}
-								};
-								$(this).dialog('option', options);
-								location.reload();
-								$(this).dialog( "close" );
-							}
-						}
-					});
+					resizable: false,
+			        width:'auto'
+				});
 				$.get("/products/comment/{{ product.id_product }}", function(data) {
-					result = data;
+					result = data.add_comment_data;
 					$('#dialog_add_comment_result')[0].innerHTML = result;
 					add_album_form();
 				});
