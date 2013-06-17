@@ -114,33 +114,33 @@ def searchFilter(request, city=None, isCity=False, country=None, isCountry=False
                         #Se usa el filtro por ciudad o pais si se solicita.
                         if prodCat!=None:
                             if isCity:
-                                data = Product.objects.filter(product_active=True).filter(id_product__in=prodCat).filter(id_owner__usuario_city__city_name=city)
+                                data = Product.objects.filter(active=True).filter(id__in=prodCat).filter(id_owner__city__name=city)
                             elif isCountry:
-                                data = Product.objects.filter(product_active=True).filter(id_product__in=prodCat).filter(id_owner__usuario_city__id_country__country_name=country)
+                                data = Product.objects.filter(active=True).filter(id__in=prodCat).filter(id_owner__city__id_country__name=country)
                             else:
-                                data = Product.objects.filter(product_active=True).filter(id_product__in=prodCat)
+                                data = Product.objects.filter(active=True).filter(id__in=prodCat)
                         else:
                             if selected==True:
                                 data = None
                             else:
                                 if isCity:
-                                    data = Product.objects.filter(product_active=True).filter(id_owner__usuario_city__city_name=city)
+                                    data = Product.objects.filter(active=True).filter(id_owner__city__name=city)
                                 elif isCountry:
-                                    data = Product.objects.filter(product_active=True).filter(id_owner__usuario_city__id_country__country_name=country)
+                                    data = Product.objects.filter(active=True).filter(id_owner__city__id_country__name=country)
                                 else:
-                                    data = Product.objects.filter(product_active=True).all()
+                                    data = Product.objects.filter(active=True).all()
                         #Se agrega el orden de los datos.
                         if request.POST['filter']=="popularity":
-                            data = data.order_by('product_follower_qty')
+                            data = data.order_by('follower_qty')
                         elif request.POST['filter']=="price":
-                            data = data.order_by('product_q_amount')
+                            data = data.order_by('q_amount')
                         else:
-                            data = data.order_by('product_start_datetime')
+                            data = data.order_by('start_datetime')
                     except ObjectDoesNotExist:
                         data= None
                     user = None
                     if is_loged(request):
-                        user = Usuario.objects.get(id_usuario=request.session['member_id'])
+                        user = Usuario.objects.get(id=request.session['member_id'])
                     c = {'data':data, 'user':user}
                     c.update(csrf(request))
                     response = render_to_response("search.html", c)        

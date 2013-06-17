@@ -17,14 +17,14 @@ def get_albums(user):
 #RETURN: Album (objeto) que se quiere recuperar.
 def get_album(user, name_album):
     try:
-        return Album.objects.filter(id_owner = user, album_name = name_album)
+        return Album.objects.filter(id_owner = user, name = name_album)
     except Exception:
         raise Exception("albums.get_album : Can't get album")
     
 def get_products_by_id_album(id_album):
     try:
-        album = AlbumProduct.objects.filter(id_album = id_album)
-        return Product.objects.filter(id_product__in = album)
+        album = AlbumProduct.objects.filter(id = id_album)
+        return Product.objects.filter(id__in = album)
     except Exception:
         raise Exception("albums.get_products_by_id_album : Can't get products")
     

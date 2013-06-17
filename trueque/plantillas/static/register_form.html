@@ -23,10 +23,10 @@
 					{% for field in form %}
 						{% if field.field.widget|klass == "CheckboxInput"%}
 						<li class="register_form_bulletins_service" >
-						  	{% if field.name == "usuario_terms_service" %}
+						  	{% if field.name == "terms_service" %}
 						  		{{ field }} {{ field.label_tag }} {{ terms_of_service }}
 						  	{% else %}
-						  		{{ field }} {{ field.label_tag }} {{ usuario_bulletins }}
+						  		{{ field }} {{ field.label_tag }} {{ bulletins }}
 						  	{% endif %}
 						{% else %}
 						<li>

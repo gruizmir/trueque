@@ -34,14 +34,14 @@
 		<p>Amistad sugerida</p>
 		{% if rec_users %}
 			{% for rec_user in rec_users%}
-				{{ rec_user.usuario_name }} {{ rec_user.usuario_lastname }} <img src="" /> <br/>
+				{{ rec_user.first_name }} {{ rec_user.last_name }} <img src="" /> <br/>
 			{% endfor %}
 		{% endif %}
 		<p>Actividad reciente</p>
 		
 		{% if not user %}
 		<div id="loginButtons" class="loginButtonsContainer">
-		    <p> <em>¡Únete ahora!</em></p>
+		    <a href="/register"><p> <em>¡Únete ahora!</em></p></a>
 		    <button type="button" id="twitterBtn">
 		        <img src="/static/img/twitter.png" alt="tw-logo" class="mini_social_logo"/>
 		        <strong>Entrar con Twitter</strong>
@@ -52,15 +52,15 @@
 		    </button>
 		</div>
 		{% endif %}
-		<div class="social_external_links">
-		    <a href="https://www.facebook.com/pages/Trueque/155109701316768">
-		        <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon">
+		<div id="social_external_links">
+		    <a href="https://www.facebook.com/pages/Trueque/155109701316768" target="_blank">
+		        <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon"/>
 		    </a>
-		    <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false">
-		        <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon">
+		    <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false" target="_blank">
+		        <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon"/>
 		    </a>
-		    <a href="http://instagram.com/trueque_in" >
-		        <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon">
+		    <a href="http://instagram.com/trueque_in" target="_blank">
+		        <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon"/>
 		    </a>
 	    </div>
 	</td>
@@ -229,7 +229,7 @@
 			<div id="result">
                 {% if data %}
 					{% for product in data %}
-						<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><a class="product_name" href="/products/{{ product.id_product }}"><image src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}" height="150"/><br />{{ product.product_name }}</a></div>
+						<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><a class="product_name" href="/products/{{ product.id }}"><image src="/media/{{ product.img }}/img_1.png" alt="{{product.name}}" height="150"/><br />{{ product.name }}</a></div>
 					{% endfor %}	
 				{% endif %}
 				

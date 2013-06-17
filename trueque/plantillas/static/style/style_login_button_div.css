@@ -1,5 +1,5 @@
 #loginButtons {
-    width:150px;
+    width:100%;
     float:right;    
 }
 
@@ -58,11 +58,16 @@
     vertical-align:middle;
 }
 
+#social_external_links {
+    width:100%;
+    float:right;
+    text-align:right;
+}
+
 .mini_social_logo {
     max-width:20px;
     max-height:20px;
     height:18px;
     width:auto;
     margin-right:5px;
-    
 }

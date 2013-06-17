@@ -30,7 +30,7 @@
 			</div></div>
 		{% endif %}
 		{% for album in object_list %}
-			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid" onclick="showContent({{ album.id_album }})">{{ album.album_name }}</div>
+			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid" onclick="showContent({{ album.id }})">{{ album.name }}</div>
 		{% endfor %}
 		<a href="/usuarios/profile/addalbum" class="user_profile_add_album_link"></a>
 	

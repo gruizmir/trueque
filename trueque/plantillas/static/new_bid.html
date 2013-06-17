@@ -12,12 +12,12 @@
 			{% for product in products %}
 				<li>
 					<div class="radio_polaroids">
-						<input type="radio" name="bid_product" id="id_radio-field_{{ product.id_product }}" value="{{ product.id_product }}" >
-						<label for="id_radio-field_{{ product.id_product }}">
+						<input type="radio" name="bid_product" id="id_radio-field_{{ product.id }}" value="{{ product.id }}" >
+						<label for="id_radio-field_{{ product.id }}">
 							<div class="mini_radio_polaroid">
-								<img src="/media/{{ product.product_img }}/img_1.png" width="70"/>
+								<img src="/media/{{ product.img }}/img_1.png" width="70"/>
 								<br>
-								{{ product.product_name }}
+								{{ product.name }}
 							</div>
 						</label>
 					</div>

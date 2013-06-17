@@ -26,15 +26,15 @@ import os
 class ProductNotification:
 
 	def bid_notification(self, idBidder, idProduct):
-		bidder = Usuario.objects.get(id_usuario=idBidder)
-		product = Product.objects.get(id_product=idProduct)
-		nota = u"El usuario " + bidder.usuario_name + u" ha ingresado una oferta en tu " + product.product_name
-		notif = Notification(id_user=product.id_owner, notification_message=nota, notification_pending=True, notification_datetime = str(datetime.now()), notification_link="/products/" + str(idProduct), notification_type="bid")
+		bidder = Usuario.objects.get(id=idBidder)
+		product = Product.objects.get(id=idProduct)
+		nota = u"El usuario " + bidder.first_name + u" ha ingresado una oferta en tu " + product.product_name
+		notif = Notification(id_user=product.id_owner, message=nota, pending=True, datetime = str(datetime.now()), link="/products/" + str(idProduct), ntype="bid")
 		notif.save()
 		
 		
 		try:
-			prevNotif = Notification.objects.get(id_user=product.id_owner, notification_type="bid", notification_message__contains=u"personas quieren hacer trueque con tu " + product.product_name)
+			prevNotif = Notification.objects.get(id_user=product.id_owner, ntype="bid", message__contains=u"personas quieren hacer trueque con tu " + product.product_name)
 			prevNotif.delete()
 			nota = str(cantBids) + u" personas quieren hacer trueque con tu " + product.product_name
 		except:
@@ -43,18 +43,18 @@ class ProductNotification:
 			
 		cantBids = Bid.objects.filter(id_product=idProduct).count()
 		nota = str(cantBids) + u" personas quieren hacer trueque con tu " + product.product_name
-		notif2 = Notification(id_user=product.id_owner, notification_message=nota, notification_pending=True, notification_datetime = str(datetime.now()), notification_link="/products/" + str(idProduct), notification_type="bid")
+		notif2 = Notification(id_user=product.id_owner, message=nota, pending=True, datetime = str(datetime.now()), link="/products/" + str(idProduct), ntype="bid")
 		notif2.save()
 	
 	def like_notification(self, idProduct):
-		product = Product.objects.get(id_product=idProduct)
+		product = Product.objects.get(id=idProduct)
 		try:
-			prevNotif = Notification.objects.get(id_user=product.id_owner, notification_type="like", notification_message__contains=u"personas les gusta tu " + product.product_name)
+			prevNotif = Notification.objects.get(id_user=product.id_owner, ntype="like", message__contains=u"personas les gusta tu " + product.product_name)
 			prevNotif.delete()
 			nota = u"A " + str(product.product_follower_qty) + u" personas les gusta tu " + product.product_name
 		except:
 			nota = u"A " + str(product.product_follower_qty) + u" persona le gusta tu " + product.product_name
-		notif = Notification(id_user=product.id_owner, notification_message=nota, notification_pending=True, notification_datetime = str(datetime.now()), notification_link="/products/" + str(idProduct), notification_type="like")
+		notif = Notification(id_user=product.id_owner, message=nota, pending=True, datetime = str(datetime.now()), link="/products/" + str(idProduct), ntype="like")
 		notif.save()
 	
 
@@ -63,15 +63,15 @@ class UserNotification:
 	#Cuando se suma un seguidor
 	def follower_notification(self, idFollowed):
 		#debe buscar la ultima notificacion (si hay) que diga que "X personas te siguen ahora" del usuario y borrarla.
-		user = Usuario.objects.get(id_usuario=idFollowed)
+		user = Usuario.objects.get(id=idFollowed)
 		try:
-			prevNotif = Notification.objects.get(id_user=user, notification_type="follow", notification_message__contains=u"personas te siguen ahora")
+			prevNotif = Notification.objects.get(id_user=user, ntype="follow", message__contains=u"personas te siguen ahora")
 			prevNotif.delete()
-			nota = str(user.usuario_follower_qty) + u" personas te siguen ahora"
+			nota = str(user.follower_qty) + u" personas te siguen ahora"
 		except:
-			nota = str(user.usuario_follower_qty) + u" persona te sigue ahora"
-		nota = str(user.usuario_follower_qty) + u" personas te siguen ahora"
-		notif = Notification(id_user=user, notification_message=nota, notification_pending=True, notification_datetime = str(datetime.now()), notification_link="/usuarios/" + str(idFollowed) + "/followers", notification_type="follow")
+			nota = str(user.follower_qty) + u" persona te sigue ahora"
+		nota = str(user.follower_qty) + u" personas te siguen ahora"
+		notif = Notification(id_user=user, message=nota, pending=True, datetime = str(datetime.now()), link="/usuarios/" + str(idFollowed) + "/followers", ntype="follow")
 		notif.save()
 
 
@@ -79,10 +79,10 @@ class TradeNotification:
 
 	#Falta agregar el link: deberia ir a la lista de trueques realizados.
 	def trade_notification(self, idBidder, idUsuario):
-		bidder = Usuario.objects.get(id_usuario=idBidder)
-		user = Usuario.objects.get(id_usuario=idUsuario)
-		nota = u"Felicidades, lograste un trueque con " + bidder.usuario_name + " " + bidder.usuario_lastname
-		notif = Notification(id_user=user, notification_message=nota, notification_pending=True, notification_datetime = str(datetime.now()), notification_link="", notification_type="trade")
+		bidder = Usuario.objects.get(id=idBidder)
+		user = Usuario.objects.get(id=idUsuario)
+		nota = u"Felicidades, lograste un trueque con " + bidder.first_name + " " + bidder.last_name
+		notif = Notification(id_user=user, message=nota, pending=True, datetime = str(datetime.now()), link="", ntype="trade")
 		notif.save()
 
 class MessageNotification:
@@ -90,7 +90,7 @@ class MessageNotification:
 	#Recibe la id del usuario que le envio el mensaje
 	#Falta agregar el link
 	def message_notification(self, idUsuario):
-		user = Usuario.objects.get(id_usuario=idUsuario)
-		nota = user.usuario_name + u" te ha enviado un mensaje"
-		notif = Notification(id_user=user, notification_message=nota, notification_pending=True, notification_datetime = str(datetime.now()), notification_link="", notification_type="message")
+		user = Usuario.objects.get(id=idUsuario)
+		nota = user.first_name + u" te ha enviado un mensaje"
+		notif = Notification(id_user=user, message=nota, pending=True, datetime = str(datetime.now()), link="", ntype="message")
 		notif.save()

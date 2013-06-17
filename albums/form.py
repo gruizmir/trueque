@@ -9,10 +9,10 @@ ERROR_ALREADYEXIST = "THAT ALBUM ALREADY EXIST, TRY ANOTHER NAME"
 class AddAlbumForm(ModelForm):
     class Meta:
         model = Album
-        exclude = ('id_owner','album_edit')
+        exclude = ('id_owner','edit')
     def clean(self): 
         cleaned_data = super(AddAlbumForm, self).clean()
-        if not albums_utils.add_album(self.id_owner, cleaned_data.get('album_name'), True, True):
-            self._errors['album_name'] = self.error_class([ERROR_ALREADYEXIST])
-            del cleaned_data['album_name']
+        if not albums_utils.add_album(self.id_owner, cleaned_data.get('name'), True, True):
+            self._errors['name'] = self.error_class([ERROR_ALREADYEXIST])
+            del cleaned_data['name']
         return cleaned_data

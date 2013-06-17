@@ -72,14 +72,14 @@
 					</div>
 					
 					<div class="social_external_links">
-						<a href="https://www.facebook.com/pages/Trueque/155109701316768">
-		                    <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon">
+						<a href="https://www.facebook.com/pages/Trueque/155109701316768" target="_blank">
+		                    <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon"/>
 		                </a>
-		                <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false">
-		                    <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon">
+		                <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false" target="_blank">
+		                    <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon"/>
 		                </a>
-		                <a href="http://instagram.com/trueque_in" >
-		                    <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon">
+		                <a href="http://instagram.com/trueque_in" target="_blank">
+		                    <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon"/>
 		                </a>
 					</div>
 							
@@ -88,8 +88,8 @@
 				<div class="product_main_container_right_col">
 					<div class="container_right_col_block">
 						<ul class="right_col_block_list">
-							<li class="new_product_name">{{ product_form.product_name }} </li>
-							<li>{{ product_form.product_description }} </li>
+							<li class="new_product_name">{{ product_form.name }} </li>
+							<li>{{ product_form.description }} </li>
 							<li>Categorias de interés para trocar este producto</li>
 							<li>
 								<ul class="product_taste_list">
@@ -194,7 +194,7 @@
 							<li>o fija un monto</li>
 							<li>
 								<div class="new_product_q_price_container">
-								{{ product_form.product_q_amount }}
+								{{ product_form.q_amount }}
 								<img src="/static/img/icons/Q-gris.png" alt="Q">
 								</div>
 							</li>

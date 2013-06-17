@@ -42,7 +42,7 @@ def getCities(request, country=None):
     if country==None:
         cities = None
     else:
-        cities = City.objects.filter(id_country__country_name=country)
+        cities = City.objects.filter(id_country__name=country)
     response = render_to_response("cities.html", {'cities':cities})     
     message = {"cities": response.content}
     json = simplejson.dumps(message)
@@ -52,23 +52,23 @@ def search(request, page=None):
     data = None
     try:
         if page==None or page=="":
-            data = Product.objects.filter(product_active=True).order_by('product_q_amount').order_by('product_featured')[:20]
+            data = Product.objects.filter(active=True).order_by('q_amount').order_by('featured')[:20]
         else:
             cant = 20*(int(page) - 1)
-            data = Product.objects.filter(product_active=True).order_by('product_q_amount').order_by('product_featured')[cant:20]
+            data = Product.objects.filter(active=True).order_by('q_amount').order_by('featured')[cant:20]
     except ObjectDoesNotExist:
         data = None
     form = CategoryForm()
     user = None
     if is_loged(request):
-        user = Usuario.objects.get(id_usuario=request.session['member_id'])
+        user = Usuario.objects.get(id=request.session['member_id'])
     return render_to_response("main.html", {'form':form, 'user':user, 'data':data,'direccion':settings.MEDIA_ROOT}, context_instance=RequestContext(request))
 
 
 def about(request):
     user = None
     if is_loged(request):
-        user = Usuario.objects.get(id_usuario=request.session['member_id'])
+        user = Usuario.objects.get(id=request.session['member_id'])
     return render_to_response('about.html', {'about':True, 'user':user})
     
     
@@ -85,14 +85,14 @@ def searchByPrice(request, page=None):
     data = None
     try:
         if page==None or page=="":
-            data = Product.objects.filter(product_active=True).order_by('product_q_amount').order_by('product_featured')[:20]
+            data = Product.objects.filter(active=True).order_by('q_amount').order_by('featured')[:20]
         else:
             cant = 20*(int(page) - 1)
-            data = Product.objects.filter(product_active=True).order_by('product_q_amount').order_by('product_featured')[cant:20]
+            data = Product.objects.filter(active=True).order_by('q_amount').order_by('featured')[cant:20]
     except ObjectDoesNotExist:
         data = None
     if is_loged(request):
-        user = Usuario.objects.get(id_usuario=request.session['member_id'])
+        user = Usuario.objects.get(id=request.session['member_id'])
         return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})        
     else:
         return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})        
@@ -107,15 +107,15 @@ def searchByPopularity(request, page=None):
     data = None
     try:
         if page==None or page=="":
-            data = Product.objects.filter(product_active=True).order_by('product_follower_qty').order_by('product_featured')[:20]
+            data = Product.objects.filter(active=True).order_by('follower_qty').order_by('featured')[:20]
         else:
             cant = 20*(int(page) - 1)
-            data = Product.objects.filter(product_active=True).order_by('product_follower_qty').order_by('product_featured')[cant:20]
+            data = Product.objects.filter(active=True).order_by('follower_qty').order_by('featured')[cant:20]
     except ObjectDoesNotExist:
         data = None
     user = None
     if is_loged(request):
-        user = Usuario.objects.get(id_usuario=request.session['member_id'])
+        user = Usuario.objects.get(id=request.session['member_id'])
     return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
 
 
@@ -129,17 +129,17 @@ def searchByName(request,page=None):
     if request.method == 'POST':
         try:
             if page==None or page=="":
-                data = Product.objects.filter(product_name__icontains=request.POST['search_data']).order_by('product_featured')[:20]
+                data = Product.objects.filter(name__icontains=request.POST['search_data']).order_by('featured')[:20]
             else:
                 cant = 20*(int(page) - 1)
-                data = Product.objects.filter(product_name__icontains=request.POST['search_data']).order_by('product_featured')[cant:20]
+                data = Product.objects.filter(name__icontains=request.POST['search_data']).order_by('featured')[cant:20]
         except ObjectDoesNotExist:
             data = None
     else:
         return HttpResponseRedirect("/")
     user = None
     if is_loged(request):
-        user = Usuario.objects.get(id_usuario=request.session['member_id'])
+        user = Usuario.objects.get(id=request.session['member_id'])
     return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
 
 
@@ -152,13 +152,13 @@ def searchByDate(request, page=None):
     data = None
     try:
         if page==None or page=="":
-            data = Product.objects.filter(product_active=True).order_by('product_datetime').order_by('product_featured')[:20]
+            data = Product.objects.filter(active=True).order_by('datetime').order_by('featured')[:20]
         else:
             cant = 20*(int(page) - 1)
-            data = Product.objects.filter(product_active=True).order_by('product_start_datetime').order_by('product_featured')[cant:20]
+            data = Product.objects.filter(active=True).order_by('start_datetime').order_by('featured')[cant:20]
     except ObjectDoesNotExist:
         data = None
     user = None
     if is_loged(request):
-        user = Usuario.objects.get(id_usuario=request.session['member_id'])
+        user = Usuario.objects.get(id=request.session['member_id'])
     return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})    

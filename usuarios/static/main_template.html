@@ -2,7 +2,7 @@
 <html>
 	<head>
 		{% if title %}
-			<title>{{ product.product_name }}</title>
+			<title>{{ product.name }}</title>
 		{% else %}
 			<title>Trueque | Intercambia sin dinero </title>
 		{% endif %}
@@ -72,7 +72,7 @@
 					  </li>
 					{% if user %}
 						<li class="parent">
-						 	<a href="/usuarios/profile/{{ user.id_usuario }}" class="main_enter_button"><img src=""/>{{ user.usuario_name }} {{ user.usuario_lastname }}</a>
+						 	<a href="/usuarios/profile/{{ user.id }}" class="main_enter_button"><img src=""/>{{ user.first_name }} {{ user.last_name }}</a>
 						 <ul>
 							<li><a href="#">Me gusta</a></li>
 							<li><a href="/usuarios/profile/editprofile">Editar</a></li>
@@ -118,7 +118,7 @@
 		        <p>Ingresa los correos de las personas que quieres invitar  </p>
 		        <form action="/invitation/send/" method="POST">
 		        <textarea class="mailTextBox" name="mails" id="mails" autofocus></textarea>
-		        <p >Te quedan <label class="numeros">{{ user.usuario_remaining_invitations }}</label> invitaciones </p>
+		        <p >Te quedan <label class="numeros">{{ user.remaining_invitations }}</label> invitaciones </p>
 		        <p><label class="numeros"> 00 </label> sugeridos </p>
 		        <input type="reset" value="cancelar" class="inviteButton"/><input type="submit" value="aceptar" class="inviteButton"/>
 	        </div>

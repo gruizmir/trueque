@@ -9,8 +9,8 @@ from usuarios.views import is_loged
 
 def showAlbums(request, idProduct=None):
 	if is_loged(request):
-		albums = Album.objects.filter(id_owner = request.session['member_id']).exclude(album_name = "My Garage").exclude(album_name = "Trueques")
-		product = Product.objects.get(id_product=idProduct)
+		albums = Album.objects.filter(id_owner = request.session['member_id']).exclude(name = "My Garage").exclude(name = "Trueques")
+		product = Product.objects.get(id=idProduct)
 		return render_to_response("to_album.html", {'albums':albums, 'product':product}, context_instance=RequestContext(request))
 	else:
 		return HttpResponse("USUARIO NO AUTENTICADO")
@@ -20,9 +20,9 @@ def saveAlbumData(request, idProduct=None):
 	if is_loged(request):
 		if request.method == "POST":
 			try:
-				album_value = int(request.POST['album_value'])
-				album = Album.objects.filter(id_owner=request.session['member_id']).get(id_album=album_value)
-				producto = Product.objects.get(id_product = idProduct)
+				albumValue = int(request.POST['albumValue'])
+				album = Album.objects.filter(id_owner=request.session['member_id']).get(id=albumValue)
+				producto = Product.objects.get(id = idProduct)
 				albumProd = AlbumProduct()
 				albumProd.id_album = album
 				albumProd.id_product = producto

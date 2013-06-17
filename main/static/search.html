@@ -1,5 +1,5 @@
 {% if data %}
 	{% for product in data %}
-		<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><a class="product_name" href="/products/{{ product.id_product }}"><image src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}" height="150"/><br />{{ product.product_name }}</a></div>
+		<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><a class="product_name" href="/products/{{ product.id }}"><image src="/media/{{ product.img }}/img_1.png" alt="{{product.name}}" height="150"/><br />{{ product.name }}</a></div>
 	{% endfor %}	
 {% endif %}

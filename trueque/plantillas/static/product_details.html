@@ -10,37 +10,37 @@
 		<div class="product_main_container_left_col">
 		
 			<div class="product_main_img">
-				<img src="/media/{{ product.product_img }}/img_1.png" alt="{{product.product_img}}_01" h/>
+				<img src="/media/{{ product.img }}/img_1.png" alt="{{product.img}}_01" h/>
 			</div>
 			
 			<div class="main_container_uploaded_container">
 				<ul>
-					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.product_img }}/img_2.png" alt="{{product.product_img}}_02" class="new_product_mini_polaroid_img"/></div></li>
-					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.product_img }}/img_3.png" alt="{{product.product_img}}_03" class="new_product_mini_polaroid_img"/></div></li>
-					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.product_img }}/img_4.png" alt="{{product.product_img}}_04" class="new_product_mini_polaroid_img"/></div></li>
-					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.product_img }}/img_5.png" alt="{{product.product_img}}_05" class="new_product_mini_polaroid_img"/></div></li>
+					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_2.png" alt="{{product.img}}_02" class="new_product_mini_polaroid_img"/></div></li>
+					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_3.png" alt="{{product.img}}_03" class="new_product_mini_polaroid_img"/></div></li>
+					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_4.png" alt="{{product.img}}_04" class="new_product_mini_polaroid_img"/></div></li>
+					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_5.png" alt="{{product.img}}_05" class="new_product_mini_polaroid_img"/></div></li>
 				</ul>
 			</div>
 		
 		</div>
 		
 		<div class="product_main_container_center_col">
-			<p class="center_container_product_title">{{ product.product_name }}</p>
-			<p class="center_container_product_description">{{ product.product_description }}</p>
+			<p class="center_container_product_title">{{ product.name }}</p>
+			<p class="center_container_product_description">{{ product.description }}</p>
 			<p class="center_container_product_subtitle">Categorías de interes para trocar este producto</p>
 			{% if categories %}
 				{% for cat in categories %}
-					{{ cat.id_category.category_name }}
+					{{ cat.id_category.name }}
 				{% endfor %}
 			{% endif %}
 			<p class="center_container_product_subtitle">Categorías:</p>
 
 			<div class="product_q_price_container">
-				<span>{{ product.product_q_amount }}</span>
+				<span>{{ product.q_amount }}</span>
 				<img src="/static/img/icons/Q-gris.png" alt="Q">
 			</div>
 			
-			<a href="/album/toalbum/{{product.id_product}}" style="text-decoration: none;">
+			<a href="/album/toalbum/{{product.id}}" style="text-decoration: none;">
 				<div class="owner_product_new_comment_button">
 					Agregar a un album
 				</div>
@@ -66,14 +66,14 @@
 				<div class="bids_container">
 					{% csrf_token %}
 					{% for bid in bids %}
-						{% if bid.bid_id_product %}		
-							{{ bid.id_bidder.usuario_name }} {{ bid.id_bidder.usuario_lastname }}<br>
-							<image src="/media/{{ bid.bid_id_product.product_img }}/img_1.png" width="70"/><br>
-							{{ bid.bid_id_product.product_name }}
+						{% if bid.id_product %}		
+							{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}<br>
+							<image src="/media/{{ bid.bid_id_product.img }}/img_1.png" width="70"/><br>
+							{{ bid.bid_id_product.name }}
 							<hr>
 						{% else %}
-							{{ bid.id_bidder.usuario_name }} {{ bid.id_bidder.usuario_lastname }}<br>
-							{{ bid.bid_q }} 
+							{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}<br>
+							{{ bid.q }} 
 							<hr>
 						{% endif %}
 					{% endfor %}
@@ -85,11 +85,11 @@
 				<div class="comments_container">
 				{% for comment in comments %}
 					<div class="comments_comment_container">
-						<p class="comments_name">{{ comment.id_sender.usuario_name }} {{ comment.id_sender.usuario_lastname }}</p>
-						<p class="comments_title">{{ comment.comment_subject }}</p>
+						<p class="comments_name">{{ comment.id_sender.first_name }} {{ comment.id_sender.last_name }}</p>
+						<p class="comments_title">{{ comment.subject }}</p>
 						<div class="comments_message_date_container">
-							<p class="comments_message">{{ comment.comment_text }}</p>
-							<p class="comments_date">{{ comment.comment_datetime|date:"l j/F/Y" }}</p>
+							<p class="comments_message">{{ comment.text }}</p>
+							<p class="comments_date">{{ comment.datetime|date:"l j/F/Y" }}</p>
 						</div>
 					</div>
 				{% endfor %}	
@@ -118,7 +118,7 @@
 					resizable: false,
 			        width:'auto'
 				});
-				$.get("/products/comment/{{ product.id_product }}", function(data) {
+				$.get("/products/comment/{{ product.id }}", function(data) {
 					result = data.add_comment_data;
 					$('#dialog_add_comment_result')[0].innerHTML = result;
 					add_album_form();
@@ -129,7 +129,7 @@
 			$(".comments_container").mCustomScrollbar();
 			
 			$("#new_bid_button").bind('click', function () {
-				var url = "/transactions/bid/{{ product.id_product }}";
+				var url = "/transactions/bid/{{ product.id }}";
 				
 				$.get(url, function(data) {
 					result = data.bid_data;

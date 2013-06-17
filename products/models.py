@@ -3,42 +3,40 @@ from django.db import models
 from usuarios.models import Usuario
 
 class Product(models.Model):
-    id_product = models.AutoField(primary_key=True, db_column='ID_product') # Field name made lowercase.
-    id_owner = models.ForeignKey(Usuario, db_column='ID_owner') # Field name made lowercase.
-    product_name = models.CharField(max_length=90, db_column='Product_name') # Field name made lowercase.
-    product_img = models.CharField(max_length=300, db_column='Product_img') # Field name made lowercase.
-    product_description = models.TextField(db_column='Product_description', blank=True) # Field name made lowercase.
-    product_q_amount = models.IntegerField(db_column='Product_Q_amount') # Field name made lowercase.
-    product_start_datetime = models.DateTimeField(db_column='Product_start_datetime') # Field name made lowercase.
-    product_end_datetime = models.DateTimeField(db_column='Product_end_datetime') # Field name made lowercase.
-    product_follower_qty = models.IntegerField(db_column='Product_follower_qty') # Field name made lowercase.
-    product_visit_qty = models.IntegerField(db_column='Product_visit_qty') # Field name made lowercase.
-    product_country = models.CharField(max_length=60, db_column='Product_country') # Field name made lowercase.
-    product_city = models.CharField(max_length=60, db_column='Product_city') # Field name made lowercase.
-    product_featured = models.BooleanField(db_column='Product_featured') # Field name made lowercase.
-    product_featured_time = models.IntegerField(db_column='Product_featured_time') # Field name made lowercase.
-    product_active = models.BooleanField(db_column='Product_active') # Field name made lowercase.
+    id_owner = models.ForeignKey(Usuario) # Field name made lowercase.
+    name = models.CharField(max_length=90) # Field name made lowercase.
+    img = models.CharField(max_length=300) # Field name made lowercase.
+    description = models.TextField(blank=True) # Field name made lowercase.
+    q_amount = models.IntegerField() # Field name made lowercase.
+    start_datetime = models.DateTimeField() # Field name made lowercase.
+    end_datetime = models.DateTimeField() # Field name made lowercase.
+    follower_qty = models.IntegerField() # Field name made lowercase.
+    visit_qty = models.IntegerField() # Field name made lowercase.
+    country = models.CharField(max_length=60) # Field name made lowercase.
+    city = models.CharField(max_length=60) # Field name made lowercase.
+    featured = models.BooleanField(default=False) # Field name made lowercase.
+    featured_time = models.IntegerField() # Field name made lowercase.
+    active = models.BooleanField(default=True) # Field name made lowercase.
     class Meta:
         db_table = u'Product'
         
 class Category(models.Model):
-    id_category = models.AutoField(primary_key=True, db_column='ID_category') # Field name made lowercase.
-    category_name = models.CharField(max_length=60, db_column='Category_name') # Field name made lowercase.
+    name = models.CharField(max_length=60) # Field name made lowercase.
     class Meta:
         db_table = u'Category'
 
 class ProductCategory(models.Model):
-    id_product = models.ForeignKey(Product, primary_key=True, db_column='ID_product') # Field name made lowercase.
-    id_category = models.ForeignKey(Category, primary_key=True, db_column='ID_category') # Field name made lowercase.
+    
+    id_product = models.ForeignKey(Product) # Field name made lowercase.
+    id_category = models.ForeignKey(Category) # Field name made lowercase.
     class Meta:
         db_table = u'Product_category'
 
 class Comment(models.Model):
-    id_comment = models.AutoField(primary_key=True, db_column='ID_comment') # Field name made lowercase.
-    id_product = models.ForeignKey(Product, db_column='ID_product') # Field name made lowercase.
-    id_sender = models.ForeignKey(Usuario, db_column='ID_sender') # Field name made lowercase.
-    comment_subject = models.CharField(max_length=300, db_column='Comment_subject', blank=True) # Field name made lowercase.
-    comment_text = models.TextField(db_column='Comment_text', blank=True) # Field name made lowercase.
-    comment_datetime = models.DateTimeField(db_column='Comment_datetime') # Field name made lowercase.
+    id_product = models.ForeignKey(Product) # Field name made lowercase.
+    id_sender = models.ForeignKey(Usuario) # Field name made lowercase.
+    subject = models.CharField(max_length=300, blank=True) # Field name made lowercase.
+    text = models.TextField(blank=True) # Field name made lowercase.
+    datetime = models.DateTimeField() # Field name made lowercase.
     class Meta:
         db_table = u'Comment'

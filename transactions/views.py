@@ -30,8 +30,8 @@ def newBid(request, idProducto=None):
 			return HttpResponseRedirect("/")
 		else:
 			if request.is_ajax():
-				prod = Product.objects.get(id_product=idProducto)
-				if prod.product_active==True:
+				prod = Product.objects.get(id=idProducto)
+				if prod.active==True:
 					bidderProducts = Product.objects.filter(id_owner = request.session['member_id'])
 					title = "Nueva oferta"
 					usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
@@ -43,8 +43,8 @@ def newBid(request, idProducto=None):
 				else:
 					return HttpResponse("ESTE PRODUCTO YA FUE INTERCAMBIADO")
 			else:
-				prod = Product.objects.get(id_product=idProducto)
-				if prod.product_active==True:
+				prod = Product.objects.get(id=idProducto)
+				if prod.active==True:
 					if 'bid_product' in request.POST:
 						bidProductID = request.POST['bid_product']
 						bid_q = 0
@@ -53,7 +53,7 @@ def newBid(request, idProducto=None):
 							bid_q = int(request.POST['bid_q_amount'])
 							user = Usuario.objects.get(id_usuario = request.session['member_id'])
 							bidProductID = None
-							if bid_q == 0 or bid_q > user.usuario_quds or bid_q < 0:
+							if bid_q == 0 or bid_q > user.quds or bid_q < 0:
 								return HttpResponse("MONTO NO VALIDO")
 						except ValueError: 
 							return HttpResponse("MONTO NO VALIDO")
@@ -89,22 +89,22 @@ def makeTrade(request, idProduct):
 		if is_loged(request):
 			data = {'id_dealer':request.session['member_id'],
 					'id_bid':request.POST['group_product'],
-					'trade_code_dealer':id_generator(),
-					'trade_code_bidder':id_generator(),
-					'trade_pending_dealer':True,
-					'trade_pending_bidder':True,
-					'trade_datetime':datetime.now(),
-					'trade_valid':False,
+					'idcode_dealer':id_generator(),
+					'idcode_bidder':id_generator(),
+					'idpending_dealer':True,
+					'idpending_bidder':True,
+					'iddatetime':datetime.now(),
+					'idvalid':False,
 					}
 			tradeForm = TradeForm(data)
 			if tradeForm.is_valid():
 				tradeForm.save()
-				product = Product.objects.get(id_product=idProduct)
-				product.product_active = False
+				product = Product.objects.get(id=idProduct)
+				product.active = False
 				product.save()
-				bidder = Bid.objects.get(id_bid = request.POST['group_product']).id_bidder
+				bidder = Bid.objects.get(id = request.POST['group_product']).id_bidder
 				owner = product.id_owner
-				sendTradeMail(owner, bidder, tradeForm.cleaned_data['trade_code_dealer'], tradeForm.cleaned_data['trade_code_bidder'])
+				sendTradeMail(owner, bidder, tradeForm.cleaned_data['idcode_dealer'], tradeForm.cleaned_data['idcode_bidder'])
 				return HttpResponseRedirect("/products/" + str(idProduct))
 			else:
 				return HttpResponse("DATA ERROR")
@@ -129,8 +129,8 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 #RETURN: render de la pagina con los datos de transacciones pendientes.
 def showPending(request):
 	if is_loged(request):
-		dealer_pendings = Trade.objects.filter(id_dealer=request.session['member_id']).filter(trade_pending_dealer=True)
-		bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.session['member_id']).filter(trade_pending_bidder=True)
+		dealer_pendings = Trade.objects.filter(id_dealer=request.session['member_id']).filter(idpending_dealer=True)
+		bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.session['member_id']).filter(idpending_bidder=True)
 		title = "Trueques pendientes"
 		usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
 		return render_to_response("pendings.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario})
@@ -145,13 +145,13 @@ def verifyTrade(request, idTrade=None):
 			if tradeVer.is_valid():
 				trade = Trade.objects.get(id_trade=idTrade)
 				if request.session['member_id']==trade.id_dealer.id_usuario:
-					if trade.trade_code_dealer == tradeVer.cleaned_data['code']:
-						trade.trade_pending_dealer = False
+					if trade.idcode_dealer == tradeVer.cleaned_data['code']:
+						trade.idpending_dealer = False
 						trade.save()
 						rate(trade.id_bid.id_bidder, tradeVer.cleaned_data['rate'])
-						if trade.trade_pending_bidder==False:
-							exchange(trade.id_bid.id_bid, trade.id_bid.id_product.id_product)
-							trade.trade_valid=True
+						if trade.idpending_bidder==False:
+							exchange(trade.id_bid.id, trade.id_bid.id_product.id_product)
+							trade.idvalid=True
 							trade.save()
 							#Vuelve a mi nuevo producto recibido si existe, o si no a la busqueda (es el vendedor)
 							if trade.id_bid.bid_q == 0:
@@ -163,13 +163,13 @@ def verifyTrade(request, idTrade=None):
 					else:
 						return HttpResponse("CODIGO NO VALIDO")
 				elif request.session['member_id']==trade.id_bid.id_bidder.id_usuario:
-					if trade.trade_code_bidder == tradeVer.cleaned_data['code']:
-						trade.trade_pending_bidder = False
+					if trade.idcode_bidder == tradeVer.cleaned_data['code']:
+						trade.idpending_bidder = False
 						trade.save()
 						rate(trade.id_dealer, tradeVer.cleaned_data['rate'])
-						if trade.trade_pending_dealer==False:
-							exchange(trade.id_bid.id_bid, trade.id_bid.id_product.id_product)
-							trade.trade_valid=True
+						if trade.idpending_dealer==False:
+							exchange(trade.id_bid.id, trade.id_bid.id_product.id_product)
+							trade.idvalid=True
 							trade.save()
 							
 							#Vuelve al productp adquirido (es el comprador)
@@ -189,15 +189,15 @@ def verifyTrade(request, idTrade=None):
 			tradeVer = TradeVerification()
 			title = "Verificar trueque"
 			usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
-			return render_to_response("trade_verifier.html", {'form':tradeVer,'id_trade':idTrade, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
+			return render_to_response("trade_idverifier.html", {'form':tradeVer,'id_trade':idTrade, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
 		else:
 			return HttpResponse("/login")
 
 #Funcion llamada para cambiar de Owner a un producto, y restar la cantidad de Q ofrecida
 #en caso de "compra"
 def exchange(idBid, idProduct):
-	product = Product.objects.get(id_product=idProduct)
-	bid = Bid.objects.get(id_bid=idBid)
+	product = Product.objects.get(id=idProduct)
+	bid = Bid.objects.get(id=idBid)
 	dealer = product.id_owner
 	bidder = bid.id_bidder
 	product.id_owner = bidder
@@ -206,8 +206,8 @@ def exchange(idBid, idProduct):
 		bid.bid_id_product.id_owner = dealer
 		saveAlbumData(bid.bid_id_product, dealer)
 	else:									#Significa que fue un trueque por Q
-		dealer.usuario_quds += bid.bid_q
-		bidder.usuario_quds -= bid.bid_q
+		dealer.quds += bid.bid_q
+		bidder.quds -= bid.bid_q
 
 #saveAlbumData: 	Ingresa el registro de que el nuevo producto pertenece al album Trueques
 #PARAMS: product: 	Objecto producto recien guardado
@@ -222,10 +222,10 @@ def saveAlbumData(producto, idUsuario):
 
 #Funcion encargada de agregar la calificacion a un usuario
 def rate(usuario, nota):
-	cant = usuario.usuario_ranking_qty
-	prevNota = usuario.usuario_rating
-	usuario.usuario_rating = (prevNota*cant + int(nota))/(cant + 1)
-	usuario.usuario_ranking_qty += 1
+	cant = usuario.ranking_qty
+	prevNota = usuario.rating
+	usuario.rating = (prevNota*cant + int(nota))/(cant + 1)
+	usuario.ranking_qty += 1
 	usuario.save()
 
 
@@ -233,9 +233,9 @@ def rate(usuario, nota):
 #Al owner se le envia la clave del bidder y viceversa.
 def sendTradeMail(owner, bidder, code_dealer, code_bidder):
 	#Mail para el propietario del producto
-	dealer_msg = u"Usted ha realizado un nuevo trueque con el usuario " + bidder.usuario_name + " " + bidder.usuario_lastname + u".\nSu correo de contacto es " + bidder.usuario_email_1 + u".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_bidder
-	send_mail('Confirmación de Trueque', dealer_msg , 'trueque@trueque.in', [owner.usuario_email_1], fail_silently=False)
+	dealer_msg = u"Usted ha realizado un nuevo trueque con el usuario " + bidder.first_name + " " + bidder.last_name + u".\nSu correo de contacto es " + bidder.email + u".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_bidder
+	send_mail('Confirmación de Trueque', dealer_msg , 'trueque@trueque.in', [owner.email], fail_silently=False)
 	
 	#Mail para el bidder
-	bidder_msg = u"Usted ha realizado un nuevo trueque con el usuario " + owner.usuario_name + " " + owner.usuario_lastname + u".\nSu correo de contacto es " + owner.usuario_email_1 + u".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_dealer
-	send_mail('Confirmación de Trueque', bidder_msg , 'trueque@trueque.in', [bidder.usuario_email_1], fail_silently=False)
+	bidder_msg = u"Usted ha realizado un nuevo trueque con el usuario " + owner.first_name + " " + owner.last_name + u".\nSu correo de contacto es " + owner.email + u".\nAl realizar el intercambio final de tu producto, él debe entregarte un código de confirmación que debes usar para finalizar el trueque. Tú deberás entregarle el siguiente código para confirmar el trueque:\n" + code_dealer
+	send_mail('Confirmación de Trueque', bidder_msg , 'trueque@trueque.in', [bidder.email], fail_silently=False)

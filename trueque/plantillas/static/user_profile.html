@@ -49,14 +49,14 @@
 				{% if following %}
 					<h1> FOLLOWING </h1>
 					{% for follow in following %}
-					<br> {{follow.id_followed.usuario_name}} {{follow.id_followed.usuario_lastname}}</br>
+					<br> {{follow.id_followed.first_name}} {{follow.id_followed.last_name}}</br>
 					{% endfor %}
 				{% endif %}
 			
 				{% if followers %}
 					<h1> FOLLOWERS </h1>
 					{% for follower in followers %}
-					<br> {{follower.id_follwer.usuario_name}} {{follower.id_follwer.usuario_name}}</br>
+					<br> {{follower.id_follower.first_name}} {{follower.id_follower.last_name}}</br>
 					{% endfor %}
 				{% endif %}
 			

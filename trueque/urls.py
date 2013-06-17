@@ -21,5 +21,6 @@ urlpatterns = patterns('',
     url(r'^usuarios/', include('usuarios.urls')),
     url(r'^album/', include('albums.urls')),
     url(r'^invitation/', include('invitations.urls')),
+    url(r'', include('social_auth.urls')),
     url(r'^$', 'main.views.search' ),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
