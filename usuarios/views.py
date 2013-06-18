@@ -51,7 +51,6 @@ def register(request):
             form = RegisterUserForm(request.POST)
             if form.is_valid():
                 new_register = form.save(commit=False)
-                new_register.register_date = datetime.now()
                 
                 #Se crea una session para la verificacion via email de la activacion de cuenta
                 #del usuario que se esta intentando registrar.
@@ -131,8 +130,8 @@ def confirm(request):
 
         #Verificar que el usuario no este activo para activarlo. Una vez activado se borra
         #la sesion.
-        if(user.active == False):
-            user.active = True
+        if(user.is_active == False):
+            user.is_active = True
             user.save()
             session_s.delete()
             return render_to_response('register_complete.html')
@@ -160,7 +159,7 @@ def resend_confirmation(request):
                 session_s.save(must_create=True)
                 
                 user = Usuario.objects.get(email=session_s['user_mail'])
-                if(user.active == False):
+                if(user.is_active == False):
                     return send_registration_confirmation(session_s)
                 else: return C_error.raise_error(C_error.USERALREADYACTIVE)    
         else:

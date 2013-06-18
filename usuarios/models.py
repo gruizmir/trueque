@@ -21,7 +21,6 @@ class Usuario(AbstractUser):
     img = models.CharField(max_length=50L, blank=True) # Field name made lowercase.
     fb_token = models.CharField(max_length=450, blank=True) # Field name made lowercase.
     tw_token = models.CharField(max_length=480, blank=True) # Field name made lowercase.
-    register_date = models.DateTimeField() # Field name made lowercase.
     city = models.ForeignKey(City, null=True, blank=True) # Field name made lowercase.
     level = models.IntegerField(default='0') # Field name made lowercase.
     rating = models.IntegerField(default='0') # Field name made lowercase.
@@ -31,7 +30,6 @@ class Usuario(AbstractUser):
     followed_qty = models.IntegerField(default='0') # Field name made lowercase.
     barter_qty = models.IntegerField(default='0') # Field name made lowercase.
     remaining_invitations = models.IntegerField(default='15') # Field name made lowercase.
-    active = models.BooleanField(default=False)
     art = models.BooleanField(default=False) # Field name made lowercase.
     music = models.BooleanField(default=False) # Field name made lowercase.
     tech = models.BooleanField(default=False) # Field name made lowercase.

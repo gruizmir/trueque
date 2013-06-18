@@ -116,6 +116,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
+    'social_auth.context_processors.social_auth_by_type_backends',
     )
 
 ROOT_URLCONF = 'trueque.urls'
@@ -157,24 +158,6 @@ INSTALLED_APPS = (
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuthBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.yahoo.YahooBackend',
-    'social_auth.backends.browserid.BrowserIDBackend',
-    'social_auth.backends.contrib.linkedin.LinkedinBackend',
-    'social_auth.backends.contrib.disqus.DisqusBackend',
-    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
-    'social_auth.backends.contrib.orkut.OrkutBackend',
-    'social_auth.backends.contrib.foursquare.FoursquareBackend',
-    'social_auth.backends.contrib.github.GithubBackend',
-    'social_auth.backends.contrib.vk.VKOAuth2Backend',
-    'social_auth.backends.contrib.live.LiveBackend',
-    'social_auth.backends.contrib.skyrock.SkyrockBackend',
-    'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
-    'social_auth.backends.contrib.readability.ReadabilityBackend',
-    'social_auth.backends.contrib.fedora.FedoraBackend',
-    'social_auth.backends.OpenIDBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -211,36 +194,13 @@ LOGGING = {
 
 
 #Django Social Auth Params
-TWITTER_CONSUMER_KEY         = ''
-TWITTER_CONSUMER_SECRET      = ''
-FACEBOOK_APP_ID              = ''
-FACEBOOK_API_SECRET          = ''
-LINKEDIN_CONSUMER_KEY        = ''
-LINKEDIN_CONSUMER_SECRET     = ''
-ORKUT_CONSUMER_KEY           = ''
-ORKUT_CONSUMER_SECRET        = ''
-GOOGLE_CONSUMER_KEY          = ''
-GOOGLE_CONSUMER_SECRET       = ''
-GOOGLE_OAUTH2_CLIENT_ID      = ''
-GOOGLE_OAUTH2_CLIENT_SECRET  = ''
-FOURSQUARE_CONSUMER_KEY      = ''
-FOURSQUARE_CONSUMER_SECRET   = ''
-VK_APP_ID                    = ''
-VK_API_SECRET                = ''
-LIVE_CLIENT_ID               = ''
-LIVE_CLIENT_SECRET           = ''
-SKYROCK_CONSUMER_KEY         = ''
-SKYROCK_CONSUMER_SECRET      = ''
-YAHOO_CONSUMER_KEY           = ''
-YAHOO_CONSUMER_SECRET        = ''
-READABILITY_CONSUMER_SECRET  = ''
-READABILITY_CONSUMER_SECRET  = ''
+TWITTER_CONSUMER_KEY         = 'IVNcmsb91vVGpBOaYSeQqg'
+TWITTER_CONSUMER_SECRET      = 'fcsmCpQV1wCcXpHjOZPuXMNX5mQC921hIb5qtLQwY'
+FACEBOOK_APP_ID              = '172307212944741'
+FACEBOOK_API_SECRET          = '1887a57c1a12becb8c1b1cc8483b2fe1'
 
 
 #Email Params
-
-
-
 EMAIL_HOST = 'smtp.google.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'mail.trueque@gmail.com'
@@ -250,14 +210,33 @@ EMAIL_USE_TLS = True
 WEB_URL = "http://localhost:8000"
 #WEB_URL = "http://pruebas.trueque.in"
 
-LOGIN_URL          = '/login-form/'
-LOGIN_REDIRECT_URL = '/logged-in/'
-LOGIN_ERROR_URL    = '/login-error/'
+LOGIN_URL          = '/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL    = '/'
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/another-login-url/'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/new-users-redirect-url/'
-SOCIAL_AUTH_BACKEND_ERROR_URL = '/new-error-url/'
-OCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
-SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'socialauth_associate_complete'
 
 SOCIAL_AUTH_USER_MODEL = 'usuarios.Usuario'
+SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
+FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'touch'}
+SOCIAL_AUTH_SANITIZE_REDIRECTS = False
+SOCIAL_AUTH_URLOPEN_TIMEOUT = 10
+
+SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]
+SOCIAL_AUTH_SESSION_EXPIRATION = False
+SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
+SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 16
+SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('facebook', 'twitter')
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    #'social_auth.backends.pipeline.associate.associate_by_email',
+    'social_auth.backends.pipeline.user.get_username',
+    'social_auth.backends.pipeline.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    'social_auth.backends.pipeline.user.update_user_details'
+)

@@ -39,7 +39,7 @@ def sendMail(email, user):
         link = settings.WEB_URL + "/register?email=" + email + "&token=" + token + "&id="+ str(user.id_usuario)
         message = u'¡Nuestro usuario ' + user.first_name + u' ' + user.last_name + u' quiere trocar contigo! ¡Únete a esta gran comunidad que recicla e intercambia sin dinero! \n \n Sólo ingresa a \n' + link
         subject = user.first_name + u' te invitó Trueque'
-       send_mail( subject, message, settings.EMAIL_HOST_USER, [email], fail_silently=False)
+        send_mail( subject, message, settings.EMAIL_HOST_USER, [email], fail_silently=False)
         inv = Invitation(id_sender=user, email=email, token=token, pending=True)
         inv.save()
         user.remaining_invitations = user.remaining_invitations-1
