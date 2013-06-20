@@ -34,7 +34,7 @@ def newBid(request, idProducto=None):
 				if prod.active==True:
 					bidderProducts = Product.objects.filter(id_owner = request.session['member_id'])
 					title = "Nueva oferta"
-					usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
+					usuario = Usuario.objects.get(id=request.session['member_id'])
 					render_bid = render_to_response('new_bid.html', {'products':bidderProducts, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
 					message = {"bid_data": render_bid.content}
 					json = simplejson.dumps(message)
@@ -51,7 +51,7 @@ def newBid(request, idProducto=None):
 					else:
 						try:
 							bid_q = int(request.POST['bid_q_amount'])
-							user = Usuario.objects.get(id_usuario = request.session['member_id'])
+							user = Usuario.objects.get(id = request.session['member_id'])
 							bidProductID = None
 							if bid_q == 0 or bid_q > user.quds or bid_q < 0:
 								return HttpResponse("MONTO NO VALIDO")
@@ -132,7 +132,7 @@ def showPending(request):
 		dealer_pendings = Trade.objects.filter(id_dealer=request.session['member_id']).filter(idpending_dealer=True)
 		bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.session['member_id']).filter(idpending_bidder=True)
 		title = "Trueques pendientes"
-		usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
+		usuario = Usuario.objects.get(id=request.session['member_id'])
 		return render_to_response("pendings.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario})
 	else:
 		return HttpResponse("/login")
@@ -144,7 +144,7 @@ def verifyTrade(request, idTrade=None):
 			tradeVer = TradeVerification(request.POST)
 			if tradeVer.is_valid():
 				trade = Trade.objects.get(id_trade=idTrade)
-				if request.session['member_id']==trade.id_dealer.id_usuario:
+				if request.session['member_id']==trade.id_dealer.id:
 					if trade.idcode_dealer == tradeVer.cleaned_data['code']:
 						trade.idpending_dealer = False
 						trade.save()
@@ -162,7 +162,7 @@ def verifyTrade(request, idTrade=None):
 							return HttpResponse("FALTA VERIFICACION DEL COMPRADOR")
 					else:
 						return HttpResponse("CODIGO NO VALIDO")
-				elif request.session['member_id']==trade.id_bid.id_bidder.id_usuario:
+				elif request.session['member_id']==trade.id_bid.id_bidder.id:
 					if trade.idcode_bidder == tradeVer.cleaned_data['code']:
 						trade.idpending_bidder = False
 						trade.save()
@@ -188,7 +188,7 @@ def verifyTrade(request, idTrade=None):
 		if is_loged(request):
 			tradeVer = TradeVerification()
 			title = "Verificar trueque"
-			usuario = Usuario.objects.get(id_usuario=request.session['member_id'])
+			usuario = Usuario.objects.get(id=request.session['member_id'])
 			return render_to_response("trade_idverifier.html", {'form':tradeVer,'id_trade':idTrade, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
 		else:
 			return HttpResponse("/login")
