@@ -233,3 +233,7 @@
 .comments_comment_container:hover {
 	background: #DDD;
 }
+
+.share_btns {
+    margin-top:20px;
+}
