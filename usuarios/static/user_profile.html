@@ -61,10 +61,14 @@
 				{% endif %}
 			
 				{% if mail %}
-					<div id="mail/inbox/" class="mail">Recibidos</div>
-					<div id="mail/compose/" class="mail">Redactar</div>
-					<div id="mail/sent/" class="mail">Enviados</div>
-					<div id="result"></div>
+					<div id="tabs-min">
+						<ul>
+							<li class="mail_tabs_title">Correos</li>
+							<li><a href="/usuarios/profile/mail/inbox/">Recibidos</a></li>
+							<li><a href="/usuarios/profile/mail/compose/">Redactar</a></li>
+							<li><a href="/usuarios/profile/mail/sent/">Enviados</a></li>
+						</ul>
+					</div>
 				{% endif %}
 			{% endblock %}
 		</td>
@@ -79,8 +83,19 @@
 {% if albums %}
 	<script type="text/javascript" src="/static/js/js_albums_pagination.js"></script>
 {% endif %}
-{% if mail %}
-	<script type="text/javascript" src="/static/js/mail_tab.js"></script>
-{% endif %}
+
+<script>
+	$(function() {
+		$( "#tabs-min" ).tabs({
+		    ajaxOptions: {
+		        dataFilter: function(result){
+		            var data = $.parseJSON(result);
+		            return data.myhtml;
+		        }
+		    },
+		}); 
+	});
+</script>
+
 </section>
 {% endblock %}

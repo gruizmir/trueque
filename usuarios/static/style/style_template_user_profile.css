@@ -218,3 +218,41 @@ span.stars span {
 	color: #888 !important;
 	border: 1px solid #888 !important;
 }
+
+/* MAIL TAB STYLE */
+
+#tabs-min { 
+    background: transparent; 
+    border: none; 
+} 
+#tabs-min .ui-widget-header { 
+    background: transparent; 
+    border: none; 
+    border-bottom: 0px solid #c0c0c0; 
+    -moz-border-radius: 0px; 
+    -webkit-border-radius: 0px; 
+    border-radius: 0px; 
+} 
+#tabs-min .ui-tabs-nav .ui-state-default { 
+    background: transparent; 
+    border: none; 
+} 
+#tabs-min .ui-tabs-nav .ui-state-active {
+    border-bottom: 1px solid #f97f04; 
+} 
+#tabs-min .ui-tabs-nav .ui-state-default a { 
+    color: #c0c0c0; 
+    font-size: 90%;
+} 
+#tabs-min .ui-tabs-nav .ui-state-active a { 
+    color: #f97f04;
+    font-size: 90%;
+}
+.mail_tabs_title {
+	font-size: 200%;
+	letter-spacing: 2px;
+	color: #AAA;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight:normal;
+}
+/* END TAB MAIL STYLE */

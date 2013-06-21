@@ -469,29 +469,21 @@ class ShowProfile():
                 else: form = ComposeMailForm()
                 c = { 'form': form , 'mail_sent_complete' : mail_sent_complete}
                 c.update(csrf(request))
-                render = render_to_response('user_send_mail.html', c)
-                message = {"mail_inbox": render.content}
+                return render_to_response('user_send_mail.html', c)
             else: return HttpResponseRedirect("/usuarios/profile/mail")
             
-            json = simplejson.dumps(message)
-            return HttpResponse(json, mimetype='application/json')
         except Exception as e: return self.show_error(e)
     
     def show_mail_sent(self, request):
         try:
             if request.is_ajax():
-                
                 user = Usuario.objects.get(id= request.session['member_id'])
                 mail_list = Message.objects.filter(id_sender = user)
-                render = render_to_response('user_mail_inbox.html', 
+                return render_to_response('user_mail_inbox.html', 
                                             {'object_list' : mail_list},
                                             context_instance = RequestContext(request))
-                message = {"mail_inbox": render.content}
             else: 
                 return HttpResponseRedirect("/usuarios/profile/mail")
-            
-            json = simplejson.dumps(message)
-            return HttpResponse(json, mimetype='application/json')
         
         except Exception as e: return self.show_error(e)
 
