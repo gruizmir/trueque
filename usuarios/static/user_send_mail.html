@@ -1,3 +1,5 @@
+<link rel="stylesheet" media="all" href="/static/style/style_template_user_mails.css" />
+
 {% if mail_sent_complete %}
 	<h1>{{ mail_sent_complete }}</h1>
 {% endif %}
@@ -10,8 +12,48 @@
 
 <form id="sendMailForm" action="/usuarios/profile/mail/compose/"  method="post">
 	{% csrf_token %}
-	<ul>
-		{{ form.as_ul }}
-		<input type="submit" value="Submit" />
-	</ul>
+		{{ form.subject }}
+		<br>
+		<div class="form_mail_date">{{ date_t }}</div>
+		<br>
+		<div class="form_mail_line"></div>
+		<div class="form_mail_user_info">
+			<img src="/static/img/gris.png" />
+			<span> </span>
+		</div>
+		<div class="form_mail_search_block">
+			<img src="/static/img/icons/drop-back-icon20.png"/>
+			<span>Buscar en mis contactos</span>
+			<br>
+			<div class="ui-widget">
+				<input class="form_mail_user_name">
+			</div>
+		</div>
+		{{ form.text }}
+		<br>
+		<input type="submit" value="Enviar" />
 </form>
+	
+<script>
+	$(function(){
+		$(".form_mail_user_name").autocomplete({
+			source: "/usuarios/profile/search/",
+			minLength: 1,
+			select: function(event, ui){
+				$(this).attr("id", ui.item.id);
+				$(".form_mail_user_info span")[0].innerHTML = ui.item.value;
+			},
+  		});
+  		$("#id_subject").attr("placeholder","TÍTULO MENSAJE");
+  		$(".form_mail_user_name").attr("placeholder","Escribe el nombre aquí");
+  		$("#id_text").attr("placeholder","Escribe Aquí");
+		placeholder = "";
+		$('input[type=text], textarea, .ui-widget .form_mail_user_name').blur(function(){
+			$(this).attr("placeholder", placeholder);
+		});
+		$('input[type=text], textarea, .ui-widget .form_mail_user_name').focus(function(){
+			placeholder = $(this).attr("placeholder");
+			$(this).attr("placeholder", "");
+		});
+	});
+</script>

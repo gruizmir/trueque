@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from albums.form import AddAlbumForm
 from django import forms
+from django.conf import settings
 from django.contrib.sessions.backends.db import SessionStore
 from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, \
@@ -19,12 +20,12 @@ from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm
 from usuarios.models import Usuario, Followers
 import albums.utils as albums_utils
+import json
 import os
+import random
 import socket
 import usuarios.custom_error as C_error
 import usuarios.form
-import random
-from django.conf import settings
 
 SESSION_EXPIRY = 86400 #Tiempo de expiracion de la sesion encargada de la verificacion.
 
@@ -251,6 +252,24 @@ class ShowProfile():
                 ['QUDS', user.quds], ['TRUEQUES', user.barter_qty],
                 ['SIGUIENDO', user.followed_qty], ['ME SIGUEN', user.follower_qty]]
     
+    def search(self, request):
+        if request.is_ajax():
+            q = request.GET.get('term', '')
+            users = Usuario.objects.filter(first_name__icontains = q)[:20]
+            results = []
+            for user in users:
+                drug_json = {}
+                drug_json['id'] = user.id
+                drug_json['label'] = user.first_name + " " + user.last_name
+                drug_json['value'] = user.first_name + " " + user.last_name
+                results.append(drug_json)
+            data = json.dumps(results)
+        else:
+            data = 'fail'
+        mimetype = 'application/json'
+
+        return HttpResponse(data, mimetype)
+    
     def show_profile_default(self, request):
         try:
             user = Usuario.objects.get(id= request.session['member_id'])
@@ -466,8 +485,12 @@ class ShowProfile():
                         form = ComposeMailForm()
                         mail_sent_complete = MAILSENTCOMPLETE
                         
-                else: form = ComposeMailForm()
-                c = { 'form': form , 'mail_sent_complete' : mail_sent_complete}
+                else: 
+                    form = ComposeMailForm()
+                week = {0:'Lunes',1:'Martes',2:'Miércoles',3:'Jueves',4:'Viernes',5:'Sábado',6:'Domingo'}
+                month = {0: 'Enero', 1:'Febrero',2:'Marzo',3:'Abril',4:'Mayo',5:'Junio',6:'Julio',7:'Agosto',8:'Septiembre',9:'Octubre',10:'Noviembre',11:'Diciembre'}
+                date_time = week[datetime.today().weekday()] + " " + str(datetime.today().day) + "/" + month[datetime.today().month - 1] + " " + str(datetime.today().year)
+                c = { 'form': form , 'date_t':date_time, 'mail_sent_complete' : mail_sent_complete}
                 c.update(csrf(request))
                 return render_to_response('user_send_mail.html', c)
             else: return HttpResponseRedirect("/usuarios/profile/mail")

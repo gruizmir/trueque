@@ -1,0 +1,88 @@
+#id_subject {
+	border: 0 solid #FFF;
+	font-size: 90%;
+	float: left;
+}
+
+.form_mail_user_name {
+	border: 0 solid #FFF;
+	background: #e3ec23;
+	font-style: italic;
+	width: 180px;
+	height: 20px;
+}
+
+.form_mail_date {
+	font-size: 50%;
+	color: #AAA;
+	border-bottom: 2px solid #e3ec23;
+	width: 100%;
+	text-align: right;
+	padding-bottom: 2px;
+}
+
+.form_mail_user_info {
+	display: inline-block;
+	margin: 0px;
+	border-right: 1px solid #e3ec23;
+	padding-right: 10px;
+	vertical-align: top;
+}
+
+.form_mail_user_info img{
+	vertical-align:middle;
+}
+
+.form_mail_user_info span{
+	font-size: 50%;
+	color: #333;
+}
+
+.form_mail_search_block {
+	display: inline-block;
+	vertical-align: top;
+	padding-left: 5px;
+}
+
+.form_mail_search_block img {
+	height: 15px;
+	width: auto;
+	vertical-align:middle;
+}
+
+.form_mail_search_block span {
+	font-size: 60%;
+	color: #333;
+	font-style:italic;
+}
+
+.ui-widget {
+	display:inline-block;
+	vertical-align:middle;
+}
+
+.ui-widget .form_mail_user_name{
+	font-size: 60%;
+	text-align: center;
+}
+
+#id_text {
+	border: 0 solid #FFF;
+	margin-top: 15px;
+	border-bottom: 2px solid #444;
+	width: 100%;
+}
+
+#sendMailForm input[type=submit]{
+	cursor: pointer;
+	background: transparent;
+	border: 0 solid #FFF;
+	float:right;
+	font-size: 130%;
+	color: #444;
+	font-weight:bold;
+}
+
+#sendMailForm input[type=submit]:hover {
+	color: #f97f04;
+}
