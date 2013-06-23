@@ -1,3 +1,7 @@
+.bids_container {
+	display:none;
+}
+
 #category_container {
     display:inline-block;
     width:100%;
@@ -13,6 +17,140 @@
     float:left;
     margin: 10px 0px 10px 5px;
     
+}
+
+.center_container_product_title {
+    width:100%;
+    display:block;
+	font-size: 130%;
+	color: #333;
+	margin-bottom: 5px;
+	margin-left:10px;
+	text-align:left;
+}
+
+.center_container_product_subtitle {
+	font-size: 60%;
+	color: #333;
+	margin-bottom: 5px;
+	margin-top:15px;
+	margin-left:10px;
+	float:left;
+}
+
+.center_container_product_description {
+	font-size: 90%;
+	color: #777;
+	margin-bottom: 5px;
+	margin-left: 10px;
+	float:left;
+	display:block;
+}
+
+.comments_name {
+	font-size: 60%;
+	color: #333;
+}
+
+.comments_title {
+	font-size: 90%;
+	color: #333;
+}
+
+.comments_message {
+	color: #777;
+	font-size: 80%;
+	padding-left: 10px;
+}
+
+.comments_date {
+	text-align:right;
+	font-size: 60%;
+	color: #333;
+}
+
+.comments_message_date_container {
+	display:none;
+}
+
+.comments_comment_container {
+	cursor: pointer;
+	padding: 5px;
+	border-bottom: 1px solid #AAA;
+}
+
+.comments_comment_container:hover {
+	background: #DDD;
+}
+
+.comments_container {
+	overflow: auto;
+	height: 450px;
+	padding-left: 30px;
+}
+
+.main_container_uploaded_container{
+	width: 100%;
+	min-height: 50px;
+	margin-left: 80px;
+}
+
+.main_container_uploaded_container ul {
+	list-style: none;
+	margin-left: -10px;
+}
+.main_container_uploaded_container ul li {
+	display:inline-block;
+}
+
+.new_product_mini_polaroid {
+	display:inline-block;
+	vertical-align:top;
+	height: 40px;
+	width: 35px;
+	margin-right: 5px;
+	-webkit-box-shadow:  1px 3px 1px 1px rgba(0, 0, 0, 0.3);
+    box-shadow:  1px 3px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.new_product_mini_polaroid:hover {
+	min-height: 40px;
+	min-width: 35px;
+	height: auto;
+	width: auto;
+}
+
+.new_product_mini_polaroid_img {
+	min-width: 30px;
+	max-width: 30px;
+	min-height: 30px;
+	max-height: 30px;
+	-moz-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
+}
+
+.owner_product_new_comment_button {
+	cursor: pointer;
+	background: #f97f04;
+	width: auto;
+	color: #FFF;
+	text-align: center;
+	margin-top: 15px;
+	padding: 5px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.owner_product_new_comment_button:hover {
+	background: #333;
+	cursor: pointer;
 }
 
 .owner_product_main_container {
@@ -45,53 +183,13 @@
 	margin-top: 60px;
 }
 
-.center_container_product_title {
-    width:100%;
-    display:block;
-	font-size: 130%;
-	color: #333;
-	margin-bottom: 5px;
-	margin-left:10px;
-	text-align:left;
-}
-
-.center_container_product_subtitle {
-	font-size: 60%;
-	color: #333;
-	margin-bottom: 5px;
-	margin-top:15px;
-	margin-left:10px;
-	float:left;
-}
-
-.center_container_product_description {
-	font-size: 90%;
-	color: #777;
-	margin-bottom: 5px;
-	margin-left: 10px;
-	float:left;
-	display:block;
-}
-
 .product_main_container_right_col {
 	display:inline-block;
 	margin-right: 30px;
+	max-width:30%;
 	min-width: 300px;
 	margin-top: 30px;
-}
-
-.main_container_uploaded_container{
-	width: 100%;
-	min-height: 50px;
-	margin-left: 80px;
-}
-
-.main_container_uploaded_container ul {
-	list-style: none;
-	margin-left: -10px;
-}
-.main_container_uploaded_container ul li {
-	display:inline-block;
+	
 }
 
 .product_main_img{
@@ -117,35 +215,6 @@
 	max-height: 250px;
 }
 
-.new_product_mini_polaroid {
-	display:inline-block;
-	vertical-align:top;
-	height: 40px;
-	width: 35px;
-	margin-right: 5px;
-	-webkit-box-shadow:  1px 3px 1px 1px rgba(0, 0, 0, 0.3);
-    box-shadow:  1px 3px 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-.new_product_mini_polaroid:hover {
-	min-height: 40px;
-	min-width: 35px;
-	height: auto;
-	width: auto;
-}
-
-.new_product_mini_polaroid_img {
-	min-width: 30px;
-	max-width: 30px;
-	min-height: 30px;
-	max-height: 30px;
-	-moz-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-webkit-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-o-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-ms-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
-}
-
 .product_q_price_container {
 	margin-top: 20px;
 	vertical-align: center;
@@ -160,55 +229,6 @@
 .product_q_price_container span {
 	font-size: 200%;
 	color: #f97f04;
-}
-
-.comments_container {
-	overflow: auto;
-	height: 450px;
-	padding-left: 30px;
-}
-
-.owner_product_new_comment_button {
-	cursor: pointer;
-	background: #f97f04;
-	width: auto;
-	color: #FFF;
-	text-align: center;
-	margin-top: 15px;
-	padding: 5px;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-.owner_product_new_comment_button:hover {
-	background: #333;
-	cursor: pointer;
-}
-
-.comments_name {
-	font-size: 60%;
-	color: #333;
-}
-
-.comments_title {
-	font-size: 90%;
-	color: #333;
-}
-
-.comments_message {
-	color: #777;
-	font-size: 80%;
-	padding-left: 10px;
-}
-
-.comments_date {
-	text-align:right;
-	font-size: 60%;
-	color: #333;
 }
 
 .right_col_buttons {
@@ -238,26 +258,8 @@
 	border-radius: 5px;
 }
 
-.bids_container {
-	display:none;
-}
-
 .right_col_buttons_comments_button {
 	border-bottom: 1px solid #f97f04;
-}
-
-.comments_message_date_container {
-	display:none;
-}
-
-.comments_comment_container {
-	cursor: pointer;
-	padding: 5px;
-	border-bottom: 1px solid #AAA;
-}
-
-.comments_comment_container:hover {
-	background: #DDD;
 }
 
 .share_btns {
