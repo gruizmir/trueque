@@ -20,19 +20,30 @@
 					<li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_5.png" alt="{{product.img}}_05" class="new_product_mini_polaroid_img"/></div></li>
 				</ul>
 			</div>
-		
+		    <div id="social_external_links">
+            <a href="https://www.facebook.com/pages/Trueque/155109701316768" target="_blank">
+                <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon"/>
+            </a>
+            <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false" target="_blank">
+                <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon"/>
+            </a>
+            <a href="http://instagram.com/trueque_in" target="_blank">
+                <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon"/>
+            </a>
+        </div>
 		</div>
 		
 		<div class="product_main_container_center_col">
 			<p class="center_container_product_title">{{ product.name }}</p>
 			<p class="center_container_product_description">{{ product.description }}</p>
-			<p class="center_container_product_subtitle">Categorías de interes para trocar este producto</p>
-			{% if categories %}
-				{% for cat in categories %}
-					{{ cat.id_category.name }}
-				{% endfor %}
-			{% endif %}
-			<p class="center_container_product_subtitle">Categorías:</p>
+			<p class="center_container_product_subtitle">Categorías de interés para trocar este producto</p>
+			<div id="category_container">
+                {% if categories %}
+                    {% for category in categories %}
+                        <img class="category_img" src="/static/img/{{ category.id_category.name }}.png" alt="{{ category.name }}">
+                    {% endfor %}
+                {% endif %}
+            </div>
 
 			<div class="product_q_price_container">
 				<span>{{ product.q_amount }}</span>
@@ -96,10 +107,11 @@
 				{% endfor %}	
 				</div>
 				
-					<div class="owner_product_new_comment_button">
-						Deja tu comentario
-					</div>
-				</a>
+			{% endif %}
+			{% if user %}
+				<div class="owner_product_new_comment_button">
+				    Deja tu comentario
+			    </div>
 			{% endif %}
 			</div>
 		</div>
