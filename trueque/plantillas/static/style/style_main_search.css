@@ -1,9 +1,28 @@
+.buttons_container {
+	list-style: none;
+}
+
 .cat_container_button_up_down, .cat_list_container{
 	-webkit-transition: all 350ms ease;
 	-moz-transition: all 350ms ease;
 	-ms-transition: all 350ms ease;
 	-o-transition: all 350ms ease;
 	transition: all 350ms ease;
+}
+
+.cat_container_button_up_down {
+	text-align: right;
+	padding-right: 40px;
+	margin-top: -5px;
+	margin-bottom: -15px;
+	cursor: pointer;
+}
+
+.cat_list_container {
+	margin-top: 15px;
+	margin-left: -15px;
+	visibility: visible;
+	display: block;
 }
 
 .cat_tast_list {
@@ -57,6 +76,55 @@
 	color: black;
 }
 
+.search_button {
+	background:none;
+	cursor: pointer;
+	padding-top: 10px;
+	padding-right: 5px;
+	color: #a8a9ab;
+	text-align: right;
+	font-size: 160%;
+	border: 0px solid #FFF;
+}
+
+.search_box {
+	max-height: 50px;
+	min-height: 50px;
+}
+
+.search_box_line {
+	overflow: hidden;
+	margin: auto;
+    height: 24px;
+    width: 80%;
+    border-bottom: 1px solid #f77f04;
+}
+
+.search_button:hover {
+	color: #f77f04;
+}
+
+.search_button_box{
+    float: right;
+    padding-right: 30px;
+}
+
+.search_city_filter {
+	text-decoration:  none;
+	color: #a8a9ab;
+	font-size:70%;
+	font-style: italic;
+	cursor:pointer;
+}
+
+.search_country_filter {
+	text-decoration:  none;
+	color: #a8a9ab;
+	font-size:70%;
+	font-style: italic;
+	cursor:pointer;
+}
+
 .search_filter input[type=radio] {
 	display:none;
 }
@@ -87,22 +155,6 @@
 }
 
 .search_global_filter {
-	text-decoration:  none;
-	color: #a8a9ab;
-	font-size:70%;
-	font-style: italic;
-	cursor:pointer;
-}
-
-.search_country_filter {
-	text-decoration:  none;
-	color: #a8a9ab;
-	font-size:70%;
-	font-style: italic;
-	cursor:pointer;
-}
-
-.search_city_filter {
 	text-decoration:  none;
 	color: #a8a9ab;
 	font-size:70%;
@@ -163,57 +215,6 @@
 	width: 30px;
 	height: 30px;
 	color: #f77f04;
-}
-
-.cat_list_container {
-	margin-top: 15px;
-	margin-left: -15px;
-	visibility: visible;
-	display: block;
-}
-
-.buttons_container {
-	list-style: none;
-}
-
-.search_button {
-	background:none;
-	cursor: pointer;
-	padding-top: 10px;
-	padding-right: 5px;
-	color: #a8a9ab;
-	text-align: right;
-	font-size: 160%;
-	border: 0px solid #FFF;
-}
-
-.search_button:hover {
-	color: #f77f04;
-}
-
-.search_box {
-	max-height: 50px;
-	min-height: 50px;
-}
-
-.search_button_box{
-    float: right;
-    padding-right: 30px;
-}
-.search_box_line {
-	overflow: hidden;
-	margin: auto;
-    height: 24px;
-    width: 80%;
-    border-bottom: 1px solid #f77f04;
-}
-
-.cat_container_button_up_down {
-	text-align: right;
-	padding-right: 40px;
-	margin-top: -5px;
-	margin-bottom: -15px;
-	cursor: pointer;
 }
 
 .text_cat {
