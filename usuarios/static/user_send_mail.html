@@ -1,13 +1,14 @@
 <link rel="stylesheet" media="all" href="/static/style/style_template_user_mails.css" />
 
+<div class="inner_result">
 {% if mail_sent_complete %}
 	<h1>{{ mail_sent_complete }}</h1>
 {% endif %}
 
 {% if form.errors %}
-        <p style="color: red;">
-            Please correct the error{{ form.errors|pluralize }} below.
-        </p>
+	<p style="color: red;">
+	    Please correct the error{{ form.errors|pluralize }} below.
+	</p>
 {% endif %}
 
 <form id="sendMailForm" action="/usuarios/profile/mail/compose/"  method="post">
@@ -30,10 +31,12 @@
 			</div>
 		</div>
 		{{ form.text }}
+		{{ form.user_id }}
 		<br>
 		<input type="submit" value="Enviar" />
 </form>
-	
+</div>
+
 <script>
 	$(function(){
 		$(".form_mail_user_name").autocomplete({
@@ -41,6 +44,7 @@
 			minLength: 1,
 			select: function(event, ui){
 				$(this).attr("id", ui.item.id);
+				$("#id_user_id").val(ui.item.id);
 				$(".form_mail_user_info span")[0].innerHTML = ui.item.value;
 			},
   		});
@@ -54,6 +58,17 @@
 		$('input[type=text], textarea, .ui-widget .form_mail_user_name').focus(function(){
 			placeholder = $(this).attr("placeholder");
 			$(this).attr("placeholder", "");
+		});
+		$("#sendMailForm").submit(function(event){
+			event.preventDefault();
+			$.ajax({
+				data: $(this).serialize(),
+				type: $(this).attr('method'),
+				url: $(this).attr('action'),
+				success: function(data) {
+					alert("hola");
+				}
+			});
 		});
 	});
 </script>

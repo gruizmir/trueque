@@ -473,18 +473,18 @@ class ShowProfile():
                 if request.method == 'POST':
                     form = ComposeMailForm(request.POST)
                     if form.is_valid():
-                        new_mail = form.save(commit=False)
-                        user = Usuario.objects.get(id= 1)
+                        new_mail = Message()
+                        user = Usuario.objects.get(id= request.session['member_id'])
                         new_mail.id_sender = user
-                        user2 = Usuario.objects.get(id= 2)
+                        user2 = Usuario.objects.get(id= form.cleaned_data['user_id'])
                         new_mail.id_receiver = user2
-                        new_mail.message_datetime = datetime.now()
+                        new_mail.datetime = datetime.now()
                         new_mail.id_conversation = 1
-                        new_mail.message_read = 0
+                        new_mail.text = form.cleaned_data['text']
+                        new_mail.subject = form.cleaned_data['subject']
                         new_mail.save()
                         form = ComposeMailForm()
                         mail_sent_complete = MAILSENTCOMPLETE
-                        
                 else: 
                     form = ComposeMailForm()
                 week = {0:'Lunes',1:'Martes',2:'Miércoles',3:'Jueves',4:'Viernes',5:'Sábado',6:'Domingo'}

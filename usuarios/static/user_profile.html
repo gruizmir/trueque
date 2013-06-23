@@ -86,14 +86,7 @@
 
 <script>
 	$(function() {
-		$( "#tabs-min" ).tabs({
-		    ajaxOptions: {
-		        dataFilter: function(result){
-		            var data = $.parseJSON(result);
-		            return data.myhtml;
-		        }
-		    },
-		}); 
+		$("#tabs-min").tabs();
 	});
 </script>
 
