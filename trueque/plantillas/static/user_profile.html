@@ -85,9 +85,38 @@
 {% endif %}
 
 <script>
+	current_tab = "";
 	$(function() {
-		$("#tabs-min").tabs();
+		$("#tabs-min").tabs({
+			load: function( event, ui ) {
+				if(ui.tab.index() == 3 | ui.tab.index() == 1){
+					if(ui.tab.index() == 1) current_tab = "inbox/";
+					else current_tab = "sent/";
+					pagPagination();
+				}
+			}
+		});
+		
 	});
+	function pagPagination(){
+		$('.pag').bind('click', function () {
+			$.get("/usuarios/profile/mail/" + current_tab + this.id, function(data) {
+				if(current_tab == "inbox/") $("#ui-tabs-1")[0].innerHTML = data;
+				else $("#ui-tabs-3")[0].innerHTML = data;
+				pagPagination();
+			});
+		});
+		$('.mail_container').bind('click', function () {
+			if ( this.className.match(/(?:^|\s)mail_container(?!\S)/) ){
+				this.classList.remove('mail_container');
+				this.classList.add('mail_container_show');
+			}
+			else{
+				this.classList.remove('mail_container_show');
+				this.classList.add('mail_container');
+			}
+		});
+	}
 </script>
 
 </section>

@@ -12,13 +12,17 @@
 	height: 20px;
 }
 
-.form_mail_date {
+.form_mail_date, .message_date {
 	font-size: 50%;
 	color: #AAA;
 	border-bottom: 2px solid #e3ec23;
 	width: 100%;
 	text-align: right;
 	padding-bottom: 2px;
+}
+
+.message_date {
+	margin-bottom: 10px;
 }
 
 .form_mail_user_info {
@@ -29,11 +33,11 @@
 	vertical-align: top;
 }
 
-.form_mail_user_info img{
+.form_mail_user_info img, .user_message_photo{
 	vertical-align:middle;
 }
 
-.form_mail_user_info span{
+.form_mail_user_info span, .sender_name{
 	font-size: 50%;
 	color: #333;
 }
@@ -85,4 +89,52 @@
 
 #sendMailForm input[type=submit]:hover {
 	color: #f97f04;
+}
+
+.message_table{ 
+	width: 550px;
+}
+
+.mail_container {
+	cursor: pointer;
+}
+.mail_container:hover {
+	background: #EEE;
+}
+
+.mail_container_show {
+	cursor:pointer;
+}
+
+.mail_container_show:hover {
+	background: #EEE;
+}
+
+.mail_container + .mail_message_container{ 
+	visibility: collapse; 
+}
+
+.mail_container_show + .mail_message_container{ 
+	visibility: visible;
+}
+
+.mail_message_text{
+	color: #333;
+	padding-top: 20px;
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 20px;
+}
+
+.message_title {
+	font-size: 110%;
+	color: #999;
+	padding-left: 60px;
+}
+
+.message_black_line {
+	background: #AAA;
+	width: 100%;
+	height: 2px;
+	margin-bottom: 10px;
 }
