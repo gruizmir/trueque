@@ -7,7 +7,7 @@ class Bid(models.Model):
     id_product = models.ForeignKey(Product) # Field name made lowercase.
     id_bidder = models.ForeignKey(Usuario) # Field name made lowercase.
     q = models.IntegerField(null=True, blank=True) # Field name made lowercase.
-    id_product = models.ForeignKey(Product, null=True, blank=True, related_name="+") # Field name made lowercase.
+    id_bid_product = models.ForeignKey(Product, null=True, blank=True, related_name="+") # Field name made lowercase.
     datetime = models.DateTimeField() # Field name made lowercase.
     class Meta:
         db_table = u'Bid'

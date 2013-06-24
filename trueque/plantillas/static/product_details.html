@@ -81,10 +81,10 @@
 				<div class="bids_container">
 					{% csrf_token %}
 					{% for bid in bids %}
-						{% if bid.id_product %}		
+						{% if bid.id_bid_product %}		
 							{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}<br>
-							<image src="/media/{{ bid.bid_id_product.img }}/img_1.png" width="70"/><br>
-							{{ bid.bid_id_product.name }}
+							<image src="/media/{{ bid.id_bid_product.img }}/img_1.png" width="70"/><br>
+							{{ bid.id_bid_product.name }}
 							<hr>
 						{% else %}
 							{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}<br>
@@ -112,7 +112,7 @@
 			{% endif %}
 			
 			{% if user %}
-				<div class="owner_product_new_comment_button">
+				<div class="owner_product_new_comment_button" id="new_comment_button">
 				    Deja tu comentario
 			    </div>
 			{% endif %}
@@ -123,12 +123,33 @@
 		<div id="dialog_add_comment" style="display:none;">
 			<div id="dialog_add_comment_result"></div>
 		</div>
+		
+		<div id="unavailable" class="modalSentDialog">
+	        <div>
+		        <a href="#unavailable" title="Close" class="close">X</a>
+		        <p>Este producto acaba de ser intercambiado con otra persona.</p>
+	        </div>
+        </div>
+        
+        <div id="same_object" class="modalSentDialog">
+	        <div>
+		        <a href="#same" title="Close" class="close">X</a>
+		        <p>No puede ofrecer el mismo producto.</p>
+	        </div>
+        </div>
+        
+        <div id="error_popup" class="modalSentDialog">
+	        <div>
+		        <a href="#error" title="Close" class="close">X</a>
+		        <p>Hubo algún error en la transacción.</p>
+	        </div>
+        </div>
 	{% endif %}
 	
 	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('.owner_product_new_comment_button').bind('click', function () {
+			$('#new_comment_button').bind('click', function () {
 				$('#dialog_add_comment').dialog({
 					resizable: false,
 			        width:'auto'
@@ -143,7 +164,7 @@
 		
 			$(".comments_container").mCustomScrollbar();
 			
-			$("#new_bid_button").bind('click', function () {
+			$('#new_bid_button').bind('click', function () {
 				var url = "/transactions/bid/{{ product.id }}";
 				
 				$.get(url, function(data) {

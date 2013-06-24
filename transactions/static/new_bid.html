@@ -4,7 +4,7 @@
 <br>
 
 {% if products %}
-	<form method="POST" action="#">
+	<form method="POST" action="/transactions/bid/{{ owner_product }}">
 		{% csrf_token %}
 		
 		<div class="mini_bid_polaroid_container">
@@ -30,7 +30,7 @@
 		
 		<p class="bid_text_title">o Fija un monto</p>
 		<br>
-		<input type="text" name="bid_q_amount" placeholder="000" id="q_bid_quantity"/>
+		<input type="text" name="bid_q_amount" placeholder="000" id="q_amount"/>
 		<img src="/static/img/icons/Q-gris.png" alt="Q" id="q_bid_img">
 		<br><br><br>
 		<input type="submit" value="Aceptar" id="accept_bid_button"/>
