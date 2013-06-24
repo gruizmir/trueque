@@ -2,7 +2,7 @@
 <html>
 	<head>
 		{% if title %}
-			<title>{{ product.name }}</title>
+			<title>{{ product.name }} | Trueque </title>
 		{% else %}
 			<title>Trueque | Intercambia sin dinero </title>
 		{% endif %}
@@ -129,6 +129,12 @@
 	        <div>
 		        <a href="#close" title="Close" class="close">X</a>
 		        <p>Tus invitaciones fueron enviadas.</p>
+	        </div>
+        </div>
+        <div id="registered" class="modalSentDialog">
+	        <div>
+		        <a href="#close" title="Close" class="close">X</a>
+		        <p>Se ha enviado el link de activación a tu email.</br> Su duración es de 48 horas.</p>
 	        </div>
         </div>
 	</body>
