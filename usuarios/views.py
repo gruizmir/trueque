@@ -275,11 +275,7 @@ class ShowProfile():
             user = Usuario.objects.get(id= request.session['member_id'])
             albums_list = albums_utils.get_albums(user)
             
-            random_ints = []
-            for num in range(0,11):
-                random_ints.append(random.randint(-3,3))
-                
-            album_list =  {'object_list' : albums_list, 'random_ints': random_ints, 'user':user}
+            album_list =  {'object_list' : albums_list, 'user':user}
             
             if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
                 
@@ -300,11 +296,7 @@ class ShowProfile():
             user = Usuario.objects.get(id = user_id)
             albums_list = albums_utils.get_albums(user)
             
-            random_ints = []
-            for num in range(0,11):
-                random_ints.append(random.randint(-3,3))
-                
-            album_list =  {'object_list' : albums_list, 'random_ints': random_ints, 'user':user}
+            album_list =  {'object_list' : albums_list, 'user':user}
             
             if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
                 
@@ -329,11 +321,7 @@ class ShowProfile():
             user = Usuario.objects.get(email = forms.EmailField().clean(user_email))
             albums_list = albums_utils.get_albums(user)
             
-            random_ints = []
-            for num in range(0,11):
-                random_ints.append(random.randint(-3,3))
-            
-            album_list =  {'object_list' : albums_list, 'random_ints': random_ints, 'user':user}
+            album_list =  {'object_list' : albums_list, 'user':user}
             
             if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
                 
@@ -383,12 +371,8 @@ class ShowProfile():
         try:
             if request.is_ajax():
                 products = albums_utils.get_products_by_id_album(request.GET['albumID'])
-                random_ints = []
                 
-                for num in range(0,11):
-                    random_ints.append(random.randint(-3,3))
-                
-                products_list =  {'album_id':request.GET['albumID'], 'object_list' : products, 'random_ints': random_ints}
+                products_list =  {'album_id':request.GET['albumID'], 'object_list' : products}
                 
                 render_content = render_to_response('user_album_content.html', products_list, context_instance = RequestContext(request))
                 message = {"album_content_data": render_content.content}
@@ -452,18 +436,13 @@ class ShowProfile():
             if request.is_ajax():
                 user = Usuario.objects.get(id= request.session['member_id'])
                 mail_list = Message.objects.filter(id_receiver = user)
-                render = render_to_response('user_mail_inbox.html', 
-                                            {'object_list' : mail_list},
+                return render_to_response('user_mail_inbox.html', 
+                                            {'object_list' : mail_list,'sender':True},
                                             context_instance = RequestContext(request))
-                message = {"mail_inbox": render.content}
             else:
                 user = Usuario.objects.get(id= request.session['member_id'])
                 vars_view = {'mail' : True}
                 return self.show_profile_user(request, user, vars_view)
-
-            json = simplejson.dumps(message)
-            return HttpResponse(json, mimetype='application/json')
-        
         except Exception as e: return self.show_error(e)
     
     def show_mail_compose(self, request):

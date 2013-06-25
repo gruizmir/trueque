@@ -6,7 +6,11 @@
 	{% for mail in object_list %}
 		<tr class="mail_container"><td>
 			<img src="/static/img/gris.png"/ class="user_message_photo">
-			<span class="sender_name">{{ mail.id_receiver.first_name }} {{ mail.id_receiver.last_name }}</span>
+			{% if sender %}
+				<span class="sender_name">{{ mail.id_sender.first_name }} {{ mail.id_sender.last_name }}</span>
+		    {% else %}
+		    	<span class="sender_name">{{ mail.id_receiver.first_name }} {{ mail.id_receiver.last_name }}</span>
+		    {% endif %}
 		    <span class="message_title">{{ mail.subject}}</span>
 		    <div class="message_date">{{ mail.datetime }}</div>
 		</td></tr>

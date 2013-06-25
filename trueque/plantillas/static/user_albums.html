@@ -2,17 +2,6 @@
 <link href="/static/style/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
 {% load pagination_tags %}
 {% autopaginate object_list 15 %}
-	<style>
-		{% for rand in random_ints %}
-		#album_polaroid_{{ forloop.counter }} {
-			-moz-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-			-webkit-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-			-o-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-			-ms-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-			transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
-		}
-		{% endfor %}
-	</style>
 	<span class="user_interaction_table_tittle"> ALBUMES </span>
 	{% paginate %}
 	<br>
@@ -37,5 +26,4 @@
 		<div id="dialog_add_album" style="display:none">
 			<div id="dialog_add_album_result"></div>
 		</div>
-		
 	</div>

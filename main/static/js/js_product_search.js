@@ -19,6 +19,7 @@ function productSearchForm() {
 			success: function(data) {
 				result = data.products;
 				$('#result')[0].innerHTML = result;
+				rotatePolaroids();
 			},
 		});
 	});
@@ -33,6 +34,7 @@ function enableCountry(){
 		success: function(data) {
 			result = data.countries;
 			$('#countries')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
@@ -56,6 +58,7 @@ function enableCity(value){
         		success: function(data) {
             		result = data.products;
         			$('#result')[0].innerHTML = result;
+        			rotatePolaroids();
         		},
         	});
 		},
@@ -75,6 +78,7 @@ function searchByCity(city){
 		success: function(data) {
 			result = data.products;
 			$('#result')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
@@ -87,6 +91,7 @@ function cleanSearch(){
 		success: function(data) {
 			result = data.products;
 			$('#result')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
@@ -103,6 +108,7 @@ function selectPop(){
 		success: function(data) {
 			result = data.products;
 			$('#result')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
@@ -119,6 +125,7 @@ function selectPrice(){
 		success: function(data) {
 			result = data.products;
 			$('#result')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
@@ -135,6 +142,7 @@ function selectRecent(){
 		success: function(data) {
 			result = data.products;
 			$('#result')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
@@ -157,6 +165,7 @@ function selectLow(){
 		success: function(data) {
 			result = data.products;
 			$('#result')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
@@ -177,6 +186,7 @@ function selectMedium(){
 		success: function(data) {
 			result = data.products;
 			$('#result')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
@@ -198,13 +208,31 @@ function selectHigh(){
 		success: function(data) {
 			result = data.products;
 			$('#result')[0].innerHTML = result;
+			rotatePolaroids();
 		},
 	});
 }
 
+function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function rotatePolaroids() {
+	$("[id^='album_polaroid_']").filter(function() {
+		var rand_deg = getRandomInt (-3, 3);
+		$('#'+this.id).css({ WebkitTransform: 'rotate(' + rand_deg + 'deg)',
+			'-moz-transform': 'rotate(' + rand_deg + 'deg)',
+			'-o-transform': 'rotate(' + rand_deg + 'deg)',
+			'-ms-transform': 'rotate(' + rand_deg + 'deg)',
+			'transform': 'rotate(' + rand_deg + 'deg)'
+		});
+	});
+}
 
 //===== Post cargado ==========
 $(document).ready(function() {
+	rotatePolaroids();
+	
     productSearchForm();
 	$('#filter_local').bind('click', function () {
 		enableCountry();

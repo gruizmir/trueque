@@ -218,17 +218,6 @@
         </section>
     
         {% load pagination_tags %}
-            <style>
-                {% for rand in random_ints %}
-                    #album_polaroid_{{ forloop.counter }} {
-                        -moz-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-                        -webkit-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-                        -o-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-                        -ms-transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-                        transform: scale(1) rotate({{rand}}deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
-                        }
-                {% endfor %}
-            </style>
             <br>
             <div id="result">
                 {% if data %}

@@ -1,3 +1,20 @@
+function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function albumsRotate() {
+	$("[id^='album_polaroid_']").filter(function() {
+		
+		var rand_deg = getRandomInt (-3, 3);
+		$('#'+this.id).css({ WebkitTransform: 'rotate(' + rand_deg + 'deg)',
+			'-moz-transform': 'rotate(' + rand_deg + 'deg)',
+			'-o-transform': 'rotate(' + rand_deg + 'deg)',
+			'-ms-transform': 'rotate(' + rand_deg + 'deg)',
+			'transform': 'rotate(' + rand_deg + 'deg)'
+		});
+	});
+}
+
 function add_album_form(){
 	$("#add_album_form").submit(function(event){
 		event.preventDefault();
@@ -32,6 +49,7 @@ function add_album_form(){
 	}
 
 function albumsPagination(){
+	albumsRotate();
 	$('.pag').bind('click', function () {
 		var url = window.location + "";
 		if(!url.match("/$")){
@@ -63,6 +81,7 @@ function albumsPagination(){
 }
 
 function albumContentPagination(){
+	albumsRotate();
 	$('.pag').bind('click', function () {
 		var url = window.location + "";
 		if(!url.match("/$")){ url = url + "/showalbum/"}
