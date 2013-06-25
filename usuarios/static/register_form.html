@@ -1,14 +1,17 @@
 {% extends "main_template.html" %}
 {% block content %}
 <link rel="stylesheet" media="all" href="/static/style/style_template_user_register.css" />
-<table class="register_table_container" style="background-image:url('/static/img/random_register/{{random_bg}}.jpg');">
-	<tr>
-		<td width="30%" class="register_table_container_message">
-			<p class="register_table_message_welcome"> Bienvenido! </p>
-			<br>
-			<p class="register_table_message_text"> A una comunidad que recicla e intercambia sin dinero</p>
-		</td>
-		<td class="register_table_container_form">
+
+<div class="register_container" style="background-image:url('/static/img/random_register/{{random_bg}}.jpg');">
+	<div class="register_container_left">
+		<p class="register_table_message_welcome"> Bienvenido! </p>
+		<br>
+		<p class="register_table_message_text"> A una comunidad que recicla e intercambia sin dinero</p>
+	</div>
+	<div class="register_contariner_right">
+		<form id="register_user_form" action="" method="post">
+			{% load klass %}
+			{% csrf_token %}
 			{% if form.errors %}
 			    <div class="register_errors_text">
 			        Please correct the error{{ form.errors|pluralize }} below.
@@ -16,36 +19,32 @@
 			    <div class="register_errors_arrow_down"></div>
 			{% endif %}
 			
-			<form id="register_user_form" action="" method="post">
-				{% load klass %}
-				{% csrf_token %}
-			    <ul>
-					{% for field in form %}
-						{% if field.field.widget|klass == "CheckboxInput"%}
-						<li class="register_form_bulletins_service" >
-						  	{% if field.name == "terms_service" %}
-						  		{{ field }} {{ field.label_tag }} {{ terms_of_service }}
-						  	{% else %}
-						  		{{ field }} {{ field.label_tag }} {{ bulletins }}
-						  	{% endif %}
-						{% else %}
-						<li>
-							{{ field }}
-						{% endif %}
-						{% if field.errors.as_text %}
-							<div class="form_error_arrow"></div>
-							<div class="form_error_text"> {{ field.errors.as_text|wordwrap:5 }} </div>
-						{% endif %}
-						</li>
-					{% endfor %}
+		    <ul>
+				{% for field in form %}
+					{% if field.field.widget|klass == "CheckboxInput"%}
+					<li class="register_form_bulletins_service" >
+					  	{% if field.name == "terms_service" %}
+					  		{{ field }} {{ field.label_tag }} {{ terms_of_service }}
+					  	{% else %}
+					  		{{ field }} {{ field.label_tag }} {{ bulletins }}
+					  	{% endif %}
+					{% else %}
 					<li>
-						<input type="submit" value="Registrar">
+						{{ field }}
+					{% endif %}
+					{% if field.errors.as_text %}
+						<div class="form_error_arrow"></div>
+						<div class="form_error_text"> {{ field.errors.as_text|wordwrap:5 }} </div>
+					{% endif %}
 					</li>
-			    </ul>
-			</form>
-		</td>
-	</tr>
-</table>
+				{% endfor %}
+				<li>
+					<input type="submit" value="Registrar">
+				</li>
+		    </ul>
+		</form>
+	</div>
+</div>
 
 <script type="text/javascript" src="/static/js/jq_template_user_register.js"></script>
 {% endblock %}
