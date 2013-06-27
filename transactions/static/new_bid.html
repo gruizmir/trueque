@@ -2,37 +2,38 @@
 <p class="bid_text_title">Elige tu trueque</p>
 <p class="bid_text_title">entre tus cosas</p>
 <br>
-
-{% if products %}
-	<form method="POST" action="/transactions/bid/{{ owner_product }}">
-		{% csrf_token %}
-		
-		<div class="mini_bid_polaroid_container">
-			<ul>
-			{% for product in products %}
-				<li>
-					<div class="radio_polaroids">
-						<input type="radio" name="bid_product" id="id_radio-field_{{ product.id }}" value="{{ product.id }}" >
-						<label for="id_radio-field_{{ product.id }}">
-							<div class="mini_radio_polaroid">
-								<img src="/media/{{ product.img }}/img_1.png" width="70"/>
-								<br>
-								{{ product.name }}
-							</div>
-						</label>
-					</div>
-				</li>
-			{% endfor %}
-				<li style="width:20px;"> 
-				</li>
-			</ul>
-		</div>
-		
-		<p class="bid_text_title">o Fija un monto</p>
+<form method="POST" action="/transactions/bid/{{ owner_product }}">
+	{% csrf_token %}
+	{% if products %}
+	<div class="mini_bid_polaroid_container">
+		<ul>
+		{% for product in products %}
+			<li>
+				<div class="radio_polaroids">
+					<input type="radio" name="bid_product" id="id_radio-field_{{ product.id }}" value="{{ product.id }}" >
+					<label for="id_radio-field_{{ product.id }}">
+						<div class="mini_radio_polaroid">
+							<img src="/media/{{ product.img }}/img_1.png" width="70"/>
+							<br>
+							{{ product.name }}
+						</div>
+					</label>
+				</div>
+			</li>
+		{% endfor %}
+			<li style="width:20px;"> 
+			</li>
+		</ul>
+	</div>
+	{% else %}
+		<p class="bid_text_title" style="color:#333;">¡NO TIENES OBJETOS!</p>
 		<br>
-		<input type="text" name="bid_q_amount" placeholder="000" id="q_amount"/>
-		<img src="/static/img/icons/Q-gris.png" alt="Q" id="q_bid_img">
-		<br><br><br>
-		<input type="submit" value="Aceptar" id="accept_bid_button"/>
-	</form>
-{% endif %}
+	{% endif %}
+	
+	<p class="bid_text_title">o Fija un monto</p>
+	<br>
+	<input type="text" name="bid_q_amount" placeholder="000" id="q_amount"/>
+	<img src="/static/img/icons/Q-gris.png" alt="Q" id="q_bid_img">
+	<br><br><br>
+	<input type="submit" value="Aceptar" id="accept_bid_button"/>
+</form>

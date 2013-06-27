@@ -115,8 +115,8 @@
 			{% endif %}
 			</div>
 		</div>
-		<div id="dialog_add_comment" style="display:none;">
-			<div id="dialog_add_comment_result"></div>
+		<div id="dialog_int" style="display:none;">
+			<div id="dialog_int_result"></div>
 		</div>
 		
 		<div id="unavailable" class="modalSentDialog">
@@ -145,13 +145,13 @@
 	<script>
 		$(document).ready(function() {
 		    $('#new_comment_button').bind('click', function () {
-				$('#dialog_add_comment').dialog({
+				$('#dialog_int').dialog({
 					resizable: false,
 			        width:'auto'
 				});
 				$.get("/products/comment/{{ product.id }}", function(data) {
 					result = data.add_comment_data;
-					$('#dialog_add_comment_result')[0].innerHTML = result;
+					$('#dialog_int_result')[0].innerHTML = result;
 					add_album_form();
 				});
 				

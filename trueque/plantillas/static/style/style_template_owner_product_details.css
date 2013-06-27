@@ -265,3 +265,54 @@
 .share_btns {
     margin-top:20px;
 }
+
+/*DIALOG STYLE*/
+
+#dialog_int, #dialog_int_result{
+  background: transparent;
+  border: none;
+}
+
+.ui-dialog{ 
+    background: #222;
+    padding-top: 0px;
+    padding-right: 0px;
+}
+
+.ui-widget-content {
+	border: none;	
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	border: none;
+	background: #111;
+	padding: 0px;
+	margin: 0px;
+	height: 10px;
+	background-color: #f97f04;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
+	background-image: -moz-linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+	background-image: -o-linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+	background-image: linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-bottom-right-radius: 0px;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+    border-bottom-left-radius: 0px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+	top: -4px;
+	left: -18px !important;
+	z-index: 1;
+	width:30px;
+	height: 30px;
+	-webkit-border-radius: 99px;
+	-moz-border-radius: 99px;
+	border-radius: 99px;
+	border: none;
+	background: #f97f04;
+}
+/*END DIALOG STYLE*/

@@ -23,8 +23,8 @@ def get_album(user, name_album):
     
 def get_products_by_id_album(id_album):
     try:
-        album = AlbumProduct.objects.filter(id = id_album)
-        return Product.objects.filter(id__in = album)
+        album = AlbumProduct.objects.filter(id_album_id = id_album)
+        return Product.objects.filter(id__in = [product.id_product_id for product in album])
     except Exception:
         raise Exception("albums.get_products_by_id_album : Can't get products")
     

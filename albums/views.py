@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
-from products.models import Product
 from albums.models import Album, AlbumProduct
+from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
-from django.core.context_processors import csrf
 from django.template import RequestContext
+from django.utils import simplejson
+from products.models import Product
 from usuarios.views import is_loged
 
 def showAlbums(request, idProduct=None):
-	if is_loged(request):
+	if is_loged(request) and request.is_ajax():
 		albums = Album.objects.filter(id_owner = request.session['member_id']).exclude(name = "My Garage").exclude(name = "Trueques")
 		product = Product.objects.get(id=idProduct)
-		return render_to_response("to_album.html", {'albums':albums, 'product':product}, context_instance=RequestContext(request))
+		message = {"to_album_data": render_to_response("to_album.html", {'albums':albums, 'product':product}, context_instance=RequestContext(request)).content}
+		
+		json = simplejson.dumps(message)
+		return HttpResponse(json, mimetype='application/json')
 	else:
 		return HttpResponse("USUARIO NO AUTENTICADO")
 

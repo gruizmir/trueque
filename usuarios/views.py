@@ -371,9 +371,7 @@ class ShowProfile():
         try:
             if request.is_ajax():
                 products = albums_utils.get_products_by_id_album(request.GET['albumID'])
-                
                 products_list =  {'album_id':request.GET['albumID'], 'object_list' : products}
-                
                 render_content = render_to_response('user_album_content.html', products_list, context_instance = RequestContext(request))
                 message = {"album_content_data": render_content.content}
                 json = simplejson.dumps(message)
