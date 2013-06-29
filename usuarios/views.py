@@ -194,9 +194,9 @@ def mLogin(request):
                     login(request, user)
                     return HttpResponseRedirect("/usuarios/profile")
                 else:
-                    # Return a 'disabled account' error message
+                    return HttpResponse("CUENTA DESACTIVADA")
             else:
-                # Return an 'invalid login' error message.
+                return HttpResponse("USUARIO O CONTRASEÑA NO VALIDOS")
         else:
             form = LoginForm()
             request.session.set_test_cookie()
