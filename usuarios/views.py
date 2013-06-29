@@ -536,8 +536,13 @@ class ShowProfile():
 
 def is_loged(request):
     try:
-        if request.session['member_id']: return True
-    except: return False
+        if request.user.is_authenticated():
+            request.session['member_id']:  
+            return True
+        if request.session['member_id']: 
+            return True
+    except: 
+        return False
 
 def is_loged_edit(request, user):
     try: 
