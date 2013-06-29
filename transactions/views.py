@@ -14,6 +14,7 @@ from transactions.forms import BidForm, TradeForm, TradeVerification
 from transactions.models import Bid, Trade
 from usuarios.models import Usuario
 from usuarios.views import is_loged
+from albums.views import savePendantProduct
 import random
 import string
 
@@ -108,6 +109,8 @@ def makeTrade(request, idProduct):
                 bid.id_bid_product.active = False
                 bidder = bid.id_bidder
                 owner = product.id_owner
+                savePendantProduct(request, idProduct, owner.id)
+                savePendantProduct(request, idProduct, bidder.id)
                 sendTradeMail(owner, bidder, tradeForm.cleaned_data['code_dealer'], tradeForm.cleaned_data['code_bidder'])
                 return HttpResponseRedirect("/products/" + str(idProduct))
             else:

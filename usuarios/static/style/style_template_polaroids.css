@@ -34,6 +34,16 @@
 	
 }
 
+.album_product_link {
+    text-decorator:none;
+    color:black;
+}
+
+.album_product_link:visited {
+    text-decorator:none;
+    color:black;
+}
+
 .go_back_button {
 	cursor: pointer;
 }

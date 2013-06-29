@@ -38,3 +38,18 @@ def saveAlbumData(request, idProduct=None):
 			return HttpResponse("NO ALLOWED")	
 	else:
 		return HttpResponse("USUARIO NO AUTENTICADO")
+
+def savePendantProduct(request, idProduct=None, idUsuario=None):
+	if is_loged(request) and idProduct!=None and idUsuario!=None:
+		try:
+			album = Album.objects.filter(id_owner=idUsuario).get(name="Pendientes")
+			producto = Product.objects.get(id = idProduct)
+			albumProd = AlbumProduct()
+			albumProd.id_album = album
+			albumProd.id_product = producto
+			albumProd.save()
+			return True
+		except:
+			return False
+	else:
+		return False

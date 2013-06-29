@@ -11,7 +11,12 @@
 	<br>
 	<div class="album_polaroids_container">
 		{% for product in object_list %}
-			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><image src="/media/{{ product.img }}/img_1.png" alt="{{product.img}}" height="150"/><br>{{ product.name }}</div>
+		    <a class="album_product_link" href="/products/{{product.id}}">
+    			<div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid">
+    			    <image src="/media/{{ product.img }}/img_1.png" alt="{{product.img}}" height="150"/><br>
+    			    {{ product.name }}
+			    </div>
+			</a>
 		{% endfor %}
 		<a href="/usuarios/profile/addalbum" class="user_profile_add_album_link"></a>
 	
