@@ -537,7 +537,7 @@ class ShowProfile():
 def is_loged(request):
     try:
         if request.user.is_authenticated():
-            request.session['member_id']:  
+            request.session['member_id']
             return True
         if request.session['member_id']: 
             return True
