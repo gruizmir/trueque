@@ -550,8 +550,3 @@ def logout(request):
     except KeyError:
         pass
     return HttpResponseRedirect("/")
-
-
-def facebookRegister(request):
-    print request.GET
-    return HttpResponseRedirect("/")
