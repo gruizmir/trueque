@@ -210,10 +210,12 @@ EMAIL_USE_TLS = True
 WEB_URL = "http://localhost:8000"
 #WEB_URL = "http://pruebas.trueque.in"
 
+AUTH_USER_MODEL = 'usuarios.Usuario'
+
 LOGIN_URL          = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/'
-
+LOGOUT_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_USER_MODEL = 'usuarios.Usuario'
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
