@@ -210,8 +210,6 @@ EMAIL_USE_TLS = True
 WEB_URL = "http://localhost:8000"
 #WEB_URL = "http://pruebas.trueque.in"
 
-AUTH_USER_MODEL = 'usuarios.Usuario'
-
 LOGIN_URL          = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/'
@@ -222,6 +220,8 @@ SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'touch'}
 SOCIAL_AUTH_SANITIZE_REDIRECTS = False
 SOCIAL_AUTH_URLOPEN_TIMEOUT = 10
+
+AUTH_USER_MODEL = 'usuarios.Usuario'
 
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]
 SOCIAL_AUTH_SESSION_EXPIRATION = False
