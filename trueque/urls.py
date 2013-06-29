@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^invitation/', include('invitations.urls')),
     url(r'', include('social_auth.urls')),
     url(r'^$', 'main.views.search' ),
-    url(r'^login/', 'usuarios.views.login'),
+    url(r'^login/', 'usuarios.views.mLogin'),
     url(r'^logout', 'usuarios.views.logout'),
+    url(r'^facebook/login', 'usuarios.views.facebookRegister'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -26,6 +26,8 @@ import random
 import socket
 import usuarios.custom_error as C_error
 import usuarios.form
+from django.contrib.auth import authenticate, login
+
 
 SESSION_EXPIRY = 86400 #Tiempo de expiracion de la sesion encargada de la verificacion.
 
@@ -181,29 +183,27 @@ def resend_confirmation(request):
 #PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
 #RETURN: Se devuelven distintos render_to_response dependiendo de como termine el reenvio y se
 #        agrega el id del usuario al request.
-def login(request):
+def mLogin(request):
     try:
         if request.method == 'POST':
-            form = LoginForm(request.POST)
-            
-            if request.session.test_cookie_worked(): request.session.delete_test_cookie()
-            else: return C_error.raise_error(C_error.NOCOOKIE)
-            if form.is_valid():
-                form.cleaned_data['email']
-                user = Usuario.objects.get(email=form.cleaned_data['email'])   
-                request.session['member_id'] = user.id
-                request.session.set_expiry(0)
-                request.session.save()
-                
-                return HttpResponseRedirect("/usuarios/profile")
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect("/usuarios/profile")
+                else:
+                    # Return a 'disabled account' error message
+            else:
+                # Return an 'invalid login' error message.
         else:
             form = LoginForm()
+            request.session.set_test_cookie()
+            c = { 'form': form }
+            c.update(csrf(request))
+            return render_to_response('user_login.html', c)
         
-        request.session.set_test_cookie()
-        c = { 'form': form }
-        c.update(csrf(request))
-        return render_to_response('user_login.html', c)
-    
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
     except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
@@ -549,4 +549,9 @@ def logout(request):
         del request.session['member_id']
     except KeyError:
         pass
+    return HttpResponseRedirect("/")
+
+
+def facebookRegister(request):
+    print request.GET
     return HttpResponseRedirect("/")
