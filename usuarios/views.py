@@ -186,23 +186,32 @@ def resend_confirmation(request):
 def mLogin(request):
     try:
         if request.method == 'POST':
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect("/usuarios/profile")
-                else:
-                    return HttpResponse("CUENTA DESACTIVADA")
-            else:
-                return HttpResponse("USUARIO O CONTRASEÑA NO VALIDOS")
+            form = LoginForm(request.POST)
+            
+            if request.session.test_cookie_worked(): request.session.delete_test_cookie()
+            else: return C_error.raise_error(C_error.NOCOOKIE)
+            if form.is_valid():
+                form.cleaned_data['email']
+                user = Usuario.objects.get(email=form.cleaned_data['email'])   
+                request.session['member_id'] = user.id
+                request.session.set_expiry(0)
+                request.session.save()
+                
+                return HttpResponseRedirect("/usuarios/profile")
         else:
             form = LoginForm()
-            request.session.set_test_cookie()
-            c = { 'form': form }
-            c.update(csrf(request))
-            return render_to_response('user_login.html', c)
+        
+        request.session.set_test_cookie()
+        c = { 'form': form }
+        c.update(csrf(request))
+        return render_to_response('user_login.html', c)
+    
+    #Exceptions que se activan en caso de no poder iniciar sesion.
+    except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
+    except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
+    except Exception as e:
+        print '%s (%s)' % (e.message, type(e))
+        return C_error.raise_error(C_error.MAGICERROR)
         
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)

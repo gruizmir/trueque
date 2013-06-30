@@ -1,0 +1,42 @@
+{% if middle %}
+	<link rel="stylesheet" media="all" href="/static/style/style_template_transaction_successful.css" />
+	
+	<div class="trader_user_container">
+		<img src="/static/img/gris.png" class="trader_user_img"/>
+		<span class="trader_user_name">{{dealer.first_name}} {{dealer.last_name}}</span>
+	</div>
+	<div class="orange_line">
+	</div>
+	<div class="bider_user_container">
+		<span class="bider_user_name">{{bidder.first_name}} {{bidder.last_name}}</span>
+		<img src="/static/img/gris.png" class="bider_user_img"/>
+	</div>
+	<br><br>
+	<div class="middle_message_container">
+		<span class="transaction_success_message_big"> 
+			Felicitaciones<br>
+			has logrado<br>
+			el trueque!<br>
+		</span>
+		<span class="transaction_success_message_small">
+			Ambos recibirán un correo.
+		</span>
+	</div>
+{% endif %}
+{% if right %}
+	<div class="right_message_container">
+		{% if bid.q != 0 %}
+			<img src="/static/img/icons/xverde.png" class="transaction_xverde_img"/>
+			<span class="transaction_q_quantity">{{bid.q}}</span>
+			<img src="/static/img/icons/Q-gris.png" class="transaction_q_img"/>
+		{% else %}
+			<img src="/static/img/icons/xverde.png" class="transaction_xverde_img"/>
+			<div class="transaction_successful_polaroid_container">
+				<div>
+					<img src="/media/{{ bid.id_bid_product.img }}/img_1.png"/>
+				</div>
+				<span>{{bid.id_bid_product.name}}</span>
+			</div>
+		{% endif %}
+	</div>
+{% endif %}

@@ -1,0 +1,107 @@
+.trader_user_container {
+	display: block;
+	width: 100%;
+	text-align: left;
+	vertical-align: middle;
+}
+.bider_user_container {
+	display: block;
+	width: 100%;
+	text-align: right;
+	vertical-align: middle;
+}
+
+.orange_line {
+	background: #f97f04;
+	height: 12px;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.middle_message_container {
+	display: table-cell;
+	width: 100%;
+	height: 100%;
+	text-align: left !important;
+	padding-left: 35px;
+}
+.transaction_success_message_big {
+	font-size: 190%;
+	color: #AAA;
+	font-style: italic;
+}
+.transaction_success_message_small {
+	display: block;
+	font-size: 70%;
+	color: #AAA;
+	top: -35px;
+}
+
+.trader_user_img {
+	vertical-align: middle;
+}
+.trader_user_name {
+	color: #333;
+	font-size: 70%;
+}
+.bider_user_img {
+	vertical-align: middle;
+}
+.bider_user_name {
+	color: #333;
+	font-size: 70%;
+}
+.right_message_container {
+	display: table-cell;
+	width: 270px;
+	height: 450px;
+	vertical-align: middle;
+}
+.transaction_q_quantity {
+	font-size: 240%;
+	color: #f97f04;
+}
+.transaction_xverde_img {
+	height: 25px;
+	width: auto;
+	text-align: middle;
+	margin-right: 30px;
+	vertical-align: middle;
+}
+.transaction_q_img {
+	margin-left: 5px;
+	width: 22px;
+	height: auto;
+}
+.transaction_successful_polaroid_container {
+	display: inline-block;
+	vertical-align: middle;
+	height: 150px;
+	width: 115px;
+	padding: 5px;
+	-moz-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
+    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
+}
+.transaction_successful_polaroid_container div {
+	display: table-cell;
+	width: 115px;
+	height: 130px;
+	max-width: 115px !important;
+	max-height: 130px !important;
+	background: #EEE;
+	vertical-align:middle;
+}
+.transaction_successful_polaroid_container div img{
+	max-width: 115px !important;
+	max-height: 130px !important;	
+}
+.transaction_successful_polaroid_container span {
+	font-style: italic;
+	font-size: 80%;
+}

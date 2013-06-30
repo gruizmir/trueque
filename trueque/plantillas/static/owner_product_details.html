@@ -176,6 +176,16 @@
 		$(document).ready(function() {
 			$("#form_bid_accept").submit(function(event){
 				event.preventDefault();
+				$.ajax({
+					data: $(this).serialize(),
+					type: $(this).attr('method'),
+					url: $(this).attr('action'),
+					success: function(data) {
+						$('.product_main_container_center_col')[0].innerHTML = data.middle_data
+						$('.product_main_container_right_col')[0].innerHTML = data.right_data
+						
+					}
+				});
 			});
 			
 			$('#form_bid_accept input:radio[name=group_product]').click(function() {

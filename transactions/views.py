@@ -95,7 +95,7 @@ def newBid(request, idProduct=None):
 #RETURN: Si el intercambio es factible y se realiza, retorna a la página del producto.
 #         Si no se puede hacer el intercambio, retorna un mensaje de error con la posible causa.
 def makeTrade(request, idProduct):
-    if request.method=="POST":
+    if request.is_ajax() and request.method=="POST":
         if is_loged(request):
             data = {'id_dealer':request.session['member_id'],
                     'id_bid':request.POST['group_product'],
@@ -119,7 +119,20 @@ def makeTrade(request, idProduct):
                 savePendantProduct(request, idProduct, owner.id)
                 savePendantProduct(request, idProduct, bidder.id)
                 sendTradeMail(owner, bidder, tradeForm.cleaned_data['code_dealer'], tradeForm.cleaned_data['code_bidder'])
-                return HttpResponseRedirect("/products/" + str(idProduct))
+                user_dealer = Usuario.objects.get(id = request.session['member_id'])
+                bid = Bid.objects.get(id = request.POST['group_product'])
+                user_bidder = bid.id_bidder
+                message = {"middle_data": render_to_response('transaction_successful.html', 
+                                                             {'middle':True,
+                                                              'dealer': user_dealer,
+                                                              'bidder': user_bidder}).content,
+                           "right_data": render_to_response('transaction_successful.html', 
+                                                            {'right':True,
+                                                             'bid': bid
+                                                             }).content
+                           }
+                json = simplejson.dumps(message)
+                return HttpResponse(json, mimetype='application/json')
             else:
                 return HttpResponseRedirect("/products/" + str(idProduct) + "#error")
         else:
