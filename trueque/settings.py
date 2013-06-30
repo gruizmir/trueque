@@ -105,6 +105,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -213,13 +214,15 @@ WEB_URL = "http://localhost:8000"
 LOGIN_URL          = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_ERROR_URL    = '/'
-
+LOGOUT_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_USER_MODEL = 'usuarios.Usuario'
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'touch'}
 SOCIAL_AUTH_SANITIZE_REDIRECTS = False
 SOCIAL_AUTH_URLOPEN_TIMEOUT = 10
+
+AUTH_USER_MODEL = 'usuarios.Usuario'
 
 SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]
 SOCIAL_AUTH_SESSION_EXPIRATION = False
@@ -236,10 +239,11 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
-    #'social_auth.backends.pipeline.associate.associate_by_email',
+    'social_auth.backends.pipeline.associate.associate_by_email',
     'social_auth.backends.pipeline.user.get_username',
     'social_auth.backends.pipeline.user.create_user',
     'social_auth.backends.pipeline.social.associate_user',
     'social_auth.backends.pipeline.social.load_extra_data',
-    'social_auth.backends.pipeline.user.update_user_details'
+    'social_auth.backends.pipeline.user.update_user_details',
+    'social_auth.backends.pipeline.misc.save_status_to_session',
 )

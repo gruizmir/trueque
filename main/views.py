@@ -60,7 +60,9 @@ def search(request, page=None):
         data = None
     form = CategoryForm()
     user = None
+    print "antes de loguear"
     if is_loged(request):
+        print "esta logueado"
         user = Usuario.objects.get(id=request.session['member_id'])
     return render_to_response("main.html", {'form':form, 'user':user, 'data':data,'direccion':settings.MEDIA_ROOT}, context_instance=RequestContext(request))
 
