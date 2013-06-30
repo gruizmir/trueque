@@ -72,23 +72,53 @@
 			
 			{% if bids %}
 				<div class="bids_container">
-					<form method="POST" action="/transactions/choosebid/{{ product.id }}">
-					{% csrf_token %}
-					{% for bid in bids %}
-						{% if bid.id_bid_product %}		
-							<input type="radio" name="group_product" value="{{ bid.id }}" >
-							{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}<br>
-							<image src="/media/{{ bid.id_bid_product.img }}/img_1.png" width="70"/><br>
-							{{ bid.id_bid_product.name }}
-							<hr>
-						{% else %}
-							<input type="radio" name="group_product" value="{{ bid.id }}" > 
-							{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}<br>
-							{{ bid.q }} 
-							<hr>
-						{% endif %}
-					{% endfor %}
-					<input type="submit" value="Aceptar"/>
+					<form method="POST" action="/transactions/choosebid/{{ product.id }}" id="form_bid_accept">
+						{% csrf_token %}
+						<div class="bids_container_scroll">
+						{% for bid in bids %}
+							<div class="bid_container">
+							{% if bid.id_bid_product %}		
+								<img src="/static/img/gris.png" class="bid_container_user_img"/>
+								<span id="bid_container_user_name_{{ bid.id }}" class="bid_container_user_name">
+									{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
+								</span>
+								
+								<input type="radio" name="group_product" id="radio_group_product_{{ bid.id }}" value="{{ bid.id }}">
+								<label for="radio_group_product_{{ bid.id }}"></label>
+								
+								<div class="bid_container_img_container">
+									<a href="/products/{{bid.id_bid_product.id}}" class="bid_container_img_link">
+										<img src="/media/{{ bid.id_bid_product.img }}/img_1.png" width="70"/>
+									</a>
+								</div>
+								<span class="bid_container_product_name"> {{ bid.id_bid_product.name }} </span>
+								
+								<br>
+							{% else %}
+								<input type="radio" name="group_product" value="{{ bid.id }}" style="display:none;"> 
+								<div class="bid_container_user_name">
+									{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
+								</div>
+								
+								<input type="radio" name="group_product" id="radio_group_product_{{ bid.id }}" value="{{ bid.id }}">
+								<label for="radio_group_product_{{ bid.id }}"></label>
+								
+								<div class="bid_container_q_amount">
+									{{ bid.q }}
+								</div>
+								<br>
+							{% endif %}
+							</div>
+							<br>
+						{% endfor %}
+						</div>
+						
+						<br>
+						<span class="bids_container_with_message">Quiero hacer trueque con </span>
+						<span id="bids_container_with_usser_name">...</span>
+						</br>
+						<input id="{{ bid.id }}" type="submit" value="Aceptar" class="form_bid_accept_button"/>
+							
 					</form>
 				</div>
 			{% endif %}
@@ -144,6 +174,19 @@
 	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			$("#form_bid_accept").submit(function(event){
+				event.preventDefault();
+			});
+			
+			$('#form_bid_accept input:radio[name=group_product]').click(function() {
+				$("#bids_container_with_usser_name")[0].innerHTML= $('#bid_container_user_name_'+$(this).val())[0].innerHTML;
+			});
+			
+			$("#form_bid_accept input[type=submit]").click(function() {
+			    $("input[type=submit]", $(this).parents("#form_bid_accept")).removeAttr("clicked");
+			    $(this).attr("clicked", "true");
+			});
+		
 		    $('#new_comment_button').bind('click', function () {
 				$('#dialog_int').dialog({
 					resizable: false,
@@ -158,18 +201,22 @@
 			});
 		
 			$(".comments_container").mCustomScrollbar();
+			$(".bids_container_scroll").mCustomScrollbar();
 			
 			$(".right_col_buttons_interested_button").bind('click', function () {
 				$(".comments_container").hide();
+				$("#new_comment_button").hide();
 				$(".bids_container").show();
 				$(this).css("border-bottom", "1px solid #f97f04");
 				$(".right_col_buttons_comments_button").css("border-bottom", "0px solid #f97f04");
 				$(".owner_product_new_comment_button_href").hide();
+				$(".bids_container_scroll").mCustomScrollbar("update");
 			});
 			
 			$('.right_col_buttons_comments_button').bind('click', function () {
 				$(".bids_container").hide();
 				$(".comments_container").show();
+				$("#new_comment_button").show();
 				$(this).css("border-bottom", "1px solid #f97f04");
 				$(".right_col_buttons_interested_button").css("border-bottom", "0px solid #f97f04");
 				$(".owner_product_new_comment_button_href").show();

@@ -1,0 +1,12 @@
+.message_container{
+	display: table;
+	width: 280px;
+	height: 450px;
+}
+
+.message_container span {
+	display: table-cell; 
+	vertical-align:middle;
+	text-align: center;
+	font-size: 150%;
+}

@@ -1,5 +1,14 @@
 .bids_container {
 	display:none;
+	overflow: auto;
+	height: 400px;
+	padding-left: 30px;
+	text-align: left;
+}
+
+.bids_container_scroll {
+	overflow: auto;
+	height: 300px;
 }
 
 #category_container {
@@ -316,3 +325,108 @@
 	background: #f97f04;
 }
 /*END DIALOG STYLE*/
+
+.bid_container {
+	display: table-cell;
+	width: 240px;
+	height: auto;
+	border-bottom: 1px solid #AAA;
+	vertical-algin: middle;
+}
+
+.bid_container_user_img {
+	vertical-align: middle;
+}
+
+.bid_container_user_name {
+	font-size: 60%;
+	color: #333;
+	vertical-align: middle;
+	padding-left: 5px;
+}
+
+.bid_container_q_amount {
+	font-size: 130%;
+}
+
+.bid_container_img_container {
+	display: inline-block;
+	height: 60px;
+	width: 42px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	text-align:center;
+	-moz-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
+    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
+}
+
+.bid_container_img_link{
+	text-decoration:none;
+	color: #f97f04;
+}
+
+.bid_container_img_container img {
+	height: 45px;
+	width: auto;
+	max-height: 45px;
+	max-width: 30px;
+	vertical-align: middle;
+}
+
+.bid_container_product_name{
+	font-size: 70%;
+	padding-left: 5px;
+	vertical-align: middle;
+}
+
+.bid_container input[type="radio"] {
+	display:none;
+}
+
+.bid_container input[type="radio"] + label {
+	display:block;
+	margin-left: 15px;
+	margin-right: 5px;
+	cursor: pointer;
+    background-image:url('/static/img/icons/xverde.png');
+    height: 22px;
+    width: 22px;
+    display:inline-block;
+    background-repeat: no-repeat;
+	background-position: left top;
+	background-size:22px 22px;
+}
+
+.bid_container input[type="radio"]:checked + label {
+    background-image:url('/static/img/icons/xnaranjo.png');
+    display:inline-block;
+}
+
+.form_bid_accept_button {
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	float: right;
+	color: #333;
+	font-size: 110%;
+	padding-top: 15px;
+	font-weight: bold;
+}
+
+.form_bid_accept_button:hover {
+	color: #f97f04;
+}
+
+.bids_container_with_message {
+	font-size: 70%;
+}
+
+#bids_container_with_usser_name {
+	font-size: 70%;
+	color: #f97f04;
+}

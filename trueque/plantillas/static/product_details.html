@@ -79,19 +79,36 @@
 				<div class="bids_container">
 					{% csrf_token %}
 					{% for bid in bids %}
-						{% if bid.id_bid_product %}		
-							{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}<br>
-							<image src="/media/{{ bid.id_bid_product.img }}/img_1.png" width="70"/><br>
-							{{ bid.id_bid_product.name }}
-							<hr>
+						<div class="bid_container">
+						{% if bid.id_bid_product %}
+							<img src="/static/img/gris.png" class="bid_container_user_img"/>
+							<span id="bid_container_user_name_{{ bid.id }}" class="bid_container_user_name">
+								{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
+							</span>
+							
+							<div class="bid_container_img_container">
+								<a href="/products/{{bid.id_bid_product.id}}" class="bid_container_img_link">
+									<img src="/media/{{ bid.id_bid_product.img }}/img_1.png" width="70"/>
+								</a>
+							</div>
+							<span class="bid_container_product_name"> {{ bid.id_bid_product.name }} </span>
+							
+							<br>
 						{% else %}
-							{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}<br>
-							{{ bid.q }} 
-							<hr>
+							<img src="/static/img/gris.png" class="bid_container_user_img"/>
+							<span id="bid_container_user_name_{{ bid.id }}" class="bid_container_user_name">
+								{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
+							</span>
+							
+							<div class="bid_container_q_amount">
+								{{ bid.q }}
+							</div>
+							<br>
 						{% endif %}
+						</div>
+						<br>
 					{% endfor %}
 				</div>
-				
 			{% endif %}
 
 			{% if comments %}
@@ -170,6 +187,7 @@
 			});
 		
 			$(".comments_container").mCustomScrollbar();
+			$(".bids_container").mCustomScrollbar();
 			
 			$('#new_bid_button').bind('click', function () {
 				var url = "/transactions/bid/{{ product.id }}";
@@ -180,22 +198,34 @@
 					$('.mini_bid_polaroid_container').mCustomScrollbar({
 					    horizontalScroll:true
 					});
+					$("#new_bid_form").submit(function(event){
+						event.preventDefault();
+						$.ajax({
+							data: $(this).serialize(),
+							type: $(this).attr('method'),
+							url: $(this).attr('action'),
+							success: function(data) {
+								result = data.bid_result_data;
+								$('.product_main_container_right_col')[0].innerHTML = result;
+							}
+						});
+					});
 				});
 			});
 			
 			$(".right_col_buttons_interested_button").bind('click', function () {
 				$(".comments_container").hide();
-				$(".owner_product_new_comment_button_href").hide();
+				$("#new_comment_button").hide();
 				$(".bids_container").show();
 				$(this).css("border-bottom", "1px solid #f97f04");
 				$(".right_col_buttons_comments_button").css("border-bottom", "0px solid #f97f04");
-				
+				$(".bids_container").mCustomScrollbar("update");
 			});
 			
 			$('.right_col_buttons_comments_button').bind('click', function () {
 				$(".bids_container").hide();
 				$(".comments_container").show();
-				$(".owner_product_new_comment_button_href").show();
+				$("#new_comment_button").show();
 				$(this).css("border-bottom", "1px solid #f97f04");
 				$(".right_col_buttons_interested_button").css("border-bottom", "0px solid #f97f04");
 				

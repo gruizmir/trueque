@@ -2,7 +2,7 @@
 <p class="bid_text_title">Elige tu trueque</p>
 <p class="bid_text_title">entre tus cosas</p>
 <br>
-<form method="POST" action="/transactions/bid/{{ owner_product }}">
+<form method="POST" id="new_bid_form" action="/transactions/bid/{{ owner_product }}">
 	{% csrf_token %}
 	{% if products %}
 	<div class="mini_bid_polaroid_container">

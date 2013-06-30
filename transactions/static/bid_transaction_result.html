@@ -1,0 +1,17 @@
+<link rel="stylesheet" media="all" href="/static/style/style_template_bid_result.css" />
+{% if error_amount %}
+	<div class="message_container">
+		<span>Cantidad incorrecta <br> ¡Intenta nuevamente!</span>
+	</div>
+{% endif %}
+{% if correct_bid %}
+	<div class="message_container">
+		<span>
+			Tu oferta a sido <br> 
+			publicada correctamente. <br>
+			Debes esperar confirmación <br>
+			del ofertante para <br>
+			terminar la transacción.
+		</span>
+	</div>
+{% endif %}

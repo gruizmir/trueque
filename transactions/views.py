@@ -30,7 +30,7 @@ def newBid(request, idProduct=None):
         if idProduct==None:
             return HttpResponseRedirect("/")
         else:
-            if request.is_ajax():
+            if request.is_ajax() and not request.method=="POST":
                 prod = Product.objects.get(id=idProduct)
                 if prod.active==True:
                     bidderProducts = Product.objects.filter(id_owner = request.session['member_id'])
@@ -43,12 +43,11 @@ def newBid(request, idProduct=None):
                 
                 else:
                     return HttpResponse("ESTE PRODUCTO YA FUE INTERCAMBIADO")
-            else:
+            elif request.is_ajax() and request.method=="POST":
                 prod = Product.objects.get(id=idProduct)
                 if prod.active==True:
                     if 'bid_product' in request.POST:
                         bidProductID = request.POST['bid_product']
-                        print bidProductID
                         bid_q = 0
                     else:
                         try:
@@ -56,9 +55,15 @@ def newBid(request, idProduct=None):
                             user = Usuario.objects.get(id = request.session['member_id'])
                             bidProductID = None
                             if bid_q == 0 or bid_q > user.quds or bid_q < 0:
-                                return HttpResponse("MONTO NO VALIDO")
+                                render_bid_result = render_to_response('bid_transaction_result.html', {'error_amount': True})
+                                message = {"bid_result_data": render_bid_result.content}
+                                json = simplejson.dumps(message)
+                                return HttpResponse(json, mimetype='application/json')
                         except ValueError: 
-                            return HttpResponse("MONTO NO VALIDO")
+                            render_bid_result = render_to_response('bid_transaction_result.html', {'error_amount': True})
+                            message = {"bid_result_data": render_bid_result.content}
+                            json = simplejson.dumps(message)
+                            return HttpResponse(json, mimetype='application/json')
                     if bidProductID != idProduct:
                         data = {'id_product':idProduct,
                             'id_bidder':request.session['member_id'],
@@ -67,10 +72,12 @@ def newBid(request, idProduct=None):
                             'datetime':datetime.now(),
                             }
                         bidForm = BidForm(data)
-                        print bidForm
                         if bidForm.is_valid():
                             bidForm.save()
-                            return HttpResponseRedirect("/products/" + str(idProduct))
+                            render_bid_result = render_to_response('bid_transaction_result.html', {'correct_bid': True})
+                            message = {"bid_result_data": render_bid_result.content}
+                            json = simplejson.dumps(message)
+                            return HttpResponse(json, mimetype='application/json')
                         else:
                             return HttpResponseRedirect("/products/" + str(idProduct) + "#error")
                     else:
