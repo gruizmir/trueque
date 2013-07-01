@@ -1,0 +1,9 @@
+<link rel="stylesheet" media="all" href="/static/style/style_template_code_window.css" />
+
+<div class="code_window_container">
+	<form method="POST" action="/transactions/verify/{{ id_trade }}">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Ingrese código del trueque">
+	</form>
+</div>

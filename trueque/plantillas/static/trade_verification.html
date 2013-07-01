@@ -1,0 +1,75 @@
+{% extends "main_template.html" %}
+{% block content %}
+<link rel="stylesheet" media="all" href="/static/style/style_template_code_window.css" />
+<script src="/static/js/jquery.raty.min.js"></script>
+
+<div class="code_window_container">
+	
+	<form method="POST" action="/transactions/verify/{{ id_trade }}" id="code_window_form">
+		{% csrf_token %}
+		<div class="code_window_container_left_side">
+		
+			<div class="code_window_polaroid_container">
+				<div>
+					<img src=""/>
+				</div>
+				<span>adsad</span>
+			</div>
+			<br>
+			<span class="code_window_code_message">Tu código</span>
+			<span class="code_window_code_number">XXXXXX</span>
+			<br><br>
+			
+			<div class="code_window_input_container">
+				{{ form.code }}
+			</div>
+		</div>
+		<div class="code_window_container_right_side">
+			<div class="code_window_user_polaroid_container">
+				<div>
+					<img src=""/>
+				</div>
+				<span>adsad</span>
+			</div>
+			<br>
+			<span class="code_window_rating_message">Calificar</span>
+			<br>
+			<div id="star_rating"></div>
+			<br><br>
+			<div style="display:none">
+				{{ form.rate }}
+			</div>
+			<div class="code_window_cancel_button">
+				Cancelar
+			</div>
+			<input type="submit" value="Aceptar">
+		</div>
+	</form>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('#id_rate_0').prop('checked',true);
+		$('#star_rating').raty({
+			starOff: '/static/img/estrellas-white.png',
+			starOn : '/static/img/estrellas-color.png',
+			score: 0,
+			size: 41,
+			click: function(score, evt) {
+				$('#id_rate_'+score).prop('checked',true);
+			}
+		});
+		
+		placeholder = "";
+		$('.code_window_input_container input[type=text]').prop("placeholder", "Ingrese código del trueque");
+		
+		$('.code_window_input_container input[type=text]').blur(function(){
+			$(this).attr("placeholder", placeholder);
+		});
+		$('.code_window_input_container input[type=text]').focus(function(){
+			placeholder = $(this).attr("placeholder");
+			$(this).attr("placeholder", "");
+		});
+	});
+</script>
+{% endblock %}

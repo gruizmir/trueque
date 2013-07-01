@@ -1,0 +1,166 @@
+.code_window_container {
+	width: 500px;
+	height: 300px;
+	background: #222;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.code_window_container_left_side {
+	display: inline-block;
+	width: 225px;
+	height: 280px;
+	vertical-align: top;
+	float:left;
+	text-align: left;
+	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.code_window_container_right_side {
+	float:right;
+	display: inline-block;
+	width: 225px;
+	height: 280px;
+	vertical-align: top;
+	text-align: right;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.code_window_polaroid_container {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	background: #FFF;
+	display: inline-block;
+	vertical-align: middle;
+	height: 160px;
+	width: 130px;
+	padding: 5px;
+	-moz-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.1);
+    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.1);
+}
+.code_window_polaroid_container div {
+	display: table-cell;
+	width: 160px;
+	height: 130px;
+	max-width: 160px !important;
+	max-height: 130px !important;
+	background: #EEE;
+	vertical-align:middle;
+}
+.code_window_polaroid_container div img{
+	max-width: 160px !important;
+	max-height: 130px !important;	
+}
+.code_window_polaroid_container span {
+	font-style: italic;
+	font-size: 80%;
+}
+
+.code_window_user_polaroid_container {
+	text-align: center;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	background: #FFF;
+	display: inline-block;
+	vertical-align: middle;
+	height: 100px;
+	width: 80px;
+	padding: 5px;
+	-moz-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.1);
+    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.1);
+}
+.code_window_user_polaroid_container div {
+	display: table-cell;
+	width: 100px;
+	height: 80px;
+	max-width: 100px !important;
+	max-height: 80px !important;
+	background: #EEE;
+	vertical-align:middle;
+}
+.code_window_user_polaroid_container div img{
+	max-width: 100px !important;
+	max-height: 80px !important;	
+}
+.code_window_user_polaroid_container span {
+	font-style: italic;
+	font-size: 80%;
+}
+
+.code_window_code_message {
+	font-size: 70%;
+	color: #EEE;
+}
+.code_window_code_number {
+	color: #f97f04;
+	font-weight: bold;
+}
+.code_window_input_container input[type=text]{
+	position: relative;
+	bottom: 2px;
+	text-align: center;
+	width: 200px;
+	height: 25px;
+	background: #555;
+	border: none;
+	color: #EEE;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.code_window_rating_message {
+	color: #EEE;
+	font-size: 110%;
+}
+
+#code_window_form input[type=submit]{
+	cursor: pointer;
+	position: relative;
+	right:0px;
+	bottom: -5px;
+	font-size: 70%;
+	background: #111;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 25px;
+	padding-right: 25px;
+	border-radius: 5px;
+	border: none;
+}
+
+.code_window_cancel_button {
+	display: inline-block;
+	width: 50px;
+	height: 15px;
+	color: #555;
+	cursor: pointer;
+	position: relative;
+	right:0px;
+	bottom: -4px;
+	font-size: 70%;
+	background: #111;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	padding-left: 25px;
+	padding-right: 25px;
+	border-radius: 5px;
+	border: none;
+}
+
+#code_window_form input[type=submit]:hover, .code_window_cancel_button:hover {
+	color: #f97f04;
+}

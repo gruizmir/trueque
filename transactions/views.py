@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from albums.models import Album, AlbumProduct
+from albums.views import savePendantProduct
 from datetime import datetime
 from django.conf import settings
 from django.core.context_processors import csrf
@@ -14,7 +15,6 @@ from transactions.forms import BidForm, TradeForm, TradeVerification
 from transactions.models import Bid, Trade
 from usuarios.models import Usuario
 from usuarios.views import is_loged
-from albums.views import savePendantProduct
 import random
 import string
 
@@ -217,7 +217,7 @@ def verifyTrade(request, idTrade=None):
             tradeVer = TradeVerification()
             title = "Verificar trueque"
             usuario = Usuario.objects.get(id=request.session['member_id'])
-            return render_to_response("trade_verifier.html", {'form':tradeVer,'id_trade':idTrade, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
+            return render_to_response("trade_verification.html", {'form':tradeVer,'id_trade':idTrade, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
         else:
             return HttpResponse("/login")
 
