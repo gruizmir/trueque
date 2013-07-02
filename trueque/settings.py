@@ -216,7 +216,7 @@ WEB_URL = "http://localhost:8000"
 #WEB_URL = "http://pruebas.trueque.in"
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
-LOGIN_URL =  "/login"
+LOGIN_URL =  "/accounts/login"
 LOGIN_REDIRECT_URL = "/"
 AVATAR_STORAGE_DIR = 'media/avatars'
 
@@ -282,7 +282,7 @@ SOCIALACCOUNT_AVATAR_SUPPORT = 'avatar' in INSTALLED_APPS
 SOCIALACCOUNT_EMAIL_REQUIRED =ACCOUNT_EMAIL_REQUIRED
 
 #As ACCOUNT_EMAIL_VERIFICATION, but for social accounts.
-SOCIALACCOUNT_EMAIL_VERIFICATION =ACCOUNT_EMAIL_VERIFICATION
+SOCIALACCOUNT_EMAIL_VERIFICATION ="none"
 
 #Dictionary containing provider specific settings.
 SOCIALACCOUNT_PROVIDERS = dict
@@ -293,7 +293,7 @@ SOCIALACCOUNT_PROVIDERS = dict
 SOCIALACCOUNT_PROVIDERS = \
     { 'facebook':
         { 'SCOPE': ['email'],
-          'AUTH_PARAMS': { 'auth_type': 'login' },
+          'AUTH_PARAMS': { 'auth_type': 'https' },
           'METHOD': 'oauth2' ,
           'LOCALE_FUNC': lambda request: 'es_LA'} }
 
