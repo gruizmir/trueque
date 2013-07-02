@@ -32,7 +32,7 @@ TIME_ZONE = 'America/Santiago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'es'
 
-SITE_ID = 2
+SITE_ID = 3
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -293,7 +293,7 @@ SOCIALACCOUNT_PROVIDERS = dict
 SOCIALACCOUNT_PROVIDERS = \
     { 'facebook':
         { 'SCOPE': ['email'],
-          'AUTH_PARAMS': { 'auth_type': 'reauthenticate' },
+          'AUTH_PARAMS': { 'auth_type': 'login' },
           'METHOD': 'oauth2' ,
           'LOCALE_FUNC': lambda request: 'es_LA'} }
 
