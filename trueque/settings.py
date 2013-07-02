@@ -32,7 +32,7 @@ TIME_ZONE = 'America/Santiago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'es'
 
-SITE_ID = 1
+SITE_ID = 2
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -105,7 +105,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -117,7 +116,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
-    'social_auth.context_processors.social_auth_by_type_backends',
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
     )
 
 ROOT_URLCONF = 'trueque.urls'
@@ -142,7 +142,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
+    # 'django.contrib.admindocs',+
     'usuarios',
     'products',
     'main',
@@ -153,13 +153,17 @@ INSTALLED_APPS = (
     'statistics',
     'transactions',
     'pagination',
-    'social_auth',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # ... include the providers you want to enable:
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
 )
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 
@@ -211,39 +215,85 @@ EMAIL_USE_TLS = True
 WEB_URL = "http://localhost:8000"
 #WEB_URL = "http://pruebas.trueque.in"
 
-LOGIN_URL          = '/'
-LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL    = '/'
-LOGOUT_REDIRECT_URL = '/'
-
-SOCIAL_AUTH_USER_MODEL = 'usuarios.Usuario'
-SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
-FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'touch'}
-SOCIAL_AUTH_SANITIZE_REDIRECTS = False
-SOCIAL_AUTH_URLOPEN_TIMEOUT = 10
-
 AUTH_USER_MODEL = 'usuarios.Usuario'
+LOGIN_URL =  "/login"
+LOGIN_REDIRECT_URL = "/"
+AVATAR_STORAGE_DIR = 'media/avatars'
 
-SOCIAL_AUTH_PROTECTED_USER_FIELDS = ['email',]
-SOCIAL_AUTH_SESSION_EXPIRATION = False
-SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
-SOCIAL_AUTH_NONCE_SERVER_URL_LENGTH = 16
-SOCIAL_AUTH_ASSOCIATION_SERVER_URL_LENGTH = 16
-SOCIAL_AUTH_ASSOCIATION_HANDLE_LENGTH = 16
-SOCIAL_AUTH_ASSOCIATE_BY_MAIL = True
-SOCIAL_AUTH_COMPLETE_URL_NAME = "socialauth_complete"
-SOCIAL_AUTH_ASSOCIATE_URL_NAME = "associate_complete"
+#Social Auth Params
+TWITTER_CONSUMER_KEY         = 'IVNcmsb91vVGpBOaYSeQqg'
+TWITTER_CONSUMER_SECRET      = 'fcsmCpQV1wCcXpHjOZPuXMNX5mQC921hIb5qtLQwY'
+FACEBOOK_APP_ID              = '172307212944741'
+FACEBOOK_API_SECRET          = '1887a57c1a12becb8c1b1cc8483b2fe1'
 
-SOCIAL_AUTH_ENABLED_BACKENDS = ('facebook', 'twitter')
-FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
-SOCIAL_AUTH_PIPELINE = (
-    'social_auth.backends.pipeline.social.social_auth_user',
-    'social_auth.backends.pipeline.associate.associate_by_email',
-    'social_auth.backends.pipeline.user.get_username',
-    'social_auth.backends.pipeline.user.create_user',
-    'social_auth.backends.pipeline.social.associate_user',
-    'social_auth.backends.pipeline.social.load_extra_data',
-    'social_auth.backends.pipeline.user.update_user_details',
-    'social_auth.backends.pipeline.misc.save_status_to_session',
-)
+
+#================ AllAuth data ======================
+
+ACCOUNT_ADAPTER ="allauth.account.adapter.DefaultAccountAdapter"
+
+#Specifies the login method to use - whether the user logs in by entering his username, e-mail address, or either one of both.
+ACCOUNT_AUTHENTICATION_METHOD ="email"
+
+#The URL to redirect to after a successful e-mail confirmation, in case no user is logged in.
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL =LOGIN_URL
+
+#The URL to redirect to after a successful e-mail confirmation, in case of an authenticated user. Set to None to use settings.LOGIN_REDIRECT_URL.
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL =None
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =3
+ACCOUNT_EMAIL_REQUIRED =True
+
+#ACCOUNT_EMAIL_VERIFICATION (="mandatory" | "optional" | "none")
+ACCOUNT_EMAIL_VERIFICATION ="mandatory"
+ACCOUNT_EMAIL_SUBJECT_PREFIX ="[Trueque.in]"
+ACCOUNT_LOGOUT_ON_GET =False
+ACCOUNT_LOGOUT_REDIRECT_URL ="/"
+
+#A string pointing to a custom form class (e.g. 'myapp.forms.SignupForm') that is used during signup to ask the user for additional input 
+ACCOUNT_SIGNUP_FORM_CLASS =None
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION =True
+ACCOUNT_UNIQUE_EMAIL =True
+ACCOUNT_USER_MODEL_USERNAME_FIELD ="username"
+ACCOUNT_USER_MODEL_EMAIL_FIELD ="email"
+
+#A callable (or string of the form 'some.module.callable_name') that takes a user as its only argument and returns the display name of the user. The default implementation returns user.username.
+#ACCOUNT_USER_DISPLAY =Usuario.get_full_name()
+ACCOUNT_USERNAME_MIN_LENGTH =4
+ACCOUNT_USERNAME_BLACKLIST =[]
+ACCOUNT_USERNAME_REQUIRED = False
+
+#render_value parameter as passed to PasswordInput fields.
+ACCOUNT_PASSWORD_INPUT_RENDER_VALUE =False
+ACCOUNT_PASSWORD_MIN_LENGTH =6
+
+#Specifies the adapter class to use, allowing you to alter certain default behaviour.
+SOCIALACCOUNT_ADAPTER ="allauth.socialaccount.adapter.DefaultSocialAccountAdapter"
+
+#Request e-mail address from 3rd party account provider? E.g. using OpenID AX, or the Facebook "email" permission.
+SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
+
+#Attempt to bypass the signup form by using fields (e.g. username, email) retrieved from the social account provider. If a conflict arises due to a duplicate e-mail address the signup form will still kick in.
+SOCIALACCOUNT_AUTO_SIGNUP =True
+
+#Enable support for django-avatar. When enabled, the profile image of the user is copied locally into django-avatar at signup.
+SOCIALACCOUNT_AVATAR_SUPPORT = 'avatar' in INSTALLED_APPS
+
+#The user is required to hand over an e-mail address when signing up using a social account.
+SOCIALACCOUNT_EMAIL_REQUIRED =ACCOUNT_EMAIL_REQUIRED
+
+#As ACCOUNT_EMAIL_VERIFICATION, but for social accounts.
+SOCIALACCOUNT_EMAIL_VERIFICATION =ACCOUNT_EMAIL_VERIFICATION
+
+#Dictionary containing provider specific settings.
+SOCIALACCOUNT_PROVIDERS = dict
+
+
+
+#======= Facebook Auth Settings =========
+SOCIALACCOUNT_PROVIDERS = \
+    { 'facebook':
+        { 'SCOPE': ['email'],
+          'AUTH_PARAMS': { 'auth_type': 'reauthenticate' },
+          'METHOD': 'oauth2' ,
+          'LOCALE_FUNC': lambda request: 'es_LA'} }
+

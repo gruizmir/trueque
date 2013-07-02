@@ -41,19 +41,21 @@
         
         {% if not user %}
         <div id="loginButtons" class="loginButtonsContainer">
+            {% load socialaccount %}
             <a href="/register"><p> <em>¡Únete ahora!</em></p></a>
-            <a href="{% url 'socialauth_begin' 'twitter' %}">
-                <button type="button" id="twitterBtn">
+            
+            <a href="{% provider_login_url "twitter" %}">
+            <button type="button" id="twitterBtn">
                     <img src="/static/img/twitter.png" alt="tw-logo" class="mini_social_logo"/>
                     <strong>Entrar con Twitter</strong>
                 </button>
             </a>
-            <a href="{% url 'socialauth_begin' 'facebook' %}">
+            <a href="{% provider_login_url "facebook" method="oauth2" %}">
                 <button type="button" id="facebookBtn">
                     <img src="/static/img/facebook.png" alt="fb-logo" class="mini_social_logo"/>
-                    <strong>Entrar con Facebook</strong>
-                </button>
-            </a>
+                    <strong>Entrar con Facebook</strong> 
+                </button> 
+            </a> 
         </div>
         {% endif %}
         <div id="social_external_links">
