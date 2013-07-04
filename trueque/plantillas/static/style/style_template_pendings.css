@@ -1,0 +1,59 @@
+.pending_button {
+	width: 100px;
+	height: 100px;
+	background: #333;
+}
+
+/*DIALOG STYLE*/
+
+#dialog_int, #dialog_int_result{
+  background: transparent;
+  border: none;
+}
+
+.ui-dialog{ 
+    background: transparent;
+    padding: 0px;
+    margin: 0px;
+}
+
+.ui-dialog .ui-dialog-content {
+    padding: 0;
+}
+
+.ui-widget-content {
+	border: none;	
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	border: none;
+	background: #111;
+	padding: 0px;
+	margin: 0px;
+	width: auto;
+	height: 10px;
+}
+.ui-dialog .ui-dialog-title {
+	float: none;
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-bottom-right-radius: 0px;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+    border-bottom-left-radius: 0px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+	top: -4px;
+	right: -18px !important;
+	z-index: 1;
+	width:30px;
+	height: 30px;
+	-webkit-border-radius: 99px;
+	-moz-border-radius: 99px;
+	border-radius: 99px;
+	border: none;
+	background: #f97f04;
+}
+/*END DIALOG STYLE*/

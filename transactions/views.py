@@ -160,7 +160,7 @@ def showPending(request):
         bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.session['member_id']).filter(pending_bidder=True)
         title = "Trueques pendientes"
         usuario = Usuario.objects.get(id=request.session['member_id'])
-        return render_to_response("pendings.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario})
+        return render_to_response("pending.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario})
     else:
         return HttpResponse("/login")
 
@@ -215,9 +215,27 @@ def verifyTrade(request, idTrade=None):
     else:
         if is_loged(request):
             tradeVer = TradeVerification()
-            title = "Verificar trueque"
-            usuario = Usuario.objects.get(id=request.session['member_id'])
-            return render_to_response("trade_verification.html", {'form':tradeVer,'id_trade':idTrade, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
+            trade = Trade.objects.get(id = idTrade)
+            bid = trade.id_bid
+            
+            if trade.id_dealer_id == request.session['member_id']:
+                usuario = Usuario.objects.get(id = bid.id_bidder_id)
+                if bid.q != 0:
+                    q = bid.q
+                    product = None
+                else:
+                    q = 0
+                    product = Product.objects.get(id = bid.id_bid_product_id)
+                code = trade.code_dealer
+            else:
+                usuario = Usuario.objects.get(id = trade.id_dealer_id)
+                product = Product.objects.get(id = bid.id_product_id)
+                q = 0
+                code = trade.code_bidder
+                
+            message = {"verify_window": render_to_response("trade_verification.html", {'form':tradeVer,'id_trade':idTrade, 'user':usuario,'q':q,'product':product,'code':code}, context_instance=RequestContext(request)).content}
+            json = simplejson.dumps(message)
+            return HttpResponse(json, mimetype='application/json')
         else:
             return HttpResponse("/login")
 

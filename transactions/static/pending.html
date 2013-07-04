@@ -1,0 +1,69 @@
+{% extends "main_template.html" %}
+{% block content %}
+<link rel="stylesheet" media="all" href="/static/style/style_template_pendings.css" />
+<script src="/static/js/jquery.raty.min.js"></script>
+
+	<h3>Trueques pendientes </h3>
+	{% if dealer_pendings %}
+		{% for pend in dealer_pendings %}
+			<h4>{{ pend.id_bid.id_product.name }}</h4>
+			{{ pend.id_bid.id_bidder.first_name }} {{ pend.id_bid.id_bidder.last_name }} <br>
+			<div id="/transactions/verify/{{ pend.id }}" class="pending_button">
+			<br>
+		{% endfor %}
+	{% endif %}
+
+	{% if bidder_pendings %}
+		{% for pend in bidder_pendings %}
+			<h4>{{ pend.id_bid.id_product.name }}</h4>
+			{{ pend.id_dealer.first_name }} {{ pend.id_dealer.last_name }} <br>
+			<br>
+			<div id="/transactions/verify/{{ pend.id }}" class="pending_button">
+
+			</div>
+		{% endfor %}
+	{% endif %}
+	
+	<div id="dialog_int" style="display:none;">
+		<div id="dialog_int_result"></div>
+	</div>
+	
+<script>
+	function newWindowEx() {
+		$('#id_rate_0').prop('checked',true);
+		$('#star_rating').raty({
+			starOff: '/static/img/estrellas-white.png',
+			starOn : '/static/img/estrellas-color.png',
+			score: 0,
+			size: 41,
+			click: function(score, evt) {
+				$('#id_rate_'+score).prop('checked',true);
+			}
+		});
+		
+		placeholder = "";
+		$('.code_window_input_container input[type=text]').prop("placeholder", "Ingrese código del trueque");
+		$('.code_window_input_container input[type=text]').blur(function(){
+			$(this).attr("placeholder", placeholder);
+		});
+		$('.code_window_input_container input[type=text]').focus(function(){
+			placeholder = $(this).attr("placeholder");
+			$(this).attr("placeholder", "");
+		});
+	}
+	
+	$(document).ready(function() {
+		$('.pending_button').bind('click', function () {
+			$.get(this.id, function(data) {
+				$('#dialog_int').dialog({
+					resizable: false,
+			        width:'auto'
+				});
+				result = data.verify_window;
+				$('#dialog_int_result')[0].innerHTML = result;
+				newWindowEx();
+			});
+		});
+	});
+</script>
+{% endblock %}

@@ -48,7 +48,7 @@
 }
 .code_window_polaroid_container div {
 	display: table-cell;
-	width: 160px;
+	width: 130px;
 	height: 130px;
 	max-width: 160px !important;
 	max-height: 130px !important;
@@ -56,7 +56,7 @@
 	vertical-align:middle;
 }
 .code_window_polaroid_container div img{
-	max-width: 160px !important;
+	max-width: 130px !important;
 	max-height: 130px !important;	
 }
 .code_window_polaroid_container span {
@@ -112,6 +112,7 @@
 	position: relative;
 	bottom: 2px;
 	text-align: center;
+	font-size: 80%;
 	width: 200px;
 	height: 25px;
 	background: #555;
@@ -162,5 +163,23 @@
 }
 
 #code_window_form input[type=submit]:hover, .code_window_cancel_button:hover {
+	color: #f97f04;
+}
+
+.product_q_price_container {
+	margin-top: 80px;
+	margin-bottom: 46px;
+	text-align: left;
+	vertical-align: top;
+}
+
+.product_q_price_container img {
+	width: auto;
+	height: 40px;
+	vertical-align: bottom;
+}
+
+.product_q_price_container span {
+	font-size: 240%;
 	color: #f97f04;
 }
