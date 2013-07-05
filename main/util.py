@@ -2,7 +2,8 @@
 from products.models import Product, Category, ProductCategory
 from main.models import ProductFollower
 from products.forms import CategoryForm
-from usuarios.models import Usuario, Country, City
+from usuarios.models import Country, City
+from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
@@ -10,7 +11,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from usuarios.views import is_loged
 from django.utils import simplejson
 
 
@@ -139,8 +139,8 @@ def searchFilter(request, city=None, isCity=False, country=None, isCountry=False
                     except ObjectDoesNotExist:
                         data= None
                     user = None
-                    if is_loged(request):
-                        user = Usuario.objects.get(id=request.session['member_id'])
+                    if request.user.is_authenticated():
+                        user = request.user
                     c = {'data':data, 'user':user}
                     c.update(csrf(request))
                     response = render_to_response("search.html", c)        

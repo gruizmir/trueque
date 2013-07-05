@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.db import models
 
 class Country(models.Model):
@@ -11,8 +11,9 @@ class City(models.Model):
     name = models.CharField(max_length=60) # Field name made lowercase.
     class Meta:
         db_table = u'City'
-                                                                                                                
-class Usuario(AbstractUser):    
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, unique=True)
     bulletins = models.BooleanField() # Field name made lowercase.
     email_2 = models.EmailField(max_length=90, blank=True) # Field name made lowercase.
     phone_1 = models.CharField(max_length=30, blank=True) # Field name made lowercase.
@@ -46,19 +47,19 @@ class Usuario(AbstractUser):
     vacations = models.BooleanField(default=False) # Field name made lowercase.
     services = models.BooleanField(default=False) # Field name made lowercase.
     class Meta:
-        db_table = u'Usuario'
+        db_table = u'UserProfile'
 
 class Rating(models.Model):
-    id_rater = models.ForeignKey(Usuario, null=True, related_name='rating_rater', blank=True) # Field name made lowercase.
-    id_rated = models.ForeignKey(Usuario, related_name='rating_rated') # Field name made lowercase.
+    id_rater = models.ForeignKey(User, null=True, related_name='rating_rater', blank=True) # Field name made lowercase.
+    id_rated = models.ForeignKey(User, related_name='rating_rated') # Field name made lowercase.
     level = models.IntegerField() # Field name made lowercase.
     datetime = models.DateTimeField() # Field name made lowercase.
     class Meta:
         db_table = u'Rating'
 
-class Followers(models.Model):
-    id_follower = models.ForeignKey(Usuario, primary_key=True, related_name='followers_follower') # Field name made lowercase.
-    id_followed = models.ForeignKey(Usuario, related_name='followers_followed') # Field name made lowercase.
+class Followers(models.Model):  
+    id_follower = models.ForeignKey(User, primary_key=True, related_name='followers_follower') # Field name made lowercase.
+    id_followed = models.ForeignKey(User, related_name='followers_followed') # Field name made lowercase.
     class Meta:
         db_table = u'Followers'
 
@@ -68,8 +69,8 @@ class Warningreason(models.Model):
         db_table = u'WarningReason'
 
 class Warning(models.Model):
-    id_sender = models.ForeignKey(Usuario, related_name='warning_sender') # Field name made lowercase.
-    id_receiver = models.ForeignKey(Usuario, related_name='warning_receiver') # Field name made lowercase.
+    id_sender = models.ForeignKey(User, related_name='warning_sender') # Field name made lowercase.
+    id_receiver = models.ForeignKey(User, related_name='warning_receiver') # Field name made lowercase.
     reason = models.ForeignKey(Warningreason, null=True, blank=True) # Field name made lowercase.
     message = models.TextField() # Field name made lowercase.
     datetime = models.IntegerField() # Field name made lowercase.
@@ -81,3 +82,5 @@ class Lang(models.Model):
     name = models.CharField(max_length=20L) # Field name made lowercase.
     class Meta:
         db_table = 'Lang'
+
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

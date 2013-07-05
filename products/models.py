@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from usuarios.models import Usuario
+from django.contrib.auth.models import User
 
 class Product(models.Model):
-    id_owner = models.ForeignKey(Usuario) # Field name made lowercase.
+    id_owner = models.ForeignKey(User) # Field name made lowercase.
     name = models.CharField(max_length=90) # Field name made lowercase.
     img = models.CharField(max_length=300) # Field name made lowercase.
     description = models.TextField(blank=True) # Field name made lowercase.
@@ -34,7 +34,7 @@ class ProductCategory(models.Model):
 
 class Comment(models.Model):
     id_product = models.ForeignKey(Product) # Field name made lowercase.
-    id_sender = models.ForeignKey(Usuario) # Field name made lowercase.
+    id_sender = models.ForeignKey(User) # Field name made lowercase.
     subject = models.CharField(max_length=300, blank=True) # Field name made lowercase.
     text = models.TextField(blank=True) # Field name made lowercase.
     datetime = models.DateTimeField() # Field name made lowercase.

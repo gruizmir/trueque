@@ -1,10 +1,10 @@
 from django.db import models
-from usuarios.models import Usuario
+from django.contrib.auth.models import User
 
 class Message(models.Model):
     id_conversation = models.IntegerField() # Field name made lowercase.
-    id_sender = models.ForeignKey(Usuario) # Field name made lowercase.
-    id_receiver = models.ForeignKey(Usuario, related_name="+") # Field name made lowercase.
+    id_sender = models.ForeignKey(User) # Field name made lowercase.
+    id_receiver = models.ForeignKey(User, related_name="+") # Field name made lowercase.
     subject = models.CharField(max_length=300) # Field name made lowercase.
     text = models.TextField(blank=True) # Field name made lowercase.
     datetime = models.DateTimeField() # Field name made lowercase.

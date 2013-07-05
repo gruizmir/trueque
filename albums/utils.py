@@ -3,7 +3,7 @@ from albums.models import Album, AlbumProduct
 from products.models import Product
 
 #get_albums: Obtiene los albums de un usuario
-#PARAMS: user : Usuario del cual se quiere obtener los albums
+#PARAMS: user : User del cual se quiere obtener los albums
 #RETURN: Lista de Albums (objetos) que posea el usuario.
 def get_albums(user):
     try:
@@ -12,7 +12,7 @@ def get_albums(user):
         raise Exception("albums.get_albums : Can't get albums")
 
 #get_album: Obtiene un album del usuario en base al nombre del album.
-#PARAMS: user : Usuario del cual se quiere obtener el album
+#PARAMS: user : User del cual se quiere obtener el album
 #        name_album : Nombre del album que se quiere recuperar
 #RETURN: Album (objeto) que se quiere recuperar.
 def get_album(user, name_album):
@@ -31,7 +31,7 @@ def get_products_by_id_album(id_album):
 #add_album: Se guarda un album en la db del usuario entregado por parametro, adicionalmente
 #           se debe añadir el nombre del album, si es que se puede editar o no y si se quiere
 #           forzar la insercion en la db.
-#PARAMS : user : Usuario al cual se le quiere añadir un album
+#PARAMS : user : User al cual se le quiere añadir un album
 #         name_album: Nombre del album a añadir.
 #         can_edit: True / False dependiendo si se le quiere dar permiso de edicion al usuario.
 #         force: True / False dependiendo si se quiere forzar la insercion en la db

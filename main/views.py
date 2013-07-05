@@ -2,7 +2,8 @@
 from products.models import Product, Category, ProductCategory
 from main.models import ProductFollower
 from products.forms import CategoryForm
-from usuarios.models import Usuario, Country, City
+from usuarios.models import Country, City
+from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
 from django.template import RequestContext
@@ -10,7 +11,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-from usuarios.views import is_loged
 from django.utils import simplejson
 from main.util import searchFilter
 
@@ -60,15 +60,15 @@ def search(request, page=None):
         data = None
     form = CategoryForm()
     user = None
-    if is_loged(request):
-        user = Usuario.objects.get(id=request.session['member_id'])
+    if request.user.is_authenticated():
+        user = request.user
     return render_to_response("main.html", {'form':form, 'user':user, 'data':data,'direccion':settings.MEDIA_ROOT}, context_instance=RequestContext(request))
 
 
 def about(request):
     user = None
-    if is_loged(request):
-        user = Usuario.objects.get(id=request.session['member_id'])
+    if request.user.is_authenticated():
+        user = request.user
     return render_to_response('about.html', {'about':True, 'user':user})
     
     
@@ -92,7 +92,7 @@ def searchByPrice(request, page=None):
     except ObjectDoesNotExist:
         data = None
     if is_loged(request):
-        user = Usuario.objects.get(id=request.session['member_id'])
+        user = User.objects.get(id=request.session['member_id'])
         return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})        
     else:
         return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT})        
@@ -115,7 +115,7 @@ def searchByPopularity(request, page=None):
         data = None
     user = None
     if is_loged(request):
-        user = Usuario.objects.get(id=request.session['member_id'])
+        user = User.objects.get(id=request.session['member_id'])
     return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
 
 
@@ -139,7 +139,7 @@ def searchByName(request,page=None):
         return HttpResponseRedirect("/")
     user = None
     if is_loged(request):
-        user = Usuario.objects.get(id=request.session['member_id'])
+        user = User.objects.get(id=request.session['member_id'])
     return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})
 
 
@@ -160,5 +160,5 @@ def searchByDate(request, page=None):
         data = None
     user = None
     if is_loged(request):
-        user = Usuario.objects.get(id=request.session['member_id'])
+        user = User.objects.get(id=request.session['member_id'])
     return render_to_response("search.html", {'data':data, 'direccion':settings.MEDIA_ROOT, 'user':user})    

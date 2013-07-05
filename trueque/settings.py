@@ -32,7 +32,7 @@ TIME_ZONE = 'America/Santiago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'es'
 
-SITE_ID = 3
+SITE_ID = 2
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -215,7 +215,6 @@ EMAIL_USE_TLS = True
 WEB_URL = "http://localhost:8000"
 #WEB_URL = "http://pruebas.trueque.in"
 
-AUTH_USER_MODEL = 'usuarios.Usuario'
 LOGIN_URL =  "/accounts/login"
 LOGIN_REDIRECT_URL = "/"
 AVATAR_STORAGE_DIR = 'media/avatars'

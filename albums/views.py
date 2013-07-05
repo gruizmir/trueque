@@ -6,10 +6,9 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
 from products.models import Product
-from usuarios.views import is_loged
 
 def showAlbums(request, idProduct=None):
-	if is_loged(request) and request.is_ajax():
+	if request.user.is_authenticated() and request.is_ajax():
 		albums = Album.objects.filter(id_owner = request.session['member_id']).exclude(name = "My Garage").exclude(name = "Trueques")
 		product = Product.objects.get(id=idProduct)
 		message = {"to_album_data": render_to_response("to_album.html", {'albums':albums, 'product':product}, context_instance=RequestContext(request)).content}
@@ -21,7 +20,7 @@ def showAlbums(request, idProduct=None):
 
 		
 def saveAlbumData(request, idProduct=None):
-	if is_loged(request):
+	if request.user.is_authenticated():
 		if request.method == "POST":
 			try:
 				albumValue = int(request.POST['albumValue'])
@@ -39,10 +38,10 @@ def saveAlbumData(request, idProduct=None):
 	else:
 		return HttpResponse("USUARIO NO AUTENTICADO")
 
-def savePendantProduct(request, idProduct=None, idUsuario=None):
-	if is_loged(request) and idProduct!=None and idUsuario!=None:
+def savePendantProduct(request, idProduct=None, idUser=None):
+	if request.user.is_authenticated() and idProduct!=None and idUser!=None:
 		try:
-			album = Album.objects.filter(id_owner=idUsuario).get(name="Pendientes")
+			album = Album.objects.filter(id_owner=idUser).get(name="Pendientes")
 			producto = Product.objects.get(id = idProduct)
 			albumProd = AlbumProduct()
 			albumProd.id_album = album

@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ModelForm
 from django.forms.forms import Form
-from usuarios.models import Usuario
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
 ERROR_PASSDONTMATCH = u"Passwords don't match"
@@ -80,10 +80,13 @@ class RegisterUserForm(ModelForm):
         self.fields['bulletins'].label = ""
     
     class Meta:
-        model = Usuario
+        model = User
         fields = ('first_name', 'last_name', 'email',
-                  'password', 'password_2', 'bulletins',
-                  'terms_service')
+                  'password', 'password_2'
+                  )
+#        fields = ('first_name', 'last_name', 'email',
+#                  'password', 'password_2', 'profile.bulletins',
+#                  'profile.terms_service')
     def clean(self):
         cleaned_data = super(RegisterUserForm, self).clean()
         password1 = cleaned_data.get("password")
@@ -127,11 +130,11 @@ class LoginForm(Form):
         try:
             #Se verifca que esten ingresados el mail y password, si es asi, se intenta
             #recuperar al usuario de la base de datos.
-            if mail and password: user = Usuario.objects.get(email=mail)
+            if mail and password: user = User.objects.get(email=mail)
             else: return cleaned_data
             
             #Se verifica que el usuario este activo antes de iniciar sesion.
-            if user.active == False: clean_and_return("email", ERROR_USERNOTCONFIRMED)
+            if user.profile.active == False: clean_and_return("email", ERROR_USERNOTCONFIRMED)
             
             #En caso de no coincidir el password entregado con el guardado en la base de datos
             #se procede a informar al usuario
@@ -177,20 +180,24 @@ class EditUserForm(ModelForm):
         self.fields['services'].label = TASTE_SERVICES
         
     class Meta:
-        model = Usuario
+        model = User
         fields = ('first_name','last_name',
-                  'city',
-                  'email','email_2',
-                  'phone_1', 'phone_2',
-                  'art', 'music',
-                  'tech', 'cars', 'travels',
-                  'clothes', 'cine', 'sports', 
-                  'eco', 'culture', 'spectacles',
-                  'love', 'food', 'vacations',
-                  'services',
+                  'email',
                   'password',
-                  'new_password_1', 'new_password_2',
-                  'lang')
+                  'new_password_1', 'new_password_2')
+#        fields = ('first_name','last_name',
+#                  'city',
+#                  'email','profile.email_2',
+#                  'profile.phone_1', 'profile.phone_2',
+#                  'profile.art', 'profile.music',
+#                  'profile.tech', 'profile.cars', 'profile.travels',
+#                  'profile.clothes', 'profile.cine', 'profile.sports', 
+#                  'profile.eco', 'profile.culture', 'profile.spectacles',
+#                  'profile.love', 'profile.food', 'profile.vacations',
+#                  'profile.services',
+#                  'password',
+#                  'new_password_1', 'new_password_2',
+#                  'lang')
         
     def clean(self):
         cleaned_data = super(EditUserForm, self).clean()

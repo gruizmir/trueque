@@ -1,5 +1,5 @@
 from django.db import models
-from usuarios.models import Usuario
+from django.contrib.auth.models import User
 
 # TIPOS DE NOTIFICACION (type)
 # message :	Mensajes (correo interno) de usuarios
@@ -9,7 +9,7 @@ from usuarios.models import Usuario
 # trade :	Intercambio completado
 
 class Notification(models.Model):
-    id_user = models.ForeignKey(Usuario) # Field name made lowercase.
+    id_user = models.ForeignKey(User) # Field name made lowercase.
     message = models.TextField() # Field name made lowercase.
     pending = models.BooleanField() # Field name made lowercase.
     datetime = models.DateTimeField(primary_key=True) # Field name made lowercase.

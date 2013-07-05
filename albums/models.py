@@ -1,9 +1,9 @@
 from django.db import models
 from products.models import Product
-from usuarios.models import Usuario
+from django.contrib.auth.models import User
 
 class Album(models.Model):
-    id_owner = models.ForeignKey(Usuario) # Field name made lowercase.
+    id_owner = models.ForeignKey(User) # Field name made lowercase.
     name = models.CharField(max_length=60) # Field name made lowercase.
     edit = models.BooleanField()
     class Meta:

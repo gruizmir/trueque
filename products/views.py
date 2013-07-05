@@ -14,8 +14,8 @@ from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm, \
     NewCommentForm
 from products.models import Product, Category, ProductCategory, Comment
 from transactions.models import Bid
-from usuarios.models import Usuario, Country, City
-from usuarios.views import is_loged
+from usuarios.models import Country, City
+from django.contrib.auth.models import User
 import os
 import uuid
 
@@ -26,12 +26,12 @@ import uuid
 #RETURN: render de la pagina de ingreso de nuevo producto, con los tres formularios que ocupa
 #         (imagenes, producto y categorias del producto)
 def newProduct(request):
-    if is_loged(request):
+    if request.user.is_authenticated():
         imageForm = ImagesForm(prefix='image')
         productForm = ProductForm(prefix='product')
         categoryForm = CategoryForm(prefix='category')
         title = "Nuevo producto"
-        usuario = Usuario.objects.get(id=request.session['member_id'])
+        usuario = request.user
         return render_to_response("newproduct.html", {'image_form':imageForm, 'product_form':productForm, 'category_form':categoryForm, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect("/login")
@@ -44,7 +44,7 @@ def newProduct(request):
 #RETURN: Mensaje de confirmacion de ingreso, si es exitoso. Si el ingreso falla, devuelve un mensaje
 #         con la causa del error.
 def saveProduct(request):
-    if request.method == 'POST' and is_loged(request):
+    if request.method == 'POST' and request.user.is_authenticated():
         productForm = ProductForm(request.POST, prefix='product')
         if productForm.is_valid():
             category_form = CategoryForm(data=request.POST, prefix='category')
@@ -75,7 +75,7 @@ def saveProductData(request, productForm):
     product.name = productForm.cleaned_data['name']
     product.description = productForm.cleaned_data['description']
     product.q_amount = productForm.cleaned_data['q_amount']
-    user = Usuario.objects.get(id=request.session['member_id'])
+    user = request.user
     product.id_owner = user
     product.start_datetime = str(datetime.now())
     product.end_datetime = str(datetime.now())
@@ -89,10 +89,10 @@ def saveProductData(request, productForm):
 
 #saveAlbumData:     Ingresa el registro de que el nuevo producto pertenece al album Garage
 #PARAMS: product:     Objecto producto recien guardado
-#         idUsuario:    ID del usuario al que le pertenece el album y el producto
+#         idUser:    ID del usuario al que le pertenece el album y el producto
 #RETURN: 
-def saveAlbumData(producto, idUsuario):
-    album = Album.objects.filter(id_owner=idUsuario).get(name='My Garage')
+def saveAlbumData(producto, idUser):
+    album = Album.objects.filter(id_owner=idUser).get(name='My Garage')
     albumProd = AlbumProduct(id_album=album, id_product=producto)
     albumProd.save()
 
@@ -173,7 +173,7 @@ def showDetails(request, idProduct=None):
     else:
         try:
             producto = Product.objects.get(id=idProduct)
-            if is_loged(request) and producto.id_owner.id == request.session['member_id']:
+            if request.user.is_authenticated() and producto.id_owner == request.user:
                 return showOwnerView(request, producto)
             else:                
                 return showVisitView(request, producto)
@@ -229,8 +229,8 @@ def showVisitView(request, product):
         bids = None
     title = product.name
     usuario = None
-    if is_loged(request):
-        usuario = Usuario.objects.get(id=request.session['member_id'])
+    if request.user.is_authenticated():
+        usuario = request.user
     return render_to_response("product_details.html", {'product':product, 'categories':categories, 'comments':comments, 'bids':bids, 'title':title, 'user':usuario}, context_instance=RequestContext(request))
 
 #newComment:Muestra el formulario para ingresar nuevos comentarios en un producto y procesa y guarda 
@@ -242,7 +242,7 @@ def showVisitView(request, product):
 #         Si el mensaje se guarda exitosamente, muestra la vista del producto.
 #         Si no se guarda, muestra un mensaje de error con la posible causa.
 def newComment(request, idProducto=None):
-    if is_loged(request):
+    if request.user.is_authenticated():
         if idProducto!=None:
             if request.method == "POST":
                 newComment = NewCommentForm(request.POST)
@@ -257,7 +257,7 @@ def newComment(request, idProducto=None):
                         commentForm = CommentForm(data)
                         if commentForm.is_valid():
                             commentForm.save()
-                            user = Usuario.objects.get(id = request.session['member_id'])
+                            user = request.user
                             send_mail('Comentario enviado', 'Usted hizo un nuevo comentario.', settings.EMAIL_HOST_USER , [user.email], fail_silently=False)
                             return HttpResponseRedirect("/products/" + str(idProducto))
                         else:
@@ -271,7 +271,7 @@ def newComment(request, idProducto=None):
                 newComment = NewCommentForm()
                 product = Product.objects.get(id=idProducto)
                 title = "Nuevo comentario para " + product.name
-                user = Usuario.objects.get(id=request.session['member_id'])
+                user = request.user
                 message = {"add_comment_data": render_to_response("new_comment.html", {'form':newComment, 'title':title, 'user':user, 'idproducto':idProducto},context_instance=RequestContext(request)).content}
                 json = simplejson.dumps(message)
                 return HttpResponse(json, mimetype='application/json')

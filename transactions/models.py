@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from products.models import Product
-from usuarios.models import Usuario
+from django.contrib.auth.models import User
 
 class Bid(models.Model):
     id_product = models.ForeignKey(Product) # Field name made lowercase.
-    id_bidder = models.ForeignKey(Usuario) # Field name made lowercase.
+    id_bidder = models.ForeignKey(User) # Field name made lowercase.
     q = models.IntegerField(null=True, blank=True) # Field name made lowercase.
     id_bid_product = models.ForeignKey(Product, null=True, blank=True, related_name="+") # Field name made lowercase.
     datetime = models.DateTimeField() # Field name made lowercase.
@@ -13,7 +13,7 @@ class Bid(models.Model):
         db_table = u'Bid'
 
 class Trade(models.Model):
-    id_dealer = models.ForeignKey(Usuario, null=True, blank=True) # Field name made lowercase.
+    id_dealer = models.ForeignKey(User, null=True, blank=True) # Field name made lowercase.
     id_bid = models.ForeignKey(Bid, null=True, blank=True) # Field name made lowercase.
     code_dealer = models.CharField(null=True, max_length=30, blank=True) # Field name made lowercase.
     code_bidder = models.CharField(null=True, max_length=30, blank=True) # Field name made lowercase.

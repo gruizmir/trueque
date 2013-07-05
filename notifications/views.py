@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from products.models import Product, Category, ProductCategory, Comment
 from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm, NewCommentForm
-from usuarios.models import Usuario, Country, City
+from usuarios.models import Country, City
+from django.contrib.auth.models import User
 from usuarios.views import is_loged
 from transactions.models import Bid
 from albums.models import Album, AlbumProduct
@@ -26,7 +27,7 @@ import os
 class ProductNotification:
 
 	def bid_notification(self, idBidder, idProduct):
-		bidder = Usuario.objects.get(id=idBidder)
+		bidder = User.objects.get(id=idBidder)
 		product = Product.objects.get(id=idProduct)
 		nota = u"El usuario " + bidder.first_name + u" ha ingresado una oferta en tu " + product.product_name
 		notif = Notification(id_user=product.id_owner, message=nota, pending=True, datetime = str(datetime.now()), link="/products/" + str(idProduct), ntype="bid")
@@ -63,14 +64,14 @@ class UserNotification:
 	#Cuando se suma un seguidor
 	def follower_notification(self, idFollowed):
 		#debe buscar la ultima notificacion (si hay) que diga que "X personas te siguen ahora" del usuario y borrarla.
-		user = Usuario.objects.get(id=idFollowed)
+		user = User.objects.get(id=idFollowed)
 		try:
 			prevNotif = Notification.objects.get(id_user=user, ntype="follow", message__contains=u"personas te siguen ahora")
 			prevNotif.delete()
-			nota = str(user.follower_qty) + u" personas te siguen ahora"
+			nota = str(user.profile.follower_qty) + u" personas te siguen ahora"
 		except:
-			nota = str(user.follower_qty) + u" persona te sigue ahora"
-		nota = str(user.follower_qty) + u" personas te siguen ahora"
+			nota = str(user.profile.follower_qty) + u" persona te sigue ahora"
+		nota = str(user.profile.follower_qty) + u" personas te siguen ahora"
 		notif = Notification(id_user=user, message=nota, pending=True, datetime = str(datetime.now()), link="/usuarios/" + str(idFollowed) + "/followers", ntype="follow")
 		notif.save()
 
@@ -78,9 +79,9 @@ class UserNotification:
 class TradeNotification:
 
 	#Falta agregar el link: deberia ir a la lista de trueques realizados.
-	def trade_notification(self, idBidder, idUsuario):
-		bidder = Usuario.objects.get(id=idBidder)
-		user = Usuario.objects.get(id=idUsuario)
+	def trade_notification(self, idBidder, idUser):
+		bidder = User.objects.get(id=idBidder)
+		user = User.objects.get(id=idUser)
 		nota = u"Felicidades, lograste un trueque con " + bidder.first_name + " " + bidder.last_name
 		notif = Notification(id_user=user, message=nota, pending=True, datetime = str(datetime.now()), link="", ntype="trade")
 		notif.save()
@@ -89,8 +90,8 @@ class MessageNotification:
 	
 	#Recibe la id del usuario que le envio el mensaje
 	#Falta agregar el link
-	def message_notification(self, idUsuario):
-		user = Usuario.objects.get(id=idUsuario)
+	def message_notification(self, idUser):
+		user = User.objects.get(id=idUser)
 		nota = user.first_name + u" te ha enviado un mensaje"
 		notif = Notification(id_user=user, message=nota, pending=True, datetime = str(datetime.now()), link="", ntype="message")
 		notif.save()

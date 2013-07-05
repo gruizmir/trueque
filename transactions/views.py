@@ -13,8 +13,7 @@ from django.utils import simplejson
 from products.models import Product, Category, ProductCategory
 from transactions.forms import BidForm, TradeForm, TradeVerification
 from transactions.models import Bid, Trade
-from usuarios.models import Usuario
-from usuarios.views import is_loged
+from django.contrib.auth.models import User
 import random
 import string
 
@@ -35,7 +34,7 @@ def newBid(request, idProduct=None):
                 if prod.active==True:
                     bidderProducts = Product.objects.filter(id_owner = request.session['member_id'])
                     title = "Nueva oferta"
-                    usuario = Usuario.objects.get(id=request.session['member_id'])
+                    usuario = User.objects.get(id=request.session['member_id'])
                     render_bid = render_to_response('new_bid.html', {'products':bidderProducts, 'title':title, 'user':usuario, 'owner_product':idProduct}, context_instance=RequestContext(request))
                     message = {"bid_data": render_bid.content}
                     json = simplejson.dumps(message)
@@ -52,9 +51,9 @@ def newBid(request, idProduct=None):
                     else:
                         try:
                             bid_q = int(request.POST['bid_q_amount'])
-                            user = Usuario.objects.get(id = request.session['member_id'])
+                            user = User.objects.get(id = request.session['member_id'])
                             bidProductID = None
-                            if bid_q == 0 or bid_q > user.quds or bid_q < 0:
+                            if bid_q == 0 or bid_q > user.profile.quds or bid_q < 0:
                                 render_bid_result = render_to_response('bid_transaction_result.html', {'error_amount': True})
                                 message = {"bid_result_data": render_bid_result.content}
                                 json = simplejson.dumps(message)
@@ -119,7 +118,7 @@ def makeTrade(request, idProduct):
                 savePendantProduct(request, idProduct, owner.id)
                 savePendantProduct(request, idProduct, bidder.id)
                 sendTradeMail(owner, bidder, tradeForm.cleaned_data['code_dealer'], tradeForm.cleaned_data['code_bidder'])
-                user_dealer = Usuario.objects.get(id = request.session['member_id'])
+                user_dealer = User.objects.get(id = request.session['member_id'])
                 bid = Bid.objects.get(id = request.POST['group_product'])
                 user_bidder = bid.id_bidder
                 message = {"middle_data": render_to_response('transaction_successful.html', 
@@ -159,7 +158,7 @@ def showPending(request):
         dealer_pendings = Trade.objects.filter(id_dealer=request.session['member_id']).filter(pending_dealer=True)
         bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.session['member_id']).filter(pending_bidder=True)
         title = "Trueques pendientes"
-        usuario = Usuario.objects.get(id=request.session['member_id'])
+        usuario = User.objects.get(id=request.session['member_id'])
         return render_to_response("pending.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario})
     else:
         return HttpResponse("/login")
@@ -219,7 +218,7 @@ def verifyTrade(request, idTrade=None):
             bid = trade.id_bid
             
             if trade.id_dealer_id == request.session['member_id']:
-                usuario = Usuario.objects.get(id = bid.id_bidder_id)
+                usuario = User.objects.get(id = bid.id_bidder_id)
                 if bid.q != 0:
                     q = bid.q
                     product = None
@@ -228,7 +227,7 @@ def verifyTrade(request, idTrade=None):
                     product = Product.objects.get(id = bid.id_bid_product_id)
                 code = trade.code_dealer
             else:
-                usuario = Usuario.objects.get(id = trade.id_dealer_id)
+                usuario = User.objects.get(id = trade.id_dealer_id)
                 product = Product.objects.get(id = bid.id_product_id)
                 q = 0
                 code = trade.code_bidder
@@ -250,12 +249,12 @@ def exchange(bid, product):
         bid.id_bid_product.id_owner = dealer
         saveAlbumData(bid.id_bid_product, dealer)
     else:                                    #Significa que fue un trueque por Q
-        dealer.quds += bid.q
-        bidder.quds -= bid.q
+        dealer.profile.quds += bid.q
+        bidder.profile.quds -= bid.q
 
 #saveAlbumData:     Ingresa el registro de que el nuevo producto pertenece al album Trueques
 #PARAMS: product:     Objecto producto recien guardado
-#         idUsuario:    ID del usuario al que le pertenece el album y el producto
+#         idUser:    ID del usuario al que le pertenece el album y el producto
 #RETURN: 
 def saveAlbumData(producto, user):
     album = Album.objects.filter(id_owner=user).get(name='Trueques')
@@ -266,10 +265,10 @@ def saveAlbumData(producto, user):
 
 #Funcion encargada de agregar la calificacion a un usuario
 def rate(usuario, nota):
-    cant = usuario.ranking_qty
-    prevNota = usuario.rating
-    usuario.rating = (prevNota*cant + int(nota))/(cant + 1)
-    usuario.ranking_qty += 1
+    cant = usuario.profile.ranking_qty
+    prevNota = usuario.profile.rating
+    usuario.profile.rating = (prevNota*cant + int(nota))/(cant + 1)
+    usuario.profile.ranking_qty += 1
     usuario.save()
 
 
