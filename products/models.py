@@ -19,18 +19,26 @@ class Product(models.Model):
     active = models.BooleanField(default=True) # Field name made lowercase.
     class Meta:
         db_table = u'Product'
+    
+    def __unicode__(self):
+        return self.name
         
 class Category(models.Model):
     name = models.CharField(max_length=60) # Field name made lowercase.
     class Meta:
         db_table = u'Category'
+    
+    def __unicode__(self):
+        return self.name
 
 class ProductCategory(models.Model):
-    
     id_product = models.ForeignKey(Product) # Field name made lowercase.
     id_category = models.ForeignKey(Category) # Field name made lowercase.
     class Meta:
         db_table = u'Product_category'
+    
+    def __unicode__(self):
+        return self.id_product.name + " in " + self.id_category.name
 
 class Comment(models.Model):
     id_product = models.ForeignKey(Product) # Field name made lowercase.
@@ -40,3 +48,6 @@ class Comment(models.Model):
     datetime = models.DateTimeField() # Field name made lowercase.
     class Meta:
         db_table = u'Comment'
+    
+    def __unicode__(self):
+        return self.datetime + " - " + self.subject

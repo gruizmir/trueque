@@ -5,12 +5,18 @@ class Country(models.Model):
     name = models.CharField(max_length=60) # Field name made lowercase.
     class Meta:
         db_table = u'Country'
+        
+    def __unicode__(self):
+        return self.name
 
 class City(models.Model):
     id_country = models.ForeignKey(Country) # Field name made lowercase.
     name = models.CharField(max_length=60) # Field name made lowercase.
     class Meta:
         db_table = u'City'
+        
+    def __unicode__(self):
+        return self.name
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -48,7 +54,10 @@ class UserProfile(models.Model):
     services = models.BooleanField(default=False) # Field name made lowercase.
     class Meta:
         db_table = u'UserProfile'
-
+    
+    def __unicode__(self):
+        return self.user.get_full_name()
+    
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
     
 class Rating(models.Model):
@@ -58,29 +67,45 @@ class Rating(models.Model):
     datetime = models.DateTimeField() # Field name made lowercase.
     class Meta:
         db_table = u'Rating'
+    
+    def __unicode__(self):
+        return self.id_rater.get_full_name() + " to " + self.id_rated.get_full_name() 
+    
 
 class Followers(models.Model):  
     id_follower = models.ForeignKey(User, primary_key=True, related_name='followers_follower') # Field name made lowercase.
     id_followed = models.ForeignKey(User, related_name='followers_followed') # Field name made lowercase.
     class Meta:
         db_table = u'Followers'
+    
+    def __unicode__(self):
+        return self.id_follower.get_full_name() + " to " + self.id_followed.get_full_name() 
+    
 
-class Warningreason(models.Model):
+class WarningReason(models.Model):
     text = models.CharField(max_length=150) # Field name made lowercase.
     class Meta:
         db_table = u'WarningReason'
+        
+    def __unicode__(self):
+        return self.name
 
 class Warning(models.Model):
     id_sender = models.ForeignKey(User, related_name='warning_sender') # Field name made lowercase.
     id_receiver = models.ForeignKey(User, related_name='warning_receiver') # Field name made lowercase.
-    reason = models.ForeignKey(Warningreason, null=True, blank=True) # Field name made lowercase.
+    reason = models.ForeignKey(WarningReason, null=True, blank=True) # Field name made lowercase.
     message = models.TextField() # Field name made lowercase.
     datetime = models.IntegerField() # Field name made lowercase.
     class Meta:
         db_table = u'Warning'
-
+    
+    def __unicode__(self):
+        return self.id_sender.get_full_name() + " to " + self.id_receiver.get_full_name() 
 
 class Lang(models.Model):
     name = models.CharField(max_length=20L) # Field name made lowercase.
     class Meta:
         db_table = 'Lang'
+    
+    def __unicode__(self):
+        return self.name
