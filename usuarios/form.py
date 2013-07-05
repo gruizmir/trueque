@@ -95,7 +95,15 @@ class RegisterUserForm(ModelForm):
             del cleaned_data["password_2"]
  
         return cleaned_data
-
+    
+    def save(self, commit=True):
+        user = super(RegisterUserForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
+    
+    
 class UserProfileForm(forms.Form):
     bulletins = forms.BooleanField(required=False,initial=False, label="")
     terms_service = forms.BooleanField(required=True,initial=False, label="")

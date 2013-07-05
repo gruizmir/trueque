@@ -200,13 +200,16 @@ def mLogin(request):
             else: 
                 return C_error.raise_error(C_error.NOCOOKIE)
             if form.is_valid():
-                form.cleaned_data['email']
-                user = User.objects.get(email=form.cleaned_data['email'])   
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect("/usuarios/profile")
+                mUser = User.objects.get(email=form.cleaned_data['email'])   
+                user = authenticate(username=mUser.username, password=form.cleaned_data['password'])
+                if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        return HttpResponseRedirect("/usuarios/profile")
+                    else:
+                        return HttpResponse("Usuario no activo")
                 else:
-                    return HttpResponse("Usuario no activo")    
+                    return HttpResponse("Usuario no existe")        
         else:
             form = LoginForm()
         
@@ -216,15 +219,19 @@ def mLogin(request):
         return render_to_response('user_login.html', c)
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
-    except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
-    except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
+    except SuspiciousOperation: 
+        return C_error.raise_error(C_error.PERMISSIONDENIED)
+    except DatabaseError: 
+        return C_error.raise_error(C_error.DATABASEERROR)
     except Exception as e:
         print '%s (%s)' % (e.message, type(e))
         return C_error.raise_error(C_error.MAGICERROR)
         
     #Exceptions que se activan en caso de no poder iniciar sesion.
-    except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
-    except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
+    except SuspiciousOperation: 
+        return C_error.raise_error(C_error.PERMISSIONDENIED)
+    except DatabaseError: 
+        return C_error.raise_error(C_error.DATABASEERROR)
     except Exception as e:
         print '%s (%s)' % (e.message, type(e))
         return C_error.raise_error(C_error.MAGICERROR)
@@ -291,7 +298,7 @@ class ShowProfile():
     
     def show_profile_default(self, request):
         try:
-            user = User.objects.get(id= request.session['member_id'])
+            user = request.user
             albums_list = albums_utils.get_albums(user)
             
             album_list =  {'object_list' : albums_list, 'user':user}
@@ -308,7 +315,8 @@ class ShowProfile():
             
             json = simplejson.dumps(message)
             return HttpResponse(json, mimetype='application/json')
-        except Exception as e: return self.show_error(e)
+        except Exception as e: 
+            return self.show_error(e)
 
     def show_profile_using_id(self, request, user_id):
         try:
