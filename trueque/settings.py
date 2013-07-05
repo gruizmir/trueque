@@ -32,7 +32,7 @@ TIME_ZONE = 'America/Santiago'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'es'
 
-SITE_ID = 2
+SITE_ID = 1
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
