@@ -5,6 +5,7 @@ from django.forms import ModelForm
 from django.forms.forms import Form
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from usuarios.models import UserProfile
 
 ERROR_PASSDONTMATCH = u"Passwords don't match"
 ERROR_WRONGPASS = u"Wrong password, try again"
@@ -73,20 +74,14 @@ class RegisterUserForm(ModelForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': HINT_EMAIL}), max_length=90)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_PASSWORD1}), max_length=75, min_length=6)
     password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_PASSWORD2}), max_length=75, min_length=6)
-    terms_service = forms.BooleanField(required=True,initial=False, label="")
     
     def __init__(self, *args, **kwargs):
         super(RegisterUserForm, self).__init__(*args, **kwargs)
-        self.fields['bulletins'].label = ""
     
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email',
-                  'password', 'password_2'
-                  )
-#        fields = ('first_name', 'last_name', 'email',
-#                  'password', 'password_2', 'profile.bulletins',
-#                  'profile.terms_service')
+        fields = ('first_name', 'last_name', 'email', 'password', 'password_2')
+
     def clean(self):
         cleaned_data = super(RegisterUserForm, self).clean()
         password1 = cleaned_data.get("password")
@@ -100,6 +95,11 @@ class RegisterUserForm(ModelForm):
             del cleaned_data["password_2"]
  
         return cleaned_data
+
+class UserProfileForm(forms.Form):
+    bulletins = forms.BooleanField(required=False,initial=False, label="")
+    terms_service = forms.BooleanField(required=True,initial=False, label="")
+    
 
 #SendConfirmationForm: Formulario con un campo mail utilizado para reenviar la confirmacion
 #                      de activacion de cuenta al usuario.

@@ -49,6 +49,8 @@ class UserProfile(models.Model):
     class Meta:
         db_table = u'UserProfile'
 
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+    
 class Rating(models.Model):
     id_rater = models.ForeignKey(User, null=True, related_name='rating_rater', blank=True) # Field name made lowercase.
     id_rated = models.ForeignKey(User, related_name='rating_rated') # Field name made lowercase.
@@ -82,5 +84,3 @@ class Lang(models.Model):
     name = models.CharField(max_length=20L) # Field name made lowercase.
     class Meta:
         db_table = 'Lang'
-
-User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

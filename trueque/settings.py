@@ -197,6 +197,7 @@ LOGGING = {
     }
 }
 
+AUTH_PROFILE_MODULE = "usuarios.UserProfile"
 
 #Django Social Auth Params
 TWITTER_CONSUMER_KEY         = 'IVNcmsb91vVGpBOaYSeQqg'

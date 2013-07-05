@@ -16,9 +16,8 @@ from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext as _
 from messages.form import ComposeMailForm
 from messages.models import Message
-from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
-    EditUserForm
-from usuarios.models import Followers
+from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, EditUserForm, UserProfileForm
+from usuarios.models import Followers, UserProfile
 from django.contrib.auth.models import User
 import albums.utils as albums_utils
 import json
@@ -53,10 +52,10 @@ REGISTER_USER_BULLETINS = _("I want get email bulletins.")
 def register(request):
     try:
         if request.method == 'POST':
-            form = RegisterUserForm(request.POST)
-            if form.is_valid():
-                new_register = form.save(commit=False)
-                
+            userForm = RegisterUserForm(request.POST, prefix="user")
+            profileForm = UserProfileForm(request.POST, prefix="profile")
+            if userForm.is_valid() and profileForm.is_valid():
+                new_register = userForm.save(commit=False)
                 #Se crea una session para la verificacion via email de la activacion de cuenta
                 #del usuario que se esta intentando registrar.
                 session_s = SessionStore()
@@ -65,7 +64,11 @@ def register(request):
                 session_s.set_expiry(SESSION_EXPIRY)
                 session_s.save(must_create=True)
                 new_register.username = new_register.email
+                new_register.is_active=False
                 new_register.save()
+                profile = new_register.profile
+                profile.bulletins = profileForm.cleaned_data['bulletins']
+                profile.save()
                 
                 #Se crean los primeros cuatro albums por defecto
                 for name in ALBUMES:
@@ -74,13 +77,13 @@ def register(request):
                 
                 return send_registration_confirmation(session_s)
         else:
-            form = RegisterUserForm()
-            
+            userForm = RegisterUserForm(prefix="user")
+            profileForm = UserProfileForm(prefix="profile")
         absolute_path = os.path.dirname(os.path.realpath(__file__))
         bg_imgs_folder = os.path.join(absolute_path, 'static/img/random_register/')
         bg_imgs_count = len([name for name in os.listdir(bg_imgs_folder) if os.path.isfile(bg_imgs_folder + name)])
 
-        data_to_render = {'form': form, 'terms_of_service' :  REGISTER_TERMS_OF_SERVICE,
+        data_to_render = {'form': userForm, 'profile_form':profileForm, 'terms_of_service' :  REGISTER_TERMS_OF_SERVICE,
                           'bulletins' : REGISTER_USER_BULLETINS,
                           'random_bg' : random.randint(1, bg_imgs_count)}
         data_to_render.update(csrf(request))
@@ -89,8 +92,11 @@ def register(request):
     
     #Exceptions que se activan en caso de no poder registrar al usuario en la base de datos o
     #por alguna accion extraña durante el registro.
-    except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
-    except DatabaseError as e: return C_error.raise_error(C_error.DATABASEERROR)
+    except SuspiciousOperation: 
+        return C_error.raise_error(C_error.PERMISSIONDENIED)
+    except DatabaseError as e:
+        print '%s (%s)' % (e.message, type(e)) 
+        return C_error.raise_error(C_error.DATABASEERROR)
     except Exception as e:
         print '%s (%s)' % (e.message, type(e))
         return C_error.raise_error(C_error.REGISTERMODULEERROR)
@@ -189,16 +195,18 @@ def mLogin(request):
         if request.method == 'POST':
             form = LoginForm(request.POST)
             
-            if request.session.test_cookie_worked(): request.session.delete_test_cookie()
-            else: return C_error.raise_error(C_error.NOCOOKIE)
+            if request.session.test_cookie_worked(): 
+                request.session.delete_test_cookie()
+            else: 
+                return C_error.raise_error(C_error.NOCOOKIE)
             if form.is_valid():
                 form.cleaned_data['email']
                 user = User.objects.get(email=form.cleaned_data['email'])   
-                request.session['member_id'] = user.id
-                request.session.set_expiry(0)
-                request.session.save()
-                
-                return HttpResponseRedirect("/usuarios/profile")
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponseRedirect("/usuarios/profile")
+                else:
+                    return HttpResponse("Usuario no activo")    
         else:
             form = LoginForm()
         
