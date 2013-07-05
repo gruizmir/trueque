@@ -145,7 +145,10 @@ def confirm(request):
             user.is_active = True
             user.save()
             session_s.delete()
-            return render_to_response('register_complete.html')
+            form = LoginForm()
+            c = { 'form': form, 'success':True}
+            c.update(csrf(request))
+            return render_to_response('user_login.html', c)
         else: return C_error.raise_error(C_error.USERALREADYACTIVE)    
     
     #Exceptions que se pueden producir por algun fallo durante la activacion de la cuenta.   

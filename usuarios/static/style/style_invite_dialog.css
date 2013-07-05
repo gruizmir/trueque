@@ -1,3 +1,65 @@
+#invitation_dialog {
+    background: transparent;
+    border: none;
+    width:100%;
+    height:100%;    
+}
+
+.ui-dialog{ 
+    background: #222;
+    padding-top: 0px;
+    padding-right: 0px;
+    vertical-align:middle;
+}
+
+.ui-widget-content {
+	border: none;	
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	border: none;
+	display:block;
+	background: #111;
+	padding: 0px;
+	margin: 0px;
+	height: 10px;
+	background-color: #f97f04;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
+	background-image: -moz-linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+	background-image: -o-linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+	background-image: linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+}
+
+.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+    border-bottom-right-radius: 0px;
+}
+.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+    border-bottom-left-radius: 0px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close {
+	top: -4px;
+	left: -18px !important;
+	z-index: 1;
+	width:30px;
+	height: 30px;
+	-webkit-border-radius: 99px;
+	-moz-border-radius: 99px;
+	border-radius: 99px;
+	border: none;
+	background: #f97f04;
+}
+
+.ui-dialog-title {
+    display:none;
+}
+
+/*END DIALOG STYLE*/
+
+
+
+
+
 .modalDialog {
 	position: fixed;
 	font-family: Arial, Helvetica, sans-serif;
@@ -14,48 +76,18 @@
 	pointer-events: none;
 }
 
-.modalDialog:target {
-	opacity:1;
-	pointer-events: auto;
-}
-
-.modalDialog div {
-	width: 300px;
-	height:135px;
-	position: relative;
-	margin: 5% auto;
-	padding: 20px 20px 20px 20px;
-	background: #312d2e;
-}
-
-.modalDialog div p{
+.invite_text {
     color:#ffffff;
     font-size:10px;
     margin-bottom:5px;
 }
 
-.close {
-	background: #606061;
-	color: #FFFFFF;
-	line-height: 25px;
-	position: absolute;
-	left: -12px;
-	text-align: center;
-	top: -10px;
-	width: 24px;
-	text-decoration: none;
-	font-weight: bold;
-	-webkit-border-radius: 12px;
-	-moz-border-radius: 12px;
-	border-radius: 12px;
-	-moz-box-shadow: 1px 1px 3px #000;
-	-webkit-box-shadow: 1px 1px 3px #000;
-	box-shadow: 1px 1px 3px #000;
+.invite_button_div {
+    width:100%:
+    display:block;
 }
 
-.close:hover { background: #fa7e04; }
-
-.inviteButton {
+.ui-widget input {
     color:#c1cd21;
     background:#000000;
     width:80px;
@@ -67,20 +99,19 @@
     float:right;
     cursor:pointer;
     text-decoration:none;
-    text-shadow:0px;
     border:0px;
     border-radius:0px;
     box-shadow:0px 0px 0px 0px;
 }
 
-.inviteButton:hover {
+.ui-widget input:hover {
     color:#ffffff;
     background:#fa7e04;
     font-size:10px;
     text-decoration:none;
 }
 
-.mailTextBox {
+.ui-widget textarea {
     width:300px;
     height:40px;
     background:#4d4d4d;

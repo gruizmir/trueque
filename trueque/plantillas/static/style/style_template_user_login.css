@@ -1,3 +1,12 @@
+#success_msg {
+    margin-top:20px;
+    color:#f97f04;
+    font-size:180%;
+    text-align:center;
+    font-style:italic;
+    display:block;
+}
+
 .user_login_container {
 	border: 1px solid #f97f04;
 	-webkit-border-radius: 5px;

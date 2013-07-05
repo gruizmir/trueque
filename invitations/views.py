@@ -11,23 +11,29 @@ from django.utils import simplejson
 from django.conf import settings
 from django.core.validators import email_re
 import uuid
-from django.views.decorators.csrf import csrf_exempt
+from django.template import RequestContext
 
-@csrf_exempt
 def sendInvitations(request):
-    if request.user.is_authenticated():
-        if request.method=="POST":
-            correos = request.POST['mails']
-            listaCorreos = correos.split(',')
-            user = request.user
-            for correo in listaCorreos:
-                if not sendMail(correo.strip(), user):
-                    break;
-            return HttpResponseRedirect("#sent")
+    if request.method=="POST":
+        if request.user.is_authenticated():
+            if request.method=="POST":
+                correos = request.POST['mails']
+                listaCorreos = correos.split(',')
+                user = request.user
+                for correo in listaCorreos:
+                    if not sendMail(correo.strip(), user):
+                        break;
+                return HttpResponseRedirect("#sent")
+            else:
+                return HttpResponseRedirect("/")
         else:
-            return HttpResponseRedirect("/")
-    else:
-        return HttpResponseRedirect("/login")
+            return HttpResponseRedirect("/login")
+    elif request.is_ajax():
+        user = request.user
+        message = {'invitation_data': render_to_response("invite_dialog.html", {'remaining_invitations':user.profile.remaining_invitations},context_instance=RequestContext(request)).content}
+        json = simplejson.dumps(message)
+        return HttpResponse(json, mimetype='application/json')
+        
 
 def sendMail(email, user):
     if isValidEmail(email):

@@ -29,13 +29,17 @@
 					{% endif %}
 					</li>
 				{% endfor %}
-				{% for field in profile_form %}
+				{% for p_field in profile_form %}
 					<li class="register_form_bulletins_service" >
-					  	{% if field.name == "terms_service" %}
-					  		{{ field }} {{ field.label_tag }} {{ terms_of_service }}
+					  	{% if p_field.name == "terms_service" %}
+					  		{{ p_field }} {{ p_field.label_tag }} {{ terms_of_service }}
 					  	{% else %}
-					  		{{ field }} {{ field.label_tag }} {{ bulletins }}
+					  		{{ p_field }} {{ p_field.label_tag }} {{ bulletins }}
 					  	{% endif %}
+					  	{% if p_field.errors.as_text %}
+    						<div class="form_error_arrow"></div>
+	    					<div class="form_error_text"> {{ p_field.errors.as_text|wordwrap:5 }} </div>
+					{% endif %}
 				  	</li>
 				{% endfor %}
 				<li>

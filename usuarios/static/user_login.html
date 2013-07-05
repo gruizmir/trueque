@@ -2,9 +2,11 @@
 {% block content %}
 <link rel="stylesheet" media="all" href="/static/style/style_template_user_login.css" />
 <section class="user_login_section">
+    {% if success %}
+	    <p id="success_msg"> ¡Felicidades! Ya puedes comenzar a usar Trueque </p>
+	{% endif %}
 <div class="user_login_container">
 	<div class="user_login_title_container">Log in </div>
-	
 	<div class="user_login_form_container">
 		<div class="user_login_form_message">
 			<a href="/register" class="user_login_need_register">

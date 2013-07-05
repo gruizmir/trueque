@@ -1,0 +1,12 @@
+<link rel="stylesheet" media="all" href="/static/style/style_invite_dialog.css" />
+<p class="invite_text">Ingresa los correos de las personas que quieres invitar  </p>
+<form action="/invitation/send/" method="POST">
+    {% csrf_token %}
+    <textarea class="mailTextBox" name="mails" id="mails" autofocus></textarea>
+    <p class="invite_text">Te quedan <label class="numeros">{{ remaining_invitations }}</label> invitaciones </p>
+    <p class="invite_text"><label class="numeros"> 00 </label> sugeridos </p>
+    <div class="invite_button_div">
+    <input type="reset" value="borrar" class="inviteButton"/>
+    <input type="submit" value="aceptar" class="inviteButton"/>
+    </div>
+</form>

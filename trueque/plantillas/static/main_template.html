@@ -65,7 +65,7 @@
 						 {% if user %}
 							<li><a href="#">Sigo</a></li>
 							<li><a href="#">Me siguen</a></li>
-							<li><a href="#invitePeople">Invitar</a></li>
+							<li id="invite_people"><a>Invitar</a></li>
 				        {% endif %}
 							<li><a href="#">Buscar personas</a></li>
 						 </ul>
@@ -113,18 +113,7 @@
 			  tab_inverted: false
 			}]);
 			</script>
-		<div id="invitePeople" class="modalDialog">
-	        <div>
-		        <a href="#close" title="Close" class="close">X</a>
-		        <p>Ingresa los correos de las personas que quieres invitar  </p>
-		        <form action="/invitation/send/" method="POST">
-		        <textarea class="mailTextBox" name="mails" id="mails" autofocus></textarea>
-		        <p >Te quedan <label class="numeros">{{ user.remaining_invitations }}</label> invitaciones </p>
-		        <p><label class="numeros"> 00 </label> sugeridos </p>
-	            <input type="reset" value="borrar" class="inviteButton"/>
-		        <input type="submit" value="aceptar" class="inviteButton"/>
-	            
-	        </div>
+		<div id="invitation_dialog">
         </div>
         <div id="sent" class="modalSentDialog">
 	        <div>
@@ -139,6 +128,21 @@
 	        </div>
         </div>
 	</body>
+	<script>
+	    $(document).ready(function() {
+		    $('#invite_people').bind('click', function () {
+			    $('#invitation_dialog').dialog({
+				    resizable: false,
+		            width:'auto'
+			    });
+			    $.get("/invitation/send/", function(data) {
+				    result = data.invitation_data;
+				    console.log(result)
+				    $('#invitation_dialog')[0].innerHTML = result;
+			    });
+		    });
+	    });
+    </script>
 </html>
 
 <!-- UserVoice JavaScript SDK (only needed once on a page) -->
