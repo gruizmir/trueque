@@ -249,15 +249,18 @@ def edit_user_profile(request):
         if request.method == 'POST' :
             form = EditUserForm1(request.POST, instance = user, prefix="form1")
             form2 = EditUserForm2(request.POST, instance = user.profile, prefix="form2")
+
+            authenticate(username = request.user.username, password = forms.CharField().clean(form.data['form1-password']))
             
             #Se verifica que la contraseña ingresada sea la que corresponde.
-            if form.data['form1-password'] and forms.CharField().clean(form.data['form1-password']) and User.objects.filter(email = request.user.email, password = forms.CharField().clean(form.data['form1-password'])) == []:
+            if form.data['form1-password'] and forms.CharField().clean(form.data['form1-password']) and not authenticate(username = request.user.username, password = forms.CharField().clean(form.data['form1-password'])):
                 form.errors['form1-password'] = form.error_class([usuarios.form.ERROR_WRONGPASS])
-                
+
             if form.is_valid() and form2.is_valid():
                 edit_register = form.save(commit=False)
+                edit_register.set_password(form.cleaned_data["password"])
                 if form.cleaned_data["new_password_1"]:
-                    edit_register.password = form.cleaned_data["new_password_1"]
+                    edit_register.set_password(form.cleaned_data["new_password_1"])
                 edit_register.save()
                 form2.save()
         else:
