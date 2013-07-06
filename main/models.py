@@ -10,7 +10,7 @@ class ProductFollower(models.Model):
         db_table = u'Product_follower'
 
 
-class Rank(models.Model):
+class Level(models.Model):
     inf = models.IntegerField()
     sup = models.IntegerField()
     name = models.CharField(max_length=90)
@@ -22,7 +22,7 @@ class Rank(models.Model):
         return self.name
     
     def get(self, value):
-        temp = Rank.objects.filter(inf__lte = int(value)).filter(sup__gte = int(value))
+        temp = Level.objects.filter(inf__lte = int(value)).filter(sup__gte = int(value))
         if temp.count()==1:
             self = list(temp)[0]
             return self
@@ -31,7 +31,7 @@ class Rank(models.Model):
     
     
     def geti(value):
-        temp = Rank.objects.filter(inf__lte = int(value)).filter(sup__gte = int(value))
+        temp = Level.objects.filter(inf__lte = int(value)).filter(sup__gte = int(value))
         if temp.count()==1:
             return list(temp)[0]
         else:
