@@ -155,22 +155,46 @@ class LoginForm(Form):
 
 #EditUserForm: Formulario que permite a un usuario modificar sus datos.
 #PARAMS: ModelForm: Class ModelForm
-class EditUserForm(ModelForm):
+class EditUserForm1(ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': HINT_NAME}), max_length=60)
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': HINT_LASTNAME}), max_length=60)
     
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': HINT_EMAIL_1}), max_length=90)
-    email_2 = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': HINT_EMAIL_2}), max_length=90, required=False)
-   
-    phone_1 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': HINT_PHONE_1}), max_length=30, required=False)
-    phone_2 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': HINT_PHONE_2}), max_length=30, required=False)
     
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_PASSWORD1}), max_length=75, min_length=6)
     new_password_1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_NEW_PASSWORD_1}), max_length=75, min_length=6, required=False)
     new_password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_NEW_PASSWORD_2}), max_length=75, min_length=6, required=False)
-    
+
+    class Meta:
+        model = User
+        fields = ('first_name','last_name',
+                  'email',
+                  'password',
+                  'new_password_1', 'new_password_2')     
+    def clean(self):
+        cleaned_data = super(EditUserForm1, self).clean()
+        password_new_1 = cleaned_data.get("new_password_1")
+        password_new_2 = cleaned_data.get("new_password_2")
+        
+        #Se verifica que los passwords esten ingresados y que no sean iguales para
+        #notificar al usuario que los corrija.
+        if password_new_1 and password_new_2 and password_new_1 != password_new_2:
+            self._errors["new_password_1"] = self.error_class([ERROR_PASSDONTMATCH])
+            del cleaned_data["new_password_1"]
+            del cleaned_data["new_password_2"]
+  
+        return cleaned_data
+
+#EditUserForm: Formulario que permite a un usuario modificar sus datos.
+#PARAMS: ModelForm: Class ModelForm
+class EditUserForm2(ModelForm):
+    email_2 = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': HINT_EMAIL_2}), max_length=90, required=False)
+   
+    phone_1 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': HINT_PHONE_1}), max_length=30, required=False)
+    phone_2 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': HINT_PHONE_2}), max_length=30, required=False)
+ 
     def __init__(self, *args, **kwargs):
-        super(EditUserForm, self).__init__(*args, **kwargs)
+        super(EditUserForm2, self).__init__(*args, **kwargs)
         self.fields['art'].label = TASTE_ART
         self.fields['music'].label = TASTE_MUSIC
         self.fields['tech'].label = TASTE_TECH
@@ -188,35 +212,13 @@ class EditUserForm(ModelForm):
         self.fields['services'].label = TASTE_SERVICES
         
     class Meta:
-        model = User
-        fields = ('first_name','last_name',
-                  'email',
-                  'password',
-                  'new_password_1', 'new_password_2')
-#        fields = ('first_name','last_name',
-#                  'city',
-#                  'email','profile.email_2',
-#                  'profile.phone_1', 'profile.phone_2',
-#                  'profile.art', 'profile.music',
-#                  'profile.tech', 'profile.cars', 'profile.travels',
-#                  'profile.clothes', 'profile.cine', 'profile.sports', 
-#                  'profile.eco', 'profile.culture', 'profile.spectacles',
-#                  'profile.love', 'profile.food', 'profile.vacations',
-#                  'profile.services',
-#                  'password',
-#                  'new_password_1', 'new_password_2',
-#                  'lang')
-        
-    def clean(self):
-        cleaned_data = super(EditUserForm, self).clean()
-        password_new_1 = cleaned_data.get("new_password_1")
-        password_new_2 = cleaned_data.get("new_password_2")
-        
-        #Se verifica que los passwords esten ingresados y que no sean iguales para
-        #notificar al usuario que los corrija.
-        if password_new_1 and password_new_2 and password_new_1 != password_new_2:
-            self._errors["new_password_1"] = self.error_class([ERROR_PASSDONTMATCH])
-            del cleaned_data["new_password_1"]
-            del cleaned_data["new_password_2"]
-  
-        return cleaned_data
+        model = UserProfile
+        fields = ('city','email_2',
+                  'phone_1', 'phone_2',
+                  'art', 'music',
+                  'tech', 'cars', 'travels',
+                  'clothes', 'cine', 'sports', 
+                  'eco', 'culture', 'spectacles',
+                  'love', 'food', 'vacations',
+                  'services',
+                  'lang')

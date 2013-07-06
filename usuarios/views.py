@@ -2,6 +2,8 @@
 from albums.form import AddAlbumForm
 from django import forms
 from django.conf import settings
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.sessions.backends.db import SessionStore
 from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, \
@@ -16,9 +18,9 @@ from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext as _
 from messages.form import ComposeMailForm
 from messages.models import Message
-from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, EditUserForm, UserProfileForm
+from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
+    EditUserForm1, UserProfileForm, EditUserForm2
 from usuarios.models import Followers, UserProfile
-from django.contrib.auth.models import User
 import albums.utils as albums_utils
 import json
 import os
@@ -26,7 +28,6 @@ import random
 import socket
 import usuarios.custom_error as C_error
 import usuarios.form
-from django.contrib.auth import authenticate, login, logout
 
 
 SESSION_EXPIRY = 86400 #Tiempo de expiracion de la sesion encargada de la verificacion.
@@ -221,14 +222,14 @@ def mLogin(request):
         return render_to_response('user_login.html', c)
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
-    except SuspiciousOperation: 
-        print '%s (%s)' % (e.message, type(e))  
-        return C_error.raise_error(C_error.PERMISSIONDENIED)
     except DatabaseError: 
         return C_error.raise_error(C_error.DATABASEERROR)
     except Exception as e:
         print '%s (%s)' % (e.message, type(e))
         return C_error.raise_error(C_error.MAGICERROR)
+    except SuspiciousOperation as e:
+        print '%s (%s)' % (e.message, type(e)) 
+        return C_error.raise_error(C_error.PERMISSIONDENIED)
         
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except SuspiciousOperation: 
@@ -244,29 +245,33 @@ def mLogin(request):
 #RETURN:  Se devuelven distintos render_to_response dependiendo de como la modificacion de informacion.
 def edit_user_profile(request):
     try:
-        user = User.objects.get(id= request.session['member_id'])
+        user = request.user
         if request.method == 'POST' :
-            form = EditUserForm(request.POST, instance=user)
+            form = EditUserForm1(request.POST, instance = user, prefix="form1")
+            form2 = EditUserForm2(request.POST, instance = user.profile, prefix="form2")
             
             #Se verifica que la contraseña ingresada sea la que corresponde.
-            if form.data['password'] and forms.CharField().clean(form.data['password']) and user.password != forms.CharField().clean(form.data['password']):
-                form.errors['password'] = form.error_class([usuarios.form.ERROR_WRONGPASS])
-         
-            if form.is_valid():
+            if form.data['form1-password'] and forms.CharField().clean(form.data['form1-password']) and User.objects.filter(email = request.user.email, password = forms.CharField().clean(form.data['form1-password'])) == []:
+                form.errors['form1-password'] = form.error_class([usuarios.form.ERROR_WRONGPASS])
+                
+            if form.is_valid() and form2.is_valid():
                 edit_register = form.save(commit=False)
                 if form.cleaned_data["new_password_1"]:
                     edit_register.password = form.cleaned_data["new_password_1"]
                 edit_register.save()
+                form2.save()
         else:
-            form = EditUserForm(instance=user)
-            
-        request.session.set_test_cookie()
-        c = { 'form': form }
+            form = EditUserForm1(instance=user, prefix="form1")
+            form2 = EditUserForm2(instance=user.profile, prefix="form2")
+         
+        c = { 'form': form, 'form2': form2}
         c.update(csrf(request))
         return render_to_response('edit_user_profile.html', c)
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
-    except KeyError: return C_error.raise_error(C_error.NEEDLOGIN)
+    except KeyError as e: 
+        print '%s (%s)' % (e.message, type(e))
+        return C_error.raise_error(C_error.NEEDLOGIN)
     except SuspiciousOperation: return C_error.raise_error(C_error.PERMISSIONDENIED)
     except ObjectDoesNotExist as e: return C_error.raise_error(C_error.UNREGISTEREDUSER)
     except DatabaseError: return C_error.raise_error(C_error.DATABASEERROR)
@@ -374,8 +379,7 @@ class ShowProfile():
     
     def show_add_album(self, request):
         try:
-            user = User.objects.get(id= request.session['member_id'])
-            
+            user = request.user
             if request.is_ajax():
                 if request.method == 'POST':
                     form = AddAlbumForm(request.POST)
@@ -413,7 +417,7 @@ class ShowProfile():
         try:
             followed = User.objects.get(id = user_id)
             if not is_loged_edit(request, followed):
-                follower = User.objects.get(id= request.session['member_id'])
+                follower = request.user
                 new_follower = Followers()
                 new_follower.id_follower = follower
                 new_follower.id_followed = followed
@@ -431,7 +435,7 @@ class ShowProfile():
         try:
             followed = User.objects.get(id = user_id)
             if not is_loged_edit(request, followed):
-                follower = User.objects.get(id= request.session['member_id'])
+                follower = request.user
                 following = Followers.objects.filter(id_followed = followed, id_follower = follower)
                 following.delete()
                 follower.profile.followed_qty = follower.profile.followed_qty - 1
@@ -445,7 +449,7 @@ class ShowProfile():
     
     def show_followers(self, request):
         try:
-            user = User.objects.get(id= request.session['member_id'])
+            user = request.user
             followers = Followers.objects.filter(id_followed = user)
             vars_view = {'following' : None, 'followers' : followers}   
             return self.show_profile_user(request, user, vars_view)
@@ -453,7 +457,7 @@ class ShowProfile():
         
     def show_following(self, request):
         try:
-            user = User.objects.get(id= request.session['member_id'])
+            user = request.user
             following = Followers.objects.filter(id_follower = user)
             vars_view = {'following' : following, 'followers' : None}
             return self.show_profile_user(request, user, vars_view)
@@ -462,13 +466,13 @@ class ShowProfile():
     def show_mail(self, request):
         try:
             if request.is_ajax():
-                user = User.objects.get(id= request.session['member_id'])
+                user = request.user
                 mail_list = Message.objects.filter(id_receiver = user)
                 return render_to_response('user_mail_inbox.html', 
                                             {'object_list' : mail_list,'sender':True},
                                             context_instance = RequestContext(request))
             else:
-                user = User.objects.get(id= request.session['member_id'])
+                user = request.user
                 vars_view = {'mail' : True}
                 return self.show_profile_user(request, user, vars_view)
         except Exception as e: return self.show_error(e)
@@ -481,7 +485,7 @@ class ShowProfile():
                     form = ComposeMailForm(request.POST)
                     if form.is_valid():
                         new_mail = Message()
-                        user = User.objects.get(id= request.session['member_id'])
+                        user = request.user
                         new_mail.id_sender = user
                         user2 = User.objects.get(id= form.cleaned_data['user_id'])
                         new_mail.id_receiver = user2
@@ -507,7 +511,7 @@ class ShowProfile():
     def show_mail_sent(self, request):
         try:
             if request.is_ajax():
-                user = User.objects.get(id= request.session['member_id'])
+                user = request.user
                 mail_list = Message.objects.filter(id_sender = user)
                 return render_to_response('user_mail_inbox.html', 
                                             {'object_list' : mail_list},
@@ -537,7 +541,7 @@ class ShowProfile():
                     following = None
                     active_user = request.user
                     try:
-                        following = Followers.objects.filter(id_followed = user, id_follower = User.objects.get(id= request.session['member_id']))
+                        following = Followers.objects.filter(id_followed = user, id_follower = request.user)
                     except: 
                         pass
                     if following: 
@@ -567,7 +571,7 @@ class ShowProfile():
 
 def is_loged_edit(request, user):
     try: 
-        if request.session['member_id'] == user.id: 
+        if request.user == user: 
             return True
     except: 
         return False

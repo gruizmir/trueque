@@ -43,7 +43,6 @@
 		
 		placeholder = "";
 		$('.code_window_input_container input[type=text]').prop("placeholder", "Ingrese código del trueque");
-		
 		$('.code_window_input_container input[type=text]').blur(function(){
 			$(this).attr("placeholder", placeholder);
 		});
@@ -51,7 +50,6 @@
 			placeholder = $(this).attr("placeholder");
 			$(this).attr("placeholder", "");
 		});
-		
 	}
 	
 	$(document).ready(function() {
