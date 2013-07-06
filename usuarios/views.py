@@ -147,8 +147,7 @@ def confirm(request):
             session_s.delete()
             form = LoginForm()
             c = { 'form': form, 'success':True}
-            c.update(csrf(request))
-            return render_to_response('user_login.html', c)
+            return render_to_response('user_login.html', c,context_instance = RequestContext(request) )
         else: return C_error.raise_error(C_error.USERALREADYACTIVE)    
     
     #Exceptions que se pueden producir por algun fallo durante la activacion de la cuenta.   
@@ -223,6 +222,7 @@ def mLogin(request):
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except SuspiciousOperation: 
+        print '%s (%s)' % (e.message, type(e))  
         return C_error.raise_error(C_error.PERMISSIONDENIED)
     except DatabaseError: 
         return C_error.raise_error(C_error.DATABASEERROR)
