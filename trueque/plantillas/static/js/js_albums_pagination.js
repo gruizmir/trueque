@@ -123,5 +123,23 @@ $(document).ready(function() {
 		});
 		$('#dialog_add_album').dialog('open');
 	});
+	$('.polaroid_album_container').hover(
+			function() {
+				 $(this).animate({
+					 opacity: 0
+					 }, 500 );
+				 $("#"+this.id+"_mini").animate({
+					 'opacity':'1'
+						 });
+			},
+			function() {
+				 $(this).animate({
+					 opacity: 1
+					 }, 500 );
+				 $("#"+this.id+"_mini").animate({
+					 'opacity':'0'
+						 });
+			}
+	);
 	albumsPagination();
 });

@@ -52,7 +52,7 @@ def saveProduct(request):
                 producto = saveProductData(request, productForm)
                 saveCategoryData(producto, category_form)
                 imageForm = ImagesForm(request.POST,request.FILES, prefix='image')
-                saveAlbumData(producto, request.session['member_id'])
+                saveAlbumData(producto, request.user.id)
                 if imageForm.is_valid():
                     saveImages(request, producto.img)
                 else:

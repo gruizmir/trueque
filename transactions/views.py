@@ -3,6 +3,7 @@ from albums.models import Album, AlbumProduct
 from albums.views import savePendantProduct
 from datetime import datetime
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.core.mail import send_mail
 from django.forms.formsets import formset_factory
@@ -13,7 +14,6 @@ from django.utils import simplejson
 from products.models import Product, Category, ProductCategory
 from transactions.forms import BidForm, TradeForm, TradeVerification
 from transactions.models import Bid, Trade
-from django.contrib.auth.models import User
 import random
 import string
 
@@ -25,7 +25,7 @@ import string
 #         Si se guarda la nueva Bid, retorna a la página del producto.
 #         Si no se puede establecer la oferta, retorna un mensaje de error con la posible causa.
 def newBid(request, idProduct=None):    
-    if is_loged(request):
+    if request.user.is_authenticated:
         if idProduct==None:
             return HttpResponseRedirect("/")
         else:
@@ -95,7 +95,7 @@ def newBid(request, idProduct=None):
 #         Si no se puede hacer el intercambio, retorna un mensaje de error con la posible causa.
 def makeTrade(request, idProduct):
     if request.is_ajax() and request.method=="POST":
-        if is_loged(request):
+        if request.user.is_authenticated:
             data = {'id_dealer':request.session['member_id'],
                     'id_bid':request.POST['group_product'],
                     'code_dealer':id_generator(),
@@ -154,7 +154,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 #                  del usuario logueado.
 #RETURN: render de la pagina con los datos de transacciones pendientes.
 def showPending(request):
-    if is_loged(request):
+    if request.user.is_authenticated:
         dealer_pendings = Trade.objects.filter(id_dealer=request.session['member_id']).filter(pending_dealer=True)
         bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.session['member_id']).filter(pending_bidder=True)
         title = "Trueques pendientes"
@@ -166,7 +166,7 @@ def showPending(request):
 
 def verifyTrade(request, idTrade=None):
     if request.method == "POST":
-        if is_loged(request):
+        if request.user.is_authenticated:
             tradeVer = TradeVerification(request.POST)
             if tradeVer.is_valid():
                 trade = Trade.objects.get(id=idTrade)
@@ -212,7 +212,7 @@ def verifyTrade(request, idTrade=None):
         else:
             return HttpResponse("/login")
     else:
-        if is_loged(request):
+        if request.user.is_authenticated:
             tradeVer = TradeVerification()
             trade = Trade.objects.get(id = idTrade)
             bid = trade.id_bid

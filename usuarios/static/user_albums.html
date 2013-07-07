@@ -1,5 +1,6 @@
 <link rel="stylesheet" media="all" href="/static/style/style_template_polaroids.css" />
 <link href="/static/style/jquery.mCustomScrollbar.css" rel="stylesheet" type="text/css" />
+{% load album_img %}
 {% load pagination_tags %}
 {% autopaginate object_list 15 %}
 	<span class="user_interaction_table_tittle"> ALBUMES </span>
@@ -20,10 +21,23 @@
 		{% endif %}
 		{% for album in object_list %}
 			<div id="album_polaroid_{{ forloop.counter }}" class="polaroid_album_container" onclick="showContent({{ album.id }})">
-				<div>
-					<img src=""/>
+				<div class="album_polaroid_img_container">
+					{% if album|last_img %}
+						<img src="/media/{{album|last_img}}/img_1_medium.png"/>
+					{% else %}
+						<img src=""/>
+					{% endif %}
 				</div>
-				<span>{{ album.name }}</span>
+				<span class="album_polaroid_name_container">{{ album.name }}</span>
+			</div>
+			<div id="album_polaroid_{{ forloop.counter }}_mini" class="album_polaroid_hover_container">
+				{% for product in album|last_4_product %}
+					<div class="polaroid_album_container_mini">
+						<div>
+							<img src="/media/{{ product.img }}/img_1_small.png"/>
+						</div>
+					</div>
+				{% endfor %}
 			</div>
 		{% endfor %}
 		<a href="/usuarios/profile/addalbum" class="user_profile_add_album_link"></a>
