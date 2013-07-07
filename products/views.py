@@ -249,7 +249,7 @@ def newComment(request, idProducto=None):
                 if newComment.is_valid():
                     try:
                         data = {'id_product':idProducto,
-                                'id_sender':request.session['member_id'],
+                                'id_sender':request.user.id,
                                 'subject':newComment.cleaned_data['subject'],
                                 'text':newComment.cleaned_data['text'],
                                 'datetime': datetime.now(),
@@ -258,7 +258,7 @@ def newComment(request, idProducto=None):
                         if commentForm.is_valid():
                             commentForm.save()
                             user = request.user
-                            send_mail('Comentario enviado', 'Usted hizo un nuevo comentario.', settings.EMAIL_HOST_USER , [user.email], fail_silently=False)
+   #                         send_mail('Comentario enviado', 'Usted hizo un nuevo comentario.', settings.EMAIL_HOST_USER , [user.email], fail_silently=False)
                             return HttpResponseRedirect("/products/" + str(idProducto))
                         else:
                             return HttpResponse("DATA_ERROR")

@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+from django.conf import settings
+from django.core.context_processors import csrf
+from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, ValidationError
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, render_to_response
+from django.template.context import RequestContext
+import albums.utils as albums_utils
+from allauth.account.signals import user_signed_up
+from django.dispatch import receiver
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -109,3 +120,24 @@ class Lang(models.Model):
     
     def __unicode__(self):
         return self.name
+
+
+
+
+
+#Nombres de los albumes
+ALBUM_NAME_GARAGE = "My Garage"
+ALBUM_NAME_TRUEQUES = "Trueques"
+ALBUM_NAME_LIKE = "Me gusta"
+ALBUM_NAME_RECOMMEND = "Recomiendo"
+ALBUM_NAME_PENDIENTES = "Pendientes"
+ALBUMES = [ALBUM_NAME_GARAGE, ALBUM_NAME_TRUEQUES, ALBUM_NAME_LIKE, ALBUM_NAME_RECOMMEND, ALBUM_NAME_PENDIENTES]
+
+#Se crean los primeros cuatro albums por defecto
+@receiver(user_signed_up)
+def album_callback(sender, **kwargs):
+    print "llego al callback"
+    request = kwargs['request']
+    user = kwargs['user']
+    for name in ALBUMES:
+        albums_utils.add_album(user, name, False, True)

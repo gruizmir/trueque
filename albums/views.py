@@ -9,7 +9,7 @@ from products.models import Product
 
 def showAlbums(request, idProduct=None):
 	if request.user.is_authenticated() and request.is_ajax():
-		albums = Album.objects.filter(id_owner = request.session['member_id']).exclude(name = "My Garage").exclude(name = "Trueques")
+		albums = Album.objects.filter(id_owner = request.user).exclude(name = "My Garage").exclude(name = "Trueques").exclude(name = "Pendientes")
 		product = Product.objects.get(id=idProduct)
 		message = {"to_album_data": render_to_response("to_album.html", {'albums':albums, 'product':product}, context_instance=RequestContext(request)).content}
 		
@@ -24,7 +24,7 @@ def saveAlbumData(request, idProduct=None):
 		if request.method == "POST":
 			try:
 				albumValue = int(request.POST['albumValue'])
-				album = Album.objects.filter(id_owner=request.session['member_id']).get(id=albumValue)
+				album = Album.objects.filter(id_owner=request.user).get(id=albumValue)
 				producto = Product.objects.get(id = idProduct)
 				albumProd = AlbumProduct()
 				albumProd.id_album = album

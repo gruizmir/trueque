@@ -50,8 +50,7 @@
 				<img src="/static/img/icons/Q-gris.png" alt="Q">
 			</div>
 			
-			<a href="/album/toalbum/{{product.id}}" style="text-decoration: none;">
-				<div class="owner_product_new_comment_button">
+				<div class="owner_product_new_comment_button" id="add_to_album_button">
 					Agregar a un album
 				</div>
 			</a>
@@ -209,7 +208,18 @@
 				});
 				
 			});
-		
+		    
+		    $('#add_to_album_button').bind('click', function () {
+				$('#dialog_int').dialog({
+					resizable: false,
+			        width:'auto'
+				});
+				$.get("/album/toalbum/{{product.id}}", function(data) {
+					result = data.to_album_data;
+					$('#dialog_int_result')[0].innerHTML = result;
+				});
+			});
+		    
 			$(".comments_container").mCustomScrollbar();
 			$(".bids_container_scroll").mCustomScrollbar();
 			

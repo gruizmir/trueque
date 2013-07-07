@@ -25,16 +25,16 @@ import string
 #         Si se guarda la nueva Bid, retorna a la página del producto.
 #         Si no se puede establecer la oferta, retorna un mensaje de error con la posible causa.
 def newBid(request, idProduct=None):    
-    if request.user.is_authenticated:
+    if request.user.is_authenticated():
         if idProduct==None:
             return HttpResponseRedirect("/")
         else:
             if request.is_ajax() and not request.method=="POST":
                 prod = Product.objects.get(id=idProduct)
                 if prod.active==True:
-                    bidderProducts = Product.objects.filter(id_owner = request.session['member_id'])
+                    bidderProducts = Product.objects.filter(id_owner = request.user)
                     title = "Nueva oferta"
-                    usuario = User.objects.get(id=request.session['member_id'])
+                    usuario = request.user
                     render_bid = render_to_response('new_bid.html', {'products':bidderProducts, 'title':title, 'user':usuario, 'owner_product':idProduct}, context_instance=RequestContext(request))
                     message = {"bid_data": render_bid.content}
                     json = simplejson.dumps(message)
@@ -51,7 +51,7 @@ def newBid(request, idProduct=None):
                     else:
                         try:
                             bid_q = int(request.POST['bid_q_amount'])
-                            user = User.objects.get(id = request.session['member_id'])
+                            user = request.user
                             bidProductID = None
                             if bid_q == 0 or bid_q > user.profile.quds or bid_q < 0:
                                 render_bid_result = render_to_response('bid_transaction_result.html', {'error_amount': True})
@@ -65,7 +65,7 @@ def newBid(request, idProduct=None):
                             return HttpResponse(json, mimetype='application/json')
                     if bidProductID != idProduct:
                         data = {'id_product':idProduct,
-                            'id_bidder':request.session['member_id'],
+                            'id_bidder':request.user.id,
                             'q': bid_q,
                             'id_bid_product': bidProductID,
                             'datetime':datetime.now(),
@@ -96,7 +96,7 @@ def newBid(request, idProduct=None):
 def makeTrade(request, idProduct):
     if request.is_ajax() and request.method=="POST":
         if request.user.is_authenticated:
-            data = {'id_dealer':request.session['member_id'],
+            data = {'id_dealer':request.user.id,
                     'id_bid':request.POST['group_product'],
                     'code_dealer':id_generator(),
                     'code_bidder':id_generator(),
@@ -118,7 +118,7 @@ def makeTrade(request, idProduct):
                 savePendantProduct(request, idProduct, owner.id)
                 savePendantProduct(request, idProduct, bidder.id)
                 sendTradeMail(owner, bidder, tradeForm.cleaned_data['code_dealer'], tradeForm.cleaned_data['code_bidder'])
-                user_dealer = User.objects.get(id = request.session['member_id'])
+                user_dealer = request.user
                 bid = Bid.objects.get(id = request.POST['group_product'])
                 user_bidder = bid.id_bidder
                 message = {"middle_data": render_to_response('transaction_successful.html', 
@@ -155,10 +155,10 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 #RETURN: render de la pagina con los datos de transacciones pendientes.
 def showPending(request):
     if request.user.is_authenticated:
-        dealer_pendings = Trade.objects.filter(id_dealer=request.session['member_id']).filter(pending_dealer=True)
-        bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.session['member_id']).filter(pending_bidder=True)
+        dealer_pendings = Trade.objects.filter(id_dealer=request.user).filter(pending_dealer=True)
+        bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.user).filter(pending_bidder=True)
         title = "Trueques pendientes"
-        usuario = User.objects.get(id=request.session['member_id'])
+        usuario = request.user
         return render_to_response("pending.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario})
     else:
         return HttpResponse("/login")
@@ -170,7 +170,7 @@ def verifyTrade(request, idTrade=None):
             tradeVer = TradeVerification(request.POST)
             if tradeVer.is_valid():
                 trade = Trade.objects.get(id=idTrade)
-                if request.session['member_id']==trade.id_dealer.id:
+                if request.user==trade.id_dealer:
                     if trade.code_dealer == tradeVer.cleaned_data['code']:
                         trade.pending_dealer = False
                         trade.save()
@@ -189,7 +189,7 @@ def verifyTrade(request, idTrade=None):
                     else:
                         return HttpResponse("CODIGO NO VALIDO")
                         
-                elif request.session['member_id']==trade.id_bid.id_bidder.id:
+                elif request.user==trade.id_bid.id_bidder:
                     if trade.code_bidder == tradeVer.cleaned_data['code']:
                         trade.pending_bidder = False
                         trade.save()
@@ -217,7 +217,7 @@ def verifyTrade(request, idTrade=None):
             trade = Trade.objects.get(id = idTrade)
             bid = trade.id_bid
             
-            if trade.id_dealer_id == request.session['member_id']:
+            if trade.id_dealer == request.user:
                 usuario = User.objects.get(id = bid.id_bidder_id)
                 if bid.q != 0:
                     q = bid.q
