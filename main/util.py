@@ -138,10 +138,12 @@ def searchFilter(request, city=None, isCity=False, country=None, isCountry=False
                             data = data.order_by('start_datetime')
                     except ObjectDoesNotExist:
                         data= None
+                    except: 
+                        data= None
                     user = None
                     if request.user.is_authenticated():
                         user = request.user
-                    c = {'data':data, 'user':user}
+                    c = {'data':data}
                     c.update(csrf(request))
                     response = render_to_response("search.html", c)        
                 else:

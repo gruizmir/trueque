@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from albums.form import AddAlbumForm
+from messages.form import ComposeMailForm
+from messages.models import Message
+from main.models import Level
 from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
@@ -16,8 +19,6 @@ from django.template.context import RequestContext
 from django.utils import simplejson
 from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext as _
-from messages.form import ComposeMailForm
-from messages.models import Message
 from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm1, UserProfileForm, EditUserForm2
 from usuarios.models import Followers, UserProfile
@@ -311,10 +312,9 @@ class ShowProfile():
         try:
             user = request.user
             albums_list = albums_utils.get_albums(user)
-            
             album_list =  {'object_list' : albums_list, 'user':user}
-            
-            if is_loged_edit(request,user): album_list.update({'is_loged_edit':True})
+            if is_loged_edit(request,user): 
+                album_list.update({'is_loged_edit':True})
                 
             render_albums = render_to_response('user_albums.html', album_list, context_instance = RequestContext(request))
             
@@ -527,8 +527,8 @@ class ShowProfile():
         
     def show_profile_user(self, request, user, vars_view):
         try:
-            user_data = self.get_user_data(user)
-            vars_view.update({'user_data' : user_data, 'islogededit' : is_loged_edit(request, user), 'user':user})
+            level = Level().get(user.profile.quds)
+            vars_view.update({'islogededit' : is_loged_edit(request, user), 'user':user, 'level':level.name})
             vars_view.update(csrf(request))
             return render_to_response('user_profile.html', vars_view)
         except Exception as e: return self.show_error(e)
@@ -554,8 +554,8 @@ class ShowProfile():
                     active_user = user
             else: 
                 follow = False
-            user_data = self.get_user_data(user)
-            vars_view.update({'user_data' : user_data, 'islogededit' : is_loged_edit(request, user),
+            level = Level().get(user.profile.quds)
+            vars_view.update({'view_user' : user, 'islogededit' : is_loged_edit(request, user), 'level':level.name,
                               'follow' :  follow, 'cancelfollow' : cancel_follow, 'user':active_user})
             vars_view.update(csrf(request))
             return render_to_response('guest_user_profile.html', vars_view)

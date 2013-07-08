@@ -13,6 +13,7 @@ from django.utils import simplejson
 from products.forms import ProductForm, CategoryForm, ImagesForm, CommentForm, \
     NewCommentForm
 from products.models import Product, Category, ProductCategory, Comment
+from main.models import Point
 from transactions.models import Bid
 from usuarios.models import Country, City
 from django.contrib.auth.models import User
@@ -50,11 +51,16 @@ def saveProduct(request):
             category_form = CategoryForm(data=request.POST, prefix='category')
             if category_form.is_valid():
                 producto = saveProductData(request, productForm)
-                saveCategoryData(producto, category_form)
                 imageForm = ImagesForm(request.POST,request.FILES, prefix='image')
-                saveAlbumData(producto, request.user.id)
                 if imageForm.is_valid():
+                    producto.save()
+                    saveCategoryData(producto, category_form)
+                    saveAlbumData(producto, request.user.id)
                     saveImages(request, producto.img)
+                    puntos = Point.objects.get(action="new_product")
+                    profile = request.user.profile
+                    profile.quds = profile.quds + int(puntos.qty)
+                    profile.save()
                 else:
                     return HttpResponse("NO FILES")
                 return HttpResponseRedirect("/products/" + str(producto.id))
@@ -84,7 +90,6 @@ def saveProductData(request, productForm):
     product.img = uuid.uuid1().hex
     product.featured_time = 0;
     product.active = 1
-    product.save()
     return product
 
 #saveAlbumData:     Ingresa el registro de que el nuevo producto pertenece al album Garage

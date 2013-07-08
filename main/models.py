@@ -16,7 +16,7 @@ class Level(models.Model):
     name = models.CharField(max_length=90)
     
     class Meta:
-        db_table = u'Rank'
+        db_table = u'Level'
     
     def __unicode__(self):
         return self.name
@@ -28,11 +28,14 @@ class Level(models.Model):
             return self
         else:
             return None
+
+
+class Point(models.Model):
+    action = models.CharField(max_length=90)
+    qty = models.IntegerField()
     
+    class Meta:
+        db_table = u'Points'
     
-    def geti(value):
-        temp = Level.objects.filter(inf__lte = int(value)).filter(sup__gte = int(value))
-        if temp.count()==1:
-            return list(temp)[0]
-        else:
-            return None
+    def __unicode__(self):
+        return self.action

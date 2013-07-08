@@ -57,6 +57,7 @@ function enableCity(value){
         		url: $("#productSearchForm").attr('action') + "country/" + value,
         		success: function(data) {
             		result = data.products;
+            		console.log(result)
         			$('#result')[0].innerHTML = result;
         			rotatePolaroids();
         		},
@@ -77,6 +78,7 @@ function searchByCity(city){
 		url: $("#productSearchForm").attr('action') + "city/" + city,
 		success: function(data) {
 			result = data.products;
+			console.log(result)
 			$('#result')[0].innerHTML = result;
 			rotatePolaroids();
 		},

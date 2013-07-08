@@ -244,13 +244,25 @@ def exchange(bid, product):
     dealer = bid.id_dealer
     bidder = bid.id_bidder
     product.id_owner = bidder
+    product.save()
     saveAlbumData(product, bidder)
+    profBid = bidder.profile
+    profDeal = dealer.profile
     if bid.id_bid_product != None:            #Significa que fue un trueque por producto
         bid.id_bid_product.id_owner = dealer
         saveAlbumData(bid.id_bid_product, dealer)
+        puntos = Point.objects.get(action="trueque")
+        
     else:                                    #Significa que fue un trueque por Q
-        dealer.profile.quds += bid.q
-        bidder.profile.quds -= bid.q
+        profDeal.quds += bid.q
+        profBid.quds -= bid.q
+        puntos = Point.objects.get(action="trueque_quds")
+    
+    profBid.quds = profBid.quds + puntos.qty
+    profDeal.quds = profDeal.quds + puntos.qty
+    profBid.save()
+    profDeal.save()
+
 
 #saveAlbumData:     Ingresa el registro de que el nuevo producto pertenece al album Trueques
 #PARAMS: product:     Objecto producto recien guardado

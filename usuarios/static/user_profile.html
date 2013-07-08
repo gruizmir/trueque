@@ -8,7 +8,7 @@
 		<td class="user_info_table_section">
 			<div class="user_info_table_row">
 				<div class="user_photo_name_container">
-					{{ user_data.0.1 }} {{ user_data.1.1 }}
+					{{ user.first_name }} {{ user.last_name }}
 				</div>
 				<div class="user_profile_edit_button">
 					<a href="/usuarios/profile/editprofile">Editar</a>
@@ -17,23 +17,23 @@
 			<div class="user_info_table_row">
 				<div class="user_rating_container">
 				<p>Mi calificación</p>
-				<span class="stars">{{ user_data.2.1 }}</span>
-				<p class="user_rating_tittle">Trocador</p>
+				<span class="stars">{{ user.profile.rating }}</span>
+				<p class="user_rating_tittle">{{level}}</p>
 				</div>
 			</div>
 			<div class="user_info_table_row"> 
 				<div class="user_info_table_column">
-					<span class="user_info_q">{{ user_data.4.1 }}</span>
+					<span class="user_info_q">{{ user.profile.quds }}</span>
 				</div>
 				<div class="user_info_table_column_inter">
 					<img src="/static/img/icons/Q-gris.png" alt="Q" class="user_info_q_icon">
 				</div>
 				<div class="user_info_table_column">
-					<span class="user_info_data_names">Trueques:</span> <span class="user_info_numbers">{{ user_data.5.1 }}</span>
+					<span class="user_info_data_names">Trueques:</span> <span class="user_info_numbers">{{ user.profile.barter_qty }}</span>
 					<br>
-					<span class="user_info_data_names">Siguiendo:</span> <span class="user_info_numbers">{{ user_data.6.1 }}</span>
+					<span class="user_info_data_names">Siguiendo:</span> <span class="user_info_numbers">{{ user.profile.followed_qty }}</span>
 					<br>
-					<span class="user_info_data_names">Me siguen:</span> <span class="user_info_numbers">{{ user_data.7.1 }}</span>
+					<span class="user_info_data_names">Me siguen:</span> <span class="user_info_numbers">{{ user.profile.follower_qty }}</span>
 				</div>
 			</div>
 			<div class="user_info_table_row">

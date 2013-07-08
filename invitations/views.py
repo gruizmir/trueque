@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from invitations.models import Invitation
+from main.models import Point
 from django.core.context_processors import csrf
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, \
     ValidationError
@@ -23,7 +24,7 @@ def sendInvitations(request):
                 for correo in listaCorreos:
                     if not sendMail(correo.strip(), user):
                         break;
-                return HttpResponseRedirect("#sent")
+                return HttpResponseRedirect("/#sent")
             else:
                 return HttpResponseRedirect("/")
         else:
@@ -43,11 +44,15 @@ def sendMail(email, user):
         link = settings.WEB_URL + "/register?email=" + email + "&token=" + token + "&id="+ str(user.id)
         message = u'¡Nuestro usuario ' + user.first_name + u' ' + user.last_name + u' quiere trocar contigo! ¡Únete a esta gran comunidad que recicla e intercambia sin dinero! \n \n Sólo ingresa a \n' + link
         subject = user.first_name + u' te invitó Trueque'
-        send_mail( subject, message, settings.EMAIL_HOST_USER, [email], fail_silently=False)
+#        send_mail( subject, message, settings.EMAIL_HOST_USER, [email], fail_silently=False)
+        print message
         inv = Invitation(id_sender=user, email=email, token=token, pending=True)
         inv.save()
-        user.profile.remaining_invitations = user.profile.remaining_invitations-1
-        user.save()
+        profile = user.profile
+        profile.remaining_invitations = profile.remaining_invitations-1
+        puntos = Point.objects.get(action="invitation_sent")
+        profile.quds = profile.quds + puntos.qty
+        profile.save()
         return True
 
 def isValidEmail(email):
