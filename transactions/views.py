@@ -154,12 +154,14 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 #                  del usuario logueado.
 #RETURN: render de la pagina con los datos de transacciones pendientes.
 def showPending(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.is_ajax():
         dealer_pendings = Trade.objects.filter(id_dealer=request.user).filter(pending_dealer=True)
         bidder_pendings = Trade.objects.filter(id_bid__id_bidder=request.user).filter(pending_bidder=True)
         title = "Trueques pendientes"
         usuario = request.user
-        return render_to_response("pending.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario})
+        message = {"pendings_data": render_to_response("pending.html", {'dealer_pendings':dealer_pendings, 'bidder_pendings':bidder_pendings, 'title':title, 'user':usuario}, context_instance = RequestContext(request)).content}
+        json = simplejson.dumps(message)
+        return HttpResponse(json, mimetype='application/json')
     else:
         return HttpResponse("/login")
 

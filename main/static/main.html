@@ -224,7 +224,14 @@
             <div id="result">
                 {% if data %}
                     {% for product in data %}
-                        <div id="album_polaroid_{{ forloop.counter }}" class="album_polaroid"><a class="product_name" href="/products/{{ product.id }}"><image src="/media/{{ product.img }}/img_1.png" alt="{{product.name}}" height="150"/><br />{{ product.name }}</a></div>
+                        <a href="/products/{{ product.id }}" style="text-decoration:none;color:#333;">
+							<div id="album_polaroid_{{ forloop.counter }}" class="polaroid_album_container">
+								<div class="album_polaroid_img_container">
+									<img src="/media/{{ product.img }}/img_1_medium.png" alt="{{product.name}}"/>
+								</div>
+								<span class="album_polaroid_name_container">{{ product.name }}</span>
+							</div>
+						</a>
                     {% endfor %}    
                 {% endif %}
                 
