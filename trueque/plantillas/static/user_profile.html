@@ -10,10 +10,13 @@
 		<td class="user_info_table_section">
 			<div class="user_info_table_row">
 				<div class="user_photo_name_container">
-					{{ user.first_name }} {{ user.last_name }}
+					<div class="album_polaroid_img_container">
+						<img src=""/>
+					</div>
+					<span class="album_polaroid_name_container">{{ user.first_name }} {{ user.last_name }}</span>
 				</div>
 				<div class="user_profile_edit_button">
-					<a href="/usuarios/profile/editprofile">Editar</a>
+					<a href="/usuarios/profile/editprofile">Editar perfil</a>
 				</div>
 			</div>
 			<div class="user_info_table_row">

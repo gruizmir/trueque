@@ -25,10 +25,19 @@
 		<header>
 			<div class="left_icons_container">
 				<ul>
-					<li >
-						<a href="/notifications/"><img src="/static/img/icons/notificacion.png" alt="Notificaciones"/></a>
-					</li>
-					<li class="left_icon_empty"></li>
+					{% if user %}
+						<li class="left_icons_notifications_empty"> </li>
+						<li class="left_icons_notifications">
+							<a href="/notifications/"><img src="/static/img/icons/notificacion.png" alt="Notificaciones"/></a>
+						</li>
+						<li class="left_icons_search_bar">
+							<div class="ui-widget">
+								<input class="search_products_bar">
+							</div>
+						</li>
+					{% else %}
+						<li class="left_icon_empty"></li>
+					{% endif %}
 					<li>
 						<a href="/" ><img src="/static/img/logo_trueque.png" alt="Trueque" class="main_logo_trueque"></a>
 					</li>
@@ -113,18 +122,21 @@
 			  tab_inverted: false
 			}]);
 			</script>
-		<div id="invitation_dialog">
-        </div>
-        <div id="sent" class="modalSentDialog">
-	        <div>
-		        <a href="#close" title="Close" class="close">X</a>
-		        <p>Tus invitaciones fueron enviadas.</p>
+			
+		<div class="invitation_section">
+			<div id="invitation_dialog">
 	        </div>
-        </div>
-        <div id="registered" class="modalSentDialog">
-	        <div>
-		        <a href="#close" title="Close" class="close">X</a>
-		        <p>Se ha enviado el link de activación a tu email.</br> Su duración es de 48 horas.</p>
+	        <div id="sent" class="modalSentDialog">
+		        <div>
+			        <a href="#close" title="Close" class="close">X</a>
+			        <p>Tus invitaciones fueron enviadas.</p>
+		        </div>
+	        </div>
+	        <div id="registered" class="modalSentDialog">
+		        <div>
+			        <a href="#close" title="Close" class="close">X</a>
+			        <p>Se ha enviado el link de activación a tu email.</br> Su duración es de 48 horas.</p>
+		        </div>
 	        </div>
         </div>
 	</body>
@@ -141,6 +153,15 @@
 				    $('#invitation_dialog')[0].innerHTML = result;
 			    });
 		    });
+		    $(".search_products_bar").autocomplete({
+				source: "/usuarios/profile/search/",
+				minLength: 1,
+				select: function(event, ui){
+					$(this).attr("id", ui.item.id);
+					$("#id_user_id").val(ui.item.id);
+					$(".form_mail_user_info span")[0].innerHTML = ui.item.value;
+				},
+	  		});
 	    });
     </script>
 </html>

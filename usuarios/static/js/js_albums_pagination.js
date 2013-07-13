@@ -181,7 +181,8 @@ $(document).ready(function() {
 	$('.polaroid_album_container').hover(
 			function() {
 				 $(this).animate({
-					 opacity: 0
+					 opacity: 0,
+					 queue: false
 					 }, 500 );
 				 $("#"+this.id+"_mini").animate({
 					 'opacity':'1'
@@ -189,7 +190,8 @@ $(document).ready(function() {
 			},
 			function() {
 				 $(this).animate({
-					 opacity: 1
+					 opacity: 1,
+					 queue: false
 					 }, 500 );
 				 $("#"+this.id+"_mini").animate({
 					 'opacity':'0'
