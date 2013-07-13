@@ -308,22 +308,22 @@
 }
 
 /*DIALOG STYLE*/
-#dialog_int, #dialog_int_result{
+.#dialog_int, #dialog_int_result{
   background: transparent;
   border: none;
 }
 
-.ui-dialog{ 
+.dialog_container ~ .ui-dialog{ 
     background: #222;
     padding-top: 0px;
     padding-right: 0px;
 }
 
-.ui-widget-content {
+.dialog_container ~ .ui-widget-content {
 	border: none;	
 }
 
-.ui-dialog .ui-dialog-titlebar {
+.dialog_container ~ .ui-dialog .ui-dialog-titlebar {
 	border: none;
 	background: #111;
 	padding: 0px;
@@ -336,14 +336,14 @@
 	background-image: linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
 }
 
-.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+.dialog_container ~ .ui-corner-all, .dialog_container ~ .dialog_container .ui-corner-bottom, .dialog_container ~ .dialog_container .ui-corner-right, .ui-corner-br {
     border-bottom-right-radius: 0px;
 }
-.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+.dialog_container ~ .ui-corner-all, .dialog_container ~ .dialog_container .ui-corner-bottom, .dialog_container ~ .dialog_container .ui-corner-left, .ui-corner-bl {
     border-bottom-left-radius: 0px;
 }
 
-.ui-dialog .ui-dialog-titlebar-close {
+.dialog_container ~ .ui-dialog .ui-dialog-titlebar-close {
 	top: -4px;
 	left: -18px !important;
 	z-index: 1;
@@ -380,39 +380,50 @@
 	font-size: 130%;
 }
 
-.bid_container_img_container {
-	display: inline-block;
-	height: 60px;
-	width: 42px;
+.bid_container_polaroid {
+	position: relative;
+	vertical-align: middle;
+	margin-top: 10px;
 	margin-bottom: 10px;
-	margin-left: 10px;
-	text-align:center;
-	-moz-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-webkit-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-o-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-ms-transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	transform: scale(1) rotate(-3deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
-    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
+	display: inline-block;
+	z-index:3;
+	text-align: center;
+	margin-left: 5px;
+	height: 75px;
+	width: 60px;
+	padding: 5px;
+	-webkit-box-shadow:  1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow:  1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
+}
+.bid_container_polaroid_img_container {
+	display: table-cell;
+	width: 60px;
+	height: 60px;
+	max-width: 60px !important;
+	max-height: 60px !important;
+	background: #EEE;
+	vertical-align:middle;
+}
+.bid_container_polaroid_img_container img{
+	width: auto;
+	height: auto;
+	max-width: 60px !important;
+	max-height: 60px !important;	
 }
 
 .bid_container_img_link{
+	cursor: pointer;
 	text-decoration:none;
 	color: #f97f04;
 }
 
-.bid_container_img_container img {
-	height: 45px;
-	width: auto;
-	max-height: 45px;
-	max-width: 30px;
-	vertical-align: middle;
-}
-
 .bid_container_product_name{
 	font-size: 70%;
-	padding-left: 5px;
-	vertical-align: middle;
 }
 
 .bid_container input[type="radio"] {

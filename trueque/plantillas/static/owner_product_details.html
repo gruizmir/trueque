@@ -111,13 +111,16 @@
 									<input type="radio" name="group_product" id="radio_group_product_{{ bid.id }}" value="{{ bid.id }}">
 									<label for="radio_group_product_{{ bid.id }}"></label>
 									
-									<div class="bid_container_img_container">
+									<div class="bid_container_polaroid">
 										<a href="/products/{{bid.id_bid_product.id}}" class="bid_container_img_link">
-											<img src="/media/{{ bid.id_bid_product.img }}/img_1.png" width="70"/>
+											<div class="bid_container_polaroid_img_container">
+												<img src="/media/{{ product.img }}/img_1.png"/>
+											</div>
 										</a>
+										<span class="bid_container_product_name"> 
+											{{ bid.id_bid_product.name }} 
+										</span>
 									</div>
-									<span class="bid_container_product_name"> {{ bid.id_bid_product.name }} </span>
-									
 									<br>
 								{% else %}
 									<input type="radio" name="group_product" value="{{ bid.id }}" style="display:none;"> 
@@ -171,8 +174,10 @@
 			</div>
 		</div>
 		
-		<div id="dialog_int" style="display:none;">
-			<div id="dialog_int_result"></div>
+		<div class="dialog_container">
+			<div id="dialog_int" style="display:none;">
+				<div id="dialog_int_result"></div>
+			</div>
 		</div>
 		
 		<div id="unavailable" class="modalSentDialog">

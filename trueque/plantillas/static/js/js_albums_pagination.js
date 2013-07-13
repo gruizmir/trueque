@@ -63,8 +63,7 @@ function albumsPagination(){
 			$('#dialog_add_album').dialog({
 				autoOpen: false,
 				draggable: false,
-			    resizable: false,
-			    title: 'Nuevo álbum'
+			    resizable: false
 			});
 			$('#add_album_button').bind('click', function () {
 				$.get("/usuarios/profile/addalbum", function(data) {
@@ -167,8 +166,7 @@ $(document).ready(function() {
 	$('#dialog_add_album').dialog({
 		autoOpen: false,
 		draggable: false,
-	    resizable: false,
-	    title: 'Nuevo álbum'
+	    resizable: false
 	});
 	$('#add_album_button').bind('click', function () {
 		$.get("/usuarios/profile/addalbum", function(data) {

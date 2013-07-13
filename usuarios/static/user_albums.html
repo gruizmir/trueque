@@ -19,8 +19,8 @@
 				</ul>
 			</div></div>
 		{% endif %}
-		{% for album in object_list %}
-			{% if album.name != "Pendientes" %}
+		{% for album in object_list%}
+			{% if album.name != "Pendientes"%}
 				<div id="album_polaroid_{{ forloop.counter }}" class="polaroid_album_container" onclick="showContent({{ album.id }})">
 					<div class="album_polaroid_img_container">
 						{% if album|last_img %}
@@ -40,7 +40,7 @@
 						</div>
 					{% endfor %}
 				</div>
-			{% else %}
+			{% elif album.name == "Pendientes" and is_loged_edit%}
 				<div id="album_polaroid_{{ forloop.counter }}" class="polaroid_album_container" onclick="showPendings()">
 					<div class="album_polaroid_img_container">
 						{% if album|last_img %}
