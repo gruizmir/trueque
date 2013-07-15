@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
+from PIL import Image
 from albums.form import AddAlbumForm
-from messages.form import ComposeMailForm
-from messages.models import Message
-from main.models import Level
 from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
@@ -19,6 +17,9 @@ from django.template.context import RequestContext
 from django.utils import simplejson
 from django.utils.datetime_safe import datetime
 from django.utils.translation import ugettext as _
+from main.models import Level
+from messages.form import ComposeMailForm
+from messages.models import Message
 from usuarios.form import RegisterUserForm, SendConfirmationForm, LoginForm, \
     EditUserForm1, UserProfileForm, EditUserForm2
 from usuarios.models import Followers, UserProfile
@@ -249,8 +250,8 @@ def edit_user_profile(request):
         user = request.user
         if request.method == 'POST' :
             form = EditUserForm1(request.POST, instance = user, prefix="form1")
-            form2 = EditUserForm2(request.POST, instance = user.profile, prefix="form2")
-
+            form2 = EditUserForm2(request.POST, request.FILES , instance = user.profile, prefix="form2")
+            
             authenticate(username = request.user.username, password = forms.CharField().clean(form.data['form1-password']))
             
             #Se verifica que la contraseña ingresada sea la que corresponde.
@@ -263,7 +264,12 @@ def edit_user_profile(request):
                 if form.cleaned_data["new_password_1"]:
                     edit_register.set_password(form.cleaned_data["new_password_1"])
                 edit_register.save()
-                form2.save()
+                
+                edit_register2 = form2.save(commit=False)
+                edit_register2.img = 'profile/' + str(request.user.id)
+                edit_register2.save()
+                
+                saveImages(request, edit_register2.img)
         else:
             form = EditUserForm1(instance=user, prefix="form1")
             form2 = EditUserForm2(instance=user.profile, prefix="form2")
@@ -282,6 +288,62 @@ def edit_user_profile(request):
     except Exception as e:
         print '%s (%s)' % (e.message, type(e))
         return C_error.raise_error(C_error.MAGICERROR)
+
+#saveImages: Busca la imagenes del request enviadas por POST y las envia a guardar.
+#PARAMS: request: Objeto que contiene toda la informacion enviada por el navegador del usuario.
+#                  Incluye datos del usuario.
+#         path: Dirección del servidor donde se guardaran los archivos. Se genera mediante HASH.
+#RETURN: 
+def saveImages(request, path=None):
+    try:
+        handle(path, request.FILES['form2-img_1'])
+    except Exception as e:
+        print e
+
+
+#handle: Guarda el archivo en la carpeta 'cargas' (MEDIA_ROOT), dentro de la carpeta en 'path'
+#PARAMS: path: Dirección del servidor donde se guardaran los archivos. Se genera mediante HASH.
+#         file: Archivo que se va a guardar
+#         counter: Integer que muestra cual es el orden en que se esta guardando este archivo. Se 
+#                    usa para darle nombre a la imagen.
+#RETURN: 
+def handle(path, fileN):
+    if os.path.isdir(os.path.join(settings.MEDIA_ROOT, path)) == False:
+        os.makedirs(os.path.join(settings.MEDIA_ROOT, path))
+    if fileN:
+        filename = settings.MEDIA_ROOT + "/" +path + "/" + "img_1.png"
+        destination = open(filename, 'wb+')
+        for chunk in fileN.chunks():
+            destination.write(chunk)
+        destination.close()
+        resize(filename)
+
+
+def resize(filename):
+    img = Image.open(filename)
+    width, height = img.size
+    if width>=height:
+        nWidth = 60
+        nHeight = 60*height/width
+        mWidth = 128
+        mHeight = 128*height/width
+        bWidth = 210
+        bHeight = 210*height/width
+    else:
+        nHeight = 60
+        nWidth = 60*width/height
+        mHeight = 128
+        mWidth = 128*width/height
+        bHeight = 210
+        bWidth = 210*width/height
+    thumb1 = img.resize((nWidth, nHeight), Image.ANTIALIAS)
+    thumb2 = img.resize((mWidth, mHeight), Image.ANTIALIAS)
+    thumb3 = img.resize((bWidth, bHeight), Image.ANTIALIAS)
+    thumb1.save(filename.replace(".png", "_small.png"))
+    thumb2.save(filename.replace(".png", "_medium.png"))
+    thumb3.save(filename.replace(".png", "_big.png"))
+    os.remove(filename)
+
 
 class ShowProfile():
     def get_user_data(self, user):

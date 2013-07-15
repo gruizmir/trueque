@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.forms import ModelForm
+from django.forms.fields import FileField
 from django.forms.forms import Form
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from usuarios.models import UserProfile
 
@@ -160,7 +161,7 @@ class EditUserForm1(ModelForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': HINT_LASTNAME}), max_length=60)
     
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': HINT_EMAIL_1}), max_length=90)
-    
+ 
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_PASSWORD1}), max_length=75, min_length=6)
     new_password_1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_NEW_PASSWORD_1}), max_length=75, min_length=6, required=False)
     new_password_2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': HINT_NEW_PASSWORD_2}), max_length=75, min_length=6, required=False)
@@ -188,6 +189,7 @@ class EditUserForm1(ModelForm):
 #EditUserForm: Formulario que permite a un usuario modificar sus datos.
 #PARAMS: ModelForm: Class ModelForm
 class EditUserForm2(ModelForm):
+    img_1 = FileField(required=False, label="Imagen 1", max_length=1024)
     email_2 = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': HINT_EMAIL_2}), max_length=90, required=False)
    
     phone_1 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': HINT_PHONE_1}), max_length=30, required=False)
