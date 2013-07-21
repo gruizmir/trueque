@@ -103,7 +103,7 @@
 							{% for bid in bids %}
 								<div class="bid_container">
 								{% if bid.id_bid_product %}		
-									<img src="/static/img/gris.png" class="bid_container_user_img"/>
+									<img src="/media/{{ bid.id_bidder.profile.img }}/img_1_small.png" class="bid_container_user_img"/>
 									<span id="bid_container_user_name_{{ bid.id }}" class="bid_container_user_name">
 										{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
 									</span>

@@ -204,3 +204,9 @@ header {
 	margin-right: 20px;
 	margin-left: 20px;
 }
+
+.main_user_img_button {
+	height: 35px;
+	width: auto;
+	max-width: 50px;
+}

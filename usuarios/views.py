@@ -276,7 +276,7 @@ def edit_user_profile(request):
          
         c = { 'form': form, 'form2': form2}
         c.update(csrf(request))
-        return render_to_response('edit_user_profile.html', c)
+        return render_to_response('edit_user_profile.html', c, context_instance=RequestContext(request))
     
     #Exceptions que se activan en caso de no poder iniciar sesion.
     except KeyError as e: 
@@ -601,7 +601,6 @@ class ShowProfile():
             cancel_follow = False
             active_user = None 
             if request.user.is_authenticated():
-                user = request.user
                 if user != request.user:
                     following = None
                     active_user = request.user
@@ -613,6 +612,7 @@ class ShowProfile():
                         cancel_follow = True
                     follow = user.id
                 else:
+                    follow = True
                     active_user = user
             else: 
                 follow = False

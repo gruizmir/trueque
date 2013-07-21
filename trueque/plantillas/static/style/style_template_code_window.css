@@ -84,15 +84,15 @@
 }
 .code_window_user_polaroid_container div {
 	display: table-cell;
-	width: 100px;
+	width: 80px;
 	height: 80px;
-	max-width: 100px !important;
+	max-width: 80px !important;
 	max-height: 80px !important;
 	background: #EEE;
 	vertical-align:middle;
 }
 .code_window_user_polaroid_container div img{
-	max-width: 100px !important;
+	max-width: 80px !important;
 	max-height: 80px !important;	
 }
 .code_window_user_polaroid_container span {

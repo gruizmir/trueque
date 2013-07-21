@@ -81,7 +81,11 @@
 					  </li>
 					{% if user %}
 						<li class="parent">
-						 	<a href="/usuarios/profile/{{ user.id }}" class="main_enter_button"><img src=""/>{{ user.first_name }} {{ user.last_name }}</a>
+						 	<a href="/usuarios/profile/{{ user.id }}" class="main_enter_button">
+								<img src="/media/{{ user.profile.img }}/img_1_small.png" class="main_user_img_button"/>
+								<br>
+								{{ user.first_name }} {{ user.last_name }}
+							</a>
 						 <ul>
 							<li><a href="#">Me gusta</a></li>
 							<li><a href="/usuarios/profile/editprofile">Editar</a></li>
