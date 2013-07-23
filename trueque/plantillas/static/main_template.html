@@ -44,64 +44,90 @@
 				</ul>
 			</div>
 			<div class="right_icons_container">
-    			<nav class="nav_container">
-				   <ul id="trans-nav">
+			
+				<ul class="nav_icons">
 					{% if user %}
-						<li>
-							<a href="/products/"><img src="/static/img/icons/nuevo-trueque.png" alt="New" class="main_about_button"><br/>Trueque</a>
+						<li tabindex="0">
+							<a href="/products/">
+								<div class="nav_icon">
+									<img src="/static/img/icons/nuevo-trueque.png" alt="New" class="main_about_button">
+									<br/>Trueque
+								</div>
+							</a>
 						</li>
 					{% endif %}
-					<li class="parent"><a href="#"><img src="/static/img/icons/about.png" alt="About" class="main_about_button" /><br/>About</a>
-						 <ul>
-    						 <li><a href="#">Blog </a></li>
+				
+					<li tabindex="1">
+						<a href="#">
+							<div class="nav_icon">
+								<img src="/static/img/icons/about.png" alt="About" class="main_about_button" />
+								<br/>About
+							</div>
+						</a>
+						
+						<ul>
+							<li><a href="#">Blog</a></li>
 						    {% if about %}
-    						    <li><a href="#condiciones">Condiciones de servicio</a></li>
+							    <li><a href="#condiciones">Condiciones de servicio</a></li>
 							    <li><a href="#copyright">Copyright</a></li>
 							    <li><a href="#privacidad">Privacidad</a></li>
 							    <li><a href="#equipo">Equipo</a></li>
 							    <li><a href="#empleo">Empleo</a></li>
 							{% else %}
-    							<li><a href="about#condiciones">Condiciones de servicio</a></li>
+								<li><a href="about#condiciones">Condiciones de servicio</a></li>
 							    <li><a href="about#copyright">Copyright</a></li>
 							    <li><a href="about#privacidad">Privacidad</a></li>
 							    <li><a href="about#equipo">Equipo</a></li>
 							    <li><a href="about#empleo">Empleo</a></li>
 							{% endif %}
-						 </ul>
-					  </li>
-					  <li class="parent"><a href="#"><img src="/static/img/icons/contacts.png" alt="Contacts" class="main_about_button"><br>Contacts</a>
-						 <ul>
-						 {% if user %}
-							<li><a href="#">Sigo</a></li>
-							<li><a href="#">Me siguen</a></li>
-							<li id="invite_people"><a>Invitar</a></li>
-				        {% endif %}
+						</ul>
+					</li>
+					
+					<li tabindex="2">
+						<a href="#">
+							<div class="nav_icon">
+						  		<img src="/static/img/icons/contacts.png" alt="Contacts" class="main_about_button">
+						  		<br>Contacts
+							</div>
+						</a>
+						<ul>
+							{% if user %}
+								<li><a href="#">Sigo</a></li>
+								<li><a href="#">Me siguen</a></li>
+								<li id="invite_people"><a>Invitar</a></li>
+				        	{% endif %}
 							<li><a href="#">Buscar personas</a></li>
-						 </ul>
-					  </li>
+						</ul>
+					</li>
+					
 					{% if user %}
-						<li class="parent">
-						 	<a href="/usuarios/profile/{{ user.id }}" class="main_enter_button">
-								<img src="/media/{{ user.profile.img }}/img_1_small.png" class="main_user_img_button"/>
-								<br>
-								{{ user.first_name }} {{ user.last_name }}
+						<li tabindex="3">
+							<a href="/usuarios/profile/{{ user.id }}">
+								<div class="nav_icon">
+									<img src="/media/{{ user.profile.img }}/img_1_small.png" class="main_user_img_button"/>
+									<br>
+									{{ user.first_name }} {{ user.last_name }}
+									
+								</div>
 							</a>
-						 <ul>
-							<li><a href="#">Me gusta</a></li>
-							<li><a href="/usuarios/profile/editprofile">Editar</a></li>
-							<li><a href="/usuarios/profile/mail">Mensajes</a></li>
-							<li><a href="/logout">Logout</a></li>
-						 </ul>
-					  </li>
-					{% else %}
-						<li>
-						 	<a href="/login" class="main_enter_button">Entrar</a>
+							<ul>
+								<li><a href="#">Me gusta</a></li>
+								<li><a href="/usuarios/profile/editprofile">Editar</a></li>
+								<li><a href="/usuarios/profile/mail">Mensajes</a></li>
+								<li><a href="/logout">Logout</a></li>
+						 	</ul>
 						</li>
-						
+					{% else %}
+						<li tabindex="3">
+							<a href="/login" class="main_enter_button">
+								<div class="nav_icon">
+									Entrar
+								</div>
+							</a>
+						</li>
 					{% endif %}
-						<li class ="right_icon_empty" ></li>
-					</ul>
-				</nav>
+				</ul>
+				
 			</div>
 		</header>
 		
