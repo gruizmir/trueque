@@ -51,6 +51,7 @@
 }
 
 .polaroid_album_container {
+	background: #FFF;
 	z-index:3;
 	cursor: pointer;
 	text-align: center;
@@ -101,6 +102,7 @@
 }
 
 .polaroid_album_container_mini {
+	background: #FFF;
 	cursor: pointer;
 	text-align: center;
 	margin-bottom: 15px;

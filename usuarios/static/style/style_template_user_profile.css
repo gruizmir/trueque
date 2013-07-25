@@ -30,6 +30,7 @@
 
 .user_photo_name_container {
 	font-family:"Comic Sans", cursive, sans-serif;
+	background: #FFF;
 	font-style: italic;
 	cursor: pointer;
 	text-align: center;
@@ -241,6 +242,7 @@ span.stars span {
 	border: 1px solid #888 !important;
 }
 
+/* #################################################### */
 /* MAIL TAB STYLE */
 
 #tabs-min { 
@@ -277,4 +279,18 @@ span.stars span {
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight:normal;
 }
-/* END TAB MAIL STYLE */
+
+/* #################################################### */
+/* USER ALBUMS STYLE*/
+.user_album_title {
+	border-bottom: 2px solid #999;
+	padding: 0px;
+}
+
+.user_album_title span {
+	font-size: 210%;
+	color: #999;
+	letter-spacing: 2px;
+}
+
+/* #################################################### */

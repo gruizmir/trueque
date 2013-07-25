@@ -1,13 +1,16 @@
 .new_product_main_container {
+	margin-left: auto;
+	margin-right: auto;
 	display: table;
-	width: 100%;
+	width: auto;
 	min-height: 100%;
 	font-family: Arial, Helvetica, sans-serif;
 	color: #666;
 }
 
 .product_main_container_left_col {
-	display:table-cell;
+	text-align: center;
+	display: table-cell;
 	min-width: 400px;
 	vertical-align: top;
 }
@@ -36,46 +39,10 @@ textarea{
 	padding-left: 20px;
 }
 
-.product_main_add_button_container {
-	cursor: pointer;
-	text-align: center;
-	width: 200px;
-	height: 250px;
-	margin-top: 50px;
-	margin-left: 80px;
-	margin-bottom: 50px;
-	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
-    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.5);
-    -moz-transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-webkit-transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-o-transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-ms-transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
-}
-
-.product_main_add_button_container:hover {
-	-webkit-box-shadow:  3px 5px 3px 2px rgba(255, 100, 0, 0.5);
-    box-shadow:  3px 5px 3px 2px rgba(255, 100, 0, 0.5);
-}
-
-.product_main_add_button_cell {
-	width: 200px;
-	height: 250px;
-	display: table-cell;
-	vertical-align: middle;
-}
-
-.product_main_add_button_cell ul {
-	list-style: none;
-}
-
-.product_main_upload_text {
-	font-size: 120%;
-	font-weight:bold;
-}
-
 .main_container_uploaded_container {
-	width: 100%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 	min-height: 50px;
 	text-align:center;
 }
@@ -88,42 +55,6 @@ textarea{
 	display:inline-block;
 }
 
-.new_product_mini_polaroid {
-	display:inline-block;
-	vertical-align:top;
-	height: 40px;
-	width: 35px;
-	margin-right: 5px;
-	-webkit-box-shadow:  1px 3px 1px 1px rgba(0, 0, 0, 0.3);
-    box-shadow:  1px 3px 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-.new_product_mini_polaroid:hover {
-	min-height: 40px;
-	min-width: 35px;
-	height: auto;
-	width: auto;
-}
-
-.new_product_mini_polaroid_img {
-	min-width: 30px;
-	max-width: 30px;
-	min-height: 30px;
-	max-height: 30px;
-	-moz-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-webkit-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-o-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	-ms-transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
-	transform: scale(1) rotate(-2deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
-}
-
-.new_product_mini_polaroid_img:hover {
-	cursor: pointer;
-	width: 100px;
-	max-width: 100px;
-	height: 150px;
-	max-height: 150px;
-}
 
 .product_main_container_right_col ul {
 	list-style: none;
@@ -194,3 +125,104 @@ textarea{
 	font-size: 140%;
 	width: 410px;
 }
+
+#social_external_links {
+	text-align: center;
+}
+
+/* ###################################################### */
+/* NEW PRODUCT POLAROID */
+
+.new_product_up_img {
+	cursor: pointer;
+	display: block;
+	z-index:3;
+	text-align: center;
+	margin-bottom: 15px;
+	margin-top: 40px;
+	height: 250px;
+	width: 210px;
+	padding: 5px;
+	margin-left: 79px;
+	-webkit-box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.4);
+    box-shadow:  3px 5px 3px 2px rgba(0, 0, 0, 0.4);
+    -moz-transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-webkit-transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-o-transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	-ms-transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg);
+	transform: scale(1) rotate(-4deg) translateX(0px) translateY(0px) skewX(0deg) skewY(0deg); 
+}
+
+.new_product_up_img:hover {
+	-webkit-box-shadow:  3px 5px 3px 2px rgba(255, 100, 0, 0.5);
+    box-shadow:  3px 5px 3px 2px rgba(255, 100, 0, 0.5);
+}
+
+.new_product_up_img .new_product_up_img_container {
+	display: table-cell;
+	width: 210px;
+	height: 210px;
+	max-width: 210px !important;
+	max-height: 210px !important;
+	background: #EEE;
+	vertical-align:middle;
+}
+.new_product_up_img .new_product_up_img_container img{
+	width: auto;
+	height: auto;
+	max-width: 210px !important;
+	max-height: 210px !important;	
+}
+.new_product_up_text1 {
+	font-weight: bold;
+	font-size: 110%;
+}
+
+/* ###################################################### */
+/* NEW PRODUCT MINI POLAROIDS */
+
+.new_product_mini_polaroid {
+	z-index:3;
+	text-align: center;
+	margin-left: 5px;
+	height: 40px;
+	width: 35px;
+	padding: 5px;
+	-webkit-box-shadow:  2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+    box-shadow:  2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+.new_product_mini_polaroid_img_container {
+	display: table-cell;
+	width: 35px;
+	height: 35px;
+	max-width: 35px !important;
+	max-height: 35px !important;
+	background: #EEE;
+	vertical-align:middle;
+}
+.new_product_mini_polaroid_img_container img{
+	width: auto;
+	height: auto;
+	max-width: 35px !important;
+	max-height: 35px !important;	
+}
+.new_product_mini_polaroid:hover {
+	z-index: 4;
+	display: float;
+	min-height: 60px;
+	min-width: 50px;
+}
+.new_product_mini_polaroid:hover .new_product_mini_polaroid_img_container {
+	max-width: 50px !important;
+	max-height: 50px !important;
+	width: 50px;
+	height: 50px;
+}
+.new_product_mini_polaroid:hover .new_product_mini_polaroid_img_container img{
+	width: auto;
+	height: auto;
+	max-width: 50px !important;
+	max-height: 50px !important;
+}
+
+/* ###################################################### */

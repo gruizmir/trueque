@@ -39,22 +39,18 @@
 			{% csrf_token %}
 			
 				<div class="product_main_container_left_col">
-					<div id="img_button" class="product_main_add_button_container">
-						<div class="product_main_add_button_cell">
-							<ul>
-								<li>
-									<img src="/static/img/icons/+naranjo.png" alt="+">
-								</li>
-								<li class="product_main_upload_text">
-									Sube tus foto
-								</li>
-								<li>
-									Has click aquí para subir!
-								</li>
-							</ul>
+					<div id="img_button" class="new_product_up_img">
+						<div class="new_product_up_img_container">
+							<img src="/static/img/icons/+naranjo.png" alt="+">
+							<br>
+							<span class="new_product_up_text1">Sube tus foto</span>
+							<br>
+							<span class="new_product_up_text2">Has click aquí para subir!</span>
 						</div>
 					</div>
-				
+					
+					<br>
+					
 					<input type="file" id="id_image-img_1" name="image-img_1" onchange="readURL(this);" style="position:absolute;visibility:hidden;"/>
 					<input type="file" id="id_image-img_2" name="image-img_2" onchange="readURL(this);" style="position:absolute;visibility:hidden;"/> 
 					<input type="file" id="id_image-img_3" name="image-img_3" onchange="readURL(this);" style="position:absolute;visibility:hidden;"/> 
@@ -63,24 +59,54 @@
 	
 					<div class="main_container_uploaded_container">
 						<ul>
-							<li><div class="new_product_mini_polaroid"><img id="foto1" src="#" class="new_product_mini_polaroid_img"/></div></li>
-							<li><div class="new_product_mini_polaroid"><img id="foto2" src="#" class="new_product_mini_polaroid_img"/></div></li>
-							<li><div class="new_product_mini_polaroid"><img id="foto3" src="#" class="new_product_mini_polaroid_img"/></div></li>
-							<li><div class="new_product_mini_polaroid"><img id="foto4" src="#" class="new_product_mini_polaroid_img"/></div></li>
-							<li><div class="new_product_mini_polaroid"><img id="foto5" src="#" class="new_product_mini_polaroid_img"/></div></li>
+							<li>
+								<div class="new_product_mini_polaroid">
+									<div class="new_product_mini_polaroid_img_container">
+										<img id="foto1" src="#" class="new_product_mini_polaroid_img"/>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="new_product_mini_polaroid">
+									<div class="new_product_mini_polaroid_img_container">
+										<img id="foto2" src="#" class="new_product_mini_polaroid_img"/>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="new_product_mini_polaroid">
+									<div class="new_product_mini_polaroid_img_container">
+										<img id="foto3" src="#" class="new_product_mini_polaroid_img"/>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="new_product_mini_polaroid">
+									<div class="new_product_mini_polaroid_img_container">
+										<img id="foto4" src="#" class="new_product_mini_polaroid_img"/>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="new_product_mini_polaroid">
+									<div class="new_product_mini_polaroid_img_container">
+										<img id="foto5" src="#" class="new_product_mini_polaroid_img"/>
+									</div>
+								</div>
+							</li>
 						</ul>
 					</div>
 					
-					<div class="social_external_links">
-						<a href="https://www.facebook.com/pages/Trueque/155109701316768" target="_blank">
-		                    <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon"/>
-		                </a>
-		                <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false" target="_blank">
-		                    <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon"/>
-		                </a>
-		                <a href="http://instagram.com/trueque_in" target="_blank">
-		                    <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon"/>
-		                </a>
+					<div id="social_external_links">
+			            <a href="https://www.facebook.com/pages/Trueque/155109701316768" target="_blank">
+			                <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon"/>
+			            </a>
+			            <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false" target="_blank">
+			                <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon"/>
+			            </a>
+			            <a href="http://instagram.com/trueque_in" target="_blank">
+			                <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon"/>
+			            </a>
 					</div>
 							
 				</div>

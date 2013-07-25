@@ -3,7 +3,9 @@
 {% load album_img %}
 {% load pagination_tags %}
 {% autopaginate object_list 15 %}
-	<span class="user_interaction_table_tittle"> ALBUMES </span>
+	<div class="user_album_title">
+		<span> Álbumes </span>
+	</div>
 	{% paginate %}
 	<br>
 	<div class="album_polaroids_container">

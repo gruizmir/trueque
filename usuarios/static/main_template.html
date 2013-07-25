@@ -66,19 +66,19 @@
 						</a>
 						
 						<ul>
-							<li><a href="#">Blog</a></li>
+							<a href="#"><li>Blog</li></a>
 						    {% if about %}
-							    <li><a href="#condiciones">Condiciones de servicio</a></li>
-							    <li><a href="#copyright">Copyright</a></li>
-							    <li><a href="#privacidad">Privacidad</a></li>
-							    <li><a href="#equipo">Equipo</a></li>
-							    <li><a href="#empleo">Empleo</a></li>
+							    <a href="#condiciones"><li>Condiciones de servicio</li></a>
+							    <a href="#copyright"><li>Copyright</li></a>
+							    <a href="#privacidad"><li>Privacidad</li></a>
+							    <a href="#equipo"><li>Equipo</li></a>
+							    <a href="#empleo"><li>Empleo</li></a>
 							{% else %}
-								<li><a href="about#condiciones">Condiciones de servicio</a></li>
-							    <li><a href="about#copyright">Copyright</a></li>
-							    <li><a href="about#privacidad">Privacidad</a></li>
-							    <li><a href="about#equipo">Equipo</a></li>
-							    <li><a href="about#empleo">Empleo</a></li>
+								<a href="about#condiciones"><li>Condiciones de servicio</li></a>
+							    <a href="about#copyright"><li>Copyright</li></a>
+							    <a href="about#privacidad"><li>Privacidad</li></a>
+							    <a href="about#equipo"><li>Equipo</li></a>
+							    <a href="about#empleo"><li>Empleo</li></a>
 							{% endif %}
 						</ul>
 					</li>
@@ -92,11 +92,11 @@
 						</a>
 						<ul>
 							{% if user %}
-								<li><a href="#">Sigo</a></li>
-								<li><a href="#">Me siguen</a></li>
-								<li id="invite_people"><a>Invitar</a></li>
+								<a href="#"><li>Sigo</li></a>
+								<a href="#"><li>Me siguen</li></a>
+								<a><li id="invite_people">Invitar</li></a>
 				        	{% endif %}
-							<li><a href="#">Buscar personas</a></li>
+							<a href="#"><li>Buscar personas</li></a>
 						</ul>
 					</li>
 					
@@ -107,14 +107,13 @@
 									<img src="/media/{{ user.profile.img }}/img_1_small.png" class="main_user_img_button"/>
 									<br>
 									{{ user.first_name }} {{ user.last_name }}
-									
 								</div>
 							</a>
 							<ul>
-								<li><a href="#">Me gusta</a></li>
-								<li><a href="/usuarios/profile/editprofile">Editar</a></li>
-								<li><a href="/usuarios/profile/mail">Mensajes</a></li>
-								<li><a href="/logout">Logout</a></li>
+								<a href="#"><li>Me gusta</li></a>
+								<a href="/usuarios/profile/editprofile"><li>Editar</li></a>
+								<a href="/usuarios/profile/mail"><li>Mensajes</li></a>
+								<a href="/logout"><li>Logout</li></a>
 						 	</ul>
 						</li>
 					{% else %}
