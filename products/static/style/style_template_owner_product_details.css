@@ -307,6 +307,7 @@
     margin-top:20px;
 }
 
+/* ############################################### */
 /*DIALOG STYLE*/
 .#dialog_int, #dialog_int_result{
   background: transparent;
@@ -355,8 +356,9 @@
 	border: none;
 	background: #f97f04;
 }
-/*END DIALOG STYLE*/
 
+/* ############################################### */
+/* BIDS */
 .bid_container {
 	display: table-cell;
 	width: 240px;
@@ -365,15 +367,96 @@
 	vertical-algin: middle;
 }
 
-.bid_container_user_img {
-	vertical-align: middle;
+.bids_container_with_message {
+	font-size: 70%;
 }
 
-.bid_container_user_name {
-	font-size: 60%;
+#bids_container_with_usser_name {
+	font-size: 70%;
+	color: #f97f04;
+}
+
+.bid_head {
+	vertical-align: middle !important;
+	font-size: 80% !important;
+}
+
+.bid_head input[type="radio"] {
+	display:none;
+}
+
+.bid_head input[type="radio"] + label {
+	display:block;
+	margin-right: 5px;
+	cursor: pointer;
+    background-image:url('/static/img/icons/xverde.png');
+    height: 22px;
+    width: 22px;
+    vertical-align: middle;
+    display:inline-block;
+    background-repeat: no-repeat;
+	background-position: left top;
+	background-size:22px 22px;
+}
+
+.bid_head input[type="radio"]:checked + label {
+    background-image:url('/static/img/icons/xnaranjo.png');
+    display:inline-block;
+}
+
+.bid_head img {
+	position: absolute;
+	width: auto;
+	max-width: 55px;
+	height: auto;
+	max-height: 35px;
+	vertical-align: middle !important;
+	right: 10px;
+	top: 3px
+}
+
+.bid_head span {
+	margin-right: 5px;
+}
+
+#bid_content {
+	padding: 5px;
+	text-align: center;
+}
+
+.bid_accept_button {
+	color: #FFF;
+	cursor: pointer;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100px;
+	text-align: center;
+	font-size: 80%;
+	font-weight: bold;
+	background: #f97f04;
+	border-radius: 5px;
+	padding: 2px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.bid_accept_button:hover {
+	background: #444;
+}
+
+.form_bid_accept_button {
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	float: right;
 	color: #333;
-	vertical-align: middle;
-	padding-left: 5px;
+	font-size: 110%;
+	padding-top: 15px;
+	font-weight: bold;
+}
+
+.form_bid_accept_button:hover {
+	color: #f97f04;
 }
 
 .bid_container_q_amount {
@@ -425,50 +508,4 @@
 .bid_container_product_name{
 	font-size: 70%;
 }
-
-.bid_container input[type="radio"] {
-	display:none;
-}
-
-.bid_container input[type="radio"] + label {
-	display:block;
-	margin-left: 15px;
-	margin-right: 5px;
-	cursor: pointer;
-    background-image:url('/static/img/icons/xverde.png');
-    height: 22px;
-    width: 22px;
-    display:inline-block;
-    background-repeat: no-repeat;
-	background-position: left top;
-	background-size:22px 22px;
-}
-
-.bid_container input[type="radio"]:checked + label {
-    background-image:url('/static/img/icons/xnaranjo.png');
-    display:inline-block;
-}
-
-.form_bid_accept_button {
-	border: none;
-	background: transparent;
-	cursor: pointer;
-	float: right;
-	color: #333;
-	font-size: 110%;
-	padding-top: 15px;
-	font-weight: bold;
-}
-
-.form_bid_accept_button:hover {
-	color: #f97f04;
-}
-
-.bids_container_with_message {
-	font-size: 70%;
-}
-
-#bids_container_with_usser_name {
-	font-size: 70%;
-	color: #f97f04;
-}
+/* ############################################### */

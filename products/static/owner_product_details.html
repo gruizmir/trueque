@@ -100,45 +100,35 @@
 						<form method="POST" action="/transactions/choosebid/{{ product.id }}" id="form_bid_accept">
 							{% csrf_token %}
 							<div class="bids_container_scroll">
-							{% for bid in bids %}
-								<div class="bid_container">
-								{% if bid.id_bid_product %}		
-									<img src="/media/{{ bid.id_bidder.profile.img }}/img_1_small.png" class="bid_container_user_img"/>
-									<span id="bid_container_user_name_{{ bid.id }}" class="bid_container_user_name">
-										{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
-									</span>
-									
-									<input type="radio" name="group_product" id="radio_group_product_{{ bid.id }}" value="{{ bid.id }}">
-									<label for="radio_group_product_{{ bid.id }}"></label>
-									
-									<div class="bid_container_polaroid">
-										<a href="/products/{{bid.id_bid_product.id}}" class="bid_container_img_link">
-											<div class="bid_container_polaroid_img_container">
-												<img src="/media/{{ product.img }}/img_1.png"/>
-											</div>
-										</a>
-										<span class="bid_container_product_name"> 
-											{{ bid.id_bid_product.name }} 
-										</span>
-									</div>
-									<br>
-								{% else %}
-									<input type="radio" name="group_product" value="{{ bid.id }}" style="display:none;"> 
-									<div class="bid_container_user_name">
-										{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
-									</div>
-									
-									<input type="radio" name="group_product" id="radio_group_product_{{ bid.id }}" value="{{ bid.id }}">
-									<label for="radio_group_product_{{ bid.id }}"></label>
-									
-									<div class="bid_container_q_amount">
-										{{ bid.q }}
-									</div>
-									<br>
-								{% endif %}
+								<div id="bids_accordion">
+									{% for bid in bids %}
+										<div id="{{ bid.id }}" class="bid_head">
+											<input type="radio" name="group_product" id="radio_group_product_{{ bid.id }}" value="{{ bid.id }}">
+											<label for="radio_group_product_{{ bid.id }}"></label>
+											<span>{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}</span>
+											<img src="/media/{{ bid.id_bidder.profile.img }}/img_1_small.png"/>
+										</div>
+										<div id="bid_content">
+											{% if bid.id_bid_product %}	
+												Te ofrece...
+												<div class="bid_container_polaroid">
+													<a href="/products/{{bid.id_bid_product.id}}" class="bid_container_img_link">
+														<div class="bid_container_polaroid_img_container">
+															<img src="/media/{{ product.img }}/img_1.png"/>
+														</div>
+													</a>
+													<span class="bid_container_product_name"> 
+														{{ bid.id_bid_product.name }} 
+													</span>
+												</div>
+											{% else %}
+												<div class="bid_container_q_amount">
+													{{ bid.q }}
+												</div>
+											{% endif %}
+										</div>
+									{% endfor %}
 								</div>
-								<br>
-							{% endfor %}
 							</div>
 							
 							<br>
@@ -205,6 +195,23 @@
 	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script>
 		$(document).ready(function() {
+			$("#bids_accordion").accordion({
+				active: false,
+				collapsible: true,
+				heightStyle: "content",
+				icons: false,
+				beforeActivate: function(event,ui){
+					try {
+						$("#radio_group_product_" + ui.newHeader[0].id).prop('checked', true);
+						$("#bids_container_with_usser_name")[0].innerHTML= $('#' + ui.newHeader[0].id + ' span')[0].innerHTML;
+					}
+					catch(err) {
+						$("#radio_group_product_" + ui.oldHeader[0].id).prop('checked', false);
+						$("#bids_container_with_usser_name")[0].innerHTML= '...';
+					}
+				}
+			});
+			
 			$("#form_bid_accept").submit(function(event){
 				event.preventDefault();
 				$.ajax({
