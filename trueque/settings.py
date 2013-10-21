@@ -199,12 +199,6 @@ LOGGING = {
 
 AUTH_PROFILE_MODULE = "usuarios.UserProfile"
 
-#Django Social Auth Params
-TWITTER_CONSUMER_KEY         = 'IVNcmsb91vVGpBOaYSeQqg'
-TWITTER_CONSUMER_SECRET      = 'fcsmCpQV1wCcXpHjOZPuXMNX5mQC921hIb5qtLQwY'
-FACEBOOK_APP_ID              = '172307212944741'
-FACEBOOK_API_SECRET          = '1887a57c1a12becb8c1b1cc8483b2fe1'
-
 
 #Email Params
 EMAIL_HOST = 'smtp.google.com'
