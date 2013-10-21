@@ -1,22 +1,23 @@
-#invitation_dialog {
+/* DIALOG STYLE */
+.invitation_section #invitation_dialog {
     background: transparent;
     border: none;
     width:100%;
     height:100%;    
 }
 
-.ui-dialog{ 
+.invitation_section ~ .ui-dialog{ 
     background: #222;
     padding-top: 0px;
     padding-right: 0px;
     vertical-align:middle;
 }
 
-.ui-widget-content {
+.invitation_section ~ .ui-widget-content {
 	border: none;	
 }
 
-.ui-dialog .ui-dialog-titlebar {
+.invitation_section ~ .ui-dialog .ui-dialog-titlebar {
 	border: none;
 	display:block;
 	background: #111;
@@ -30,14 +31,14 @@
 	background-image: linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
 }
 
-.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
+.invitation_section ~ .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
     border-bottom-right-radius: 0px;
 }
-.ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
+.invitation_section ~ .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
     border-bottom-left-radius: 0px;
 }
 
-.ui-dialog .ui-dialog-titlebar-close {
+.invitation_section ~ .ui-dialog .ui-dialog-titlebar-close {
 	top: -4px;
 	left: -18px !important;
 	z-index: 1;
@@ -50,17 +51,12 @@
 	background: #f97f04;
 }
 
-.ui-dialog-title {
+.invitation_section ~ .ui-dialog-title {
     display:none;
 }
-
 /*END DIALOG STYLE*/
 
-
-
-
-
-.modalDialog {
+.invitation_section .modalDialog {
 	position: fixed;
 	font-family: Arial, Helvetica, sans-serif;
 	top: 0;
@@ -83,11 +79,11 @@
 }
 
 .invite_button_div {
-    width:100%:
+    width:100%;
     display:block;
 }
 
-.ui-widget input {
+.invitation_section ~ .ui-widget input {
     color:#c1cd21;
     background:#000000;
     width:80px;
@@ -104,14 +100,14 @@
     box-shadow:0px 0px 0px 0px;
 }
 
-.ui-widget input:hover {
+.invitation_section ~ .ui-widget input:hover {
     color:#ffffff;
     background:#fa7e04;
     font-size:10px;
     text-decoration:none;
 }
 
-.ui-widget textarea {
+.invitation_section ~ .ui-widget textarea {
     width:300px;
     height:40px;
     background:#4d4d4d;

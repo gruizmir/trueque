@@ -1,0 +1,18 @@
+.new_album_title {
+	font-size: 110%;
+	color: #CCC;
+}
+#add_album_form {
+	text-align: left;
+}
+#add_album_form input[type=text] {
+	background: #111;
+	width: 255px;
+	text-align: left;
+	padding: 4px;
+	cursor: text;
+	color: #CCC;
+	height: 20px;
+	font-size: 90%;
+	margin-bottom: 10px;
+}

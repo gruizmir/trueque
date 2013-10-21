@@ -8,24 +8,35 @@ a {
     text-decoration:none;
 }
 
-body { width: 100%; height: 100%; }
+body { 
+	width: 100%; 
+	height: 100%; 
+	background: -moz-linear-gradient(left,  rgba(0,0,0,0.07) 0%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.07) 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.07)), color-stop(50%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.07)));
+	background: -webkit-linear-gradient(left,  rgba(0,0,0,0.07) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.07) 100%);
+	background: -o-linear-gradient(left,  rgba(0,0,0,0.07) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.07) 100%);
+	background: -ms-linear-gradient(left,  rgba(0,0,0,0.07) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.07) 100%);
+	background: linear-gradient(to right,  rgba(0,0,0,0.07) 0%,rgba(0,0,0,0) 50%,rgba(0,0,0,0.07) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#12000000', endColorstr='#12000000',GradientType=1 );
+}
 
 header {
+	background-image:url('/static/img/binding_dark.png');
     display: inline-block;
 	width: 100%;
 	right: 0;
 	min-height: 55px;
-	background: #312d2e;
 	border-bottom: 3px solid #e3ec23;
 }
 
-#trans-nav li a{
-	text-align: center;
-	font-size: 70%;
+.left_icons_container { 
+	float: left; 
+	display: inline-block;
+	height: 60px;
+	vertical-align: middle;
 }
 
-.left_icons_container { float: left; display: inline-block;}
-.left_icon_empty { height: 55px; margin-left: 80px; }
+.left_icon_empty { height: 60px; margin-left: 80px; vertical-align: middle;}
 
 .right_icons_container { float: right; position: relative; display: inline-block;}
 .right_icon_empty { height: 55px; margin-right: 80px; }
@@ -52,9 +63,6 @@ header {
 }
 
 .main_enter_button {
-	text-decoration:  none;
-	margin-left: 20px;
-	color: #e3ec23;
 	font-style: italic;
 }
 
@@ -77,85 +85,6 @@ header {
     float:right;
 }
 
-#trans-nav { 
-	list-style: none;
-	list-style-type: none; 
-	padding: 0; 
-	margin: 0; 
-	position:relative;
-	z-index: 4;
-}
-
-#trans-nav li { 
-	color: #FFF;
-	font-size: 90%;
-	display: inline-block;
-	position: relative;
-	z-index: 5;
-}
-
-#trans-nav li a { 
-	display: block; 
-	padding: 0 15px; 
-	color: #fff; 
-	text-decoration: none; 
-	position:relative;
-	z-index: 6;
-}
-
-#trans-nav li a:hover { 
-	color: #a3f1d7;
-}
-
-#trans-nav li ul { 
-	display: none;
-	position: absolute; 
-	left: 0; 
-	width: 8em; 
-	background: #312d2e; 
-	list-style-type: none; 
-	padding: 0; 
-	margin: 0; 
-}
-
-#trans-nav li:hover ul { display: block; }
-
-#trans-nav li ul li { 
-	float: none; 
-	position: relative; 
-	background: none; 
-	z-index: 30;
-}
-
-#trans-nav li:hover ul li { 
-	height: 30px; 
-	line-height: 30px; 
-}
-
-#trans-nav li ul li a { 
-	background: #312d2e; 
-}
-
-#trans-nav li ul li a:hover { 
-	color: #5a8078; 
-}
-
-#trans-nav li { 
-	-webkit-transition: all 0.2s; 
-}
-
-#trans-nav li a {
-	-webkit-transition: all 0.5s; 
-}
-
-#trans-nav li ul { 
-	-webkit-transition: all 1s; 
-}
-
-#trans-nav li ul li { 
-	-webkit-transition: height 0.5s; 
-}
-
 #social_external_links {
     width:100%;
     float:right;
@@ -169,3 +98,106 @@ header {
     width:auto;
     margin-right:5px;
 }
+
+.left_icons_notifications img{
+	height: 50px;
+	width: auto;
+}
+
+.left_icons_notifications_empty {
+	width: 10px;
+	height: 60px;
+	vertical-align: middle;
+}
+
+.left_icons_search_bar {
+	vertical-align: middle !important;
+}
+
+.left_icons_search_bar .ui-widget input{
+	border: none;
+	background: #555;
+	border-radius: 1px;
+	height: 25px;
+	width: 210px;
+	color: #EEE;
+	padding-left: 5px;
+	padding-right: 5px;
+	font-size: 90%;
+	margin-right: 20px;
+	margin-left: 20px;
+}
+
+.main_user_img_button {
+	height: 30px;
+	max-height: 30px;
+	width: auto;
+	max-width: 50px;
+}
+
+/* NAV_ICONS STYLE */
+
+.nav_icons {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	margin-right: 90px;
+}
+
+.nav_icons li {
+	display: inline-block;
+	margin: 0;
+	vertical-align: top;
+}
+
+.nav_icons li:hover ul {
+	display: block;
+}
+
+.nav_icons li ul {
+	display: none;
+	position: absolute;
+	z-index: 5;
+}
+
+.nav_icons li ul a li {
+	display: block !important;
+	background: #111;
+	padding: 10px;
+	min-width: 100px;
+}
+
+.nav_icons li ul a li:hover{
+	cursor: pointer;
+	background: #333;
+}
+
+.nav_icon {
+	vertical-align: middle !important;
+	display: table-cell;
+	cursor: pointer;
+	text-align: center;
+	width: 70px;
+	height: 55px;
+	margin: 0;
+	padding-top: 5px;
+}
+
+.nav_icon:hover {
+	background: rgba(255,255,255,0.1);
+}
+
+.nav_icons a, .nav_icons li ul a{
+	text-decoration: none;
+	color: #FFF;
+}
+
+.nav_icons a {
+	font-size: 70%;
+}
+
+.nav_icons li ul a{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 65%;
+}
+/* END NAV_ICONS STYLE */

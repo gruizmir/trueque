@@ -96,3 +96,23 @@
 	padding: 3px;
 	border: 0px solid #FFF;
 }
+
+#file {
+    display:none;
+}
+
+.upload_user_photo {
+	font-style: italic;
+	cursor: pointer;
+	text-align: center;
+	width: 350px;
+	height: 18px;
+	background: #f97f04;
+	color: #FFF;
+	margin-bottom: 11px;
+	padding: 6px;
+}
+
+.upload_user_photo:hover {
+	background: #222;
+}

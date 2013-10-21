@@ -40,6 +40,9 @@
 
 .trader_user_img {
 	vertical-align: middle;
+	width: 45px;
+	height: auto;
+	max-height: 45px;
 }
 .trader_user_name {
 	color: #333;

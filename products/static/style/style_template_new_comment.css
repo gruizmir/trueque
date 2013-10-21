@@ -1,27 +1,29 @@
 .new_comment_form input[type=text]{
-	width: 300px;
+	cursor: text;
+	width: 300px !important;
+	background: #111 !important;
+	text-align: left !important;
+	margin-left: 0px !important;
+	margin-left: 0px !important;
+	margin-top: 3px !important;
+	margin-bottom: 3px !important;
+	color: #FFF;
+	
 }
 
 .new_comment_form textarea{
 	width: 300px;
 	height: 150px;
 	resize: none;
-}
-
-.new_comment_form input[type=submit]{
-	cursor:pointer;
-	border: 0 solid #FFF;
-	color: #f97f04;
-	float: right;
-	font-weight:bold;
-	font-size: 120%;
-}
-
-.new_comment_form input[type=submit]:hover{
-	color: #333;
+	background: #111 !important;
+	color: #FFF;
+	margin-left: 0px !important;
+	margin-left: 0px !important;
+	margin-top: 3px !important;
+	margin-bottom: 3px !important;
 }
 
 .new_comment_form span{
-	font-size: 120%;
+	font-size: 100%;
 	color: #999;
-}}
+}

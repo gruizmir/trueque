@@ -2,14 +2,14 @@
 	<link rel="stylesheet" media="all" href="/static/style/style_template_transaction_successful.css" />
 	
 	<div class="trader_user_container">
-		<img src="/static/img/gris.png" class="trader_user_img"/>
+		<img src="/media/{{ dealer.profile.img }}/img_1_small.png" class="trader_user_img"/>
 		<span class="trader_user_name">{{dealer.first_name}} {{dealer.last_name}}</span>
 	</div>
 	<div class="orange_line">
 	</div>
 	<div class="bider_user_container">
 		<span class="bider_user_name">{{bidder.first_name}} {{bidder.last_name}}</span>
-		<img src="/static/img/gris.png" class="bider_user_img"/>
+		<img src="/media/{{ bidder.profile.img }}/img_1_small.png" class="bider_user_img"/>
 	</div>
 	<br><br>
 	<div class="middle_message_container">

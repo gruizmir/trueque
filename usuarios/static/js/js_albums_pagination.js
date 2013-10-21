@@ -63,8 +63,7 @@ function albumsPagination(){
 			$('#dialog_add_album').dialog({
 				autoOpen: false,
 				draggable: false,
-			    resizable: false,
-			    title: 'Nuevo álbum'
+			    resizable: false
 			});
 			$('#add_album_button').bind('click', function () {
 				$.get("/usuarios/profile/addalbum", function(data) {
@@ -95,6 +94,61 @@ function albumContentPagination(){
 	});
 }
 
+function newWindowEx() {
+	$('#id_rate_0').prop('checked',true);
+	$('#star_rating').raty({
+		starOff: '/static/img/estrellas-white.png',
+		starOn : '/static/img/estrellas-color.png',
+		score: 0,
+		size: 41,
+		click: function(score, evt) {
+			$('#id_rate_'+score).prop('checked',true);
+		}
+	});
+	
+	placeholder = "";
+	$('.code_window_input_container input[type=text]').prop("placeholder", "Ingrese código del trueque");
+	$('.code_window_input_container input[type=text]').blur(function(){
+		$(this).attr("placeholder", placeholder);
+	});
+	$('.code_window_input_container input[type=text]').focus(function(){
+		placeholder = $(this).attr("placeholder");
+		$(this).attr("placeholder", "");
+	});
+}
+
+function albumPendingContent() {
+	albumsRotate();
+	
+	$('.pag').bind('click', function () {
+		$.get("/transactions/pending/" + this.id, function(data) {
+			result = data.pendings_data;
+			$('#result')[0].innerHTML = result;
+			albumPendingContent();
+		});
+	});
+	
+	$('.pending_button').bind('click', function () {
+		$.get(this.id, function(data) {
+			$('#dialog_int').dialog({
+				resizable: false,
+		        width:'auto'
+			});
+			result = data.verify_window;
+			$('#dialog_int_result')[0].innerHTML = result;
+			newWindowEx();
+		});
+	});
+}
+
+function showPendings() {
+	$.get("/transactions/pending", function(data) {
+		result = data.pendings_data;
+		$('#result')[0].innerHTML = result;
+		albumPendingContent();
+	});
+}
+
 function showContent(num){
 	var url = window.location + "";
 	if(!url.match("/$")){ url = url + "/showalbum/?albumID="}
@@ -112,8 +166,7 @@ $(document).ready(function() {
 	$('#dialog_add_album').dialog({
 		autoOpen: false,
 		draggable: false,
-	    resizable: false,
-	    title: 'Nuevo álbum'
+	    resizable: false
 	});
 	$('#add_album_button').bind('click', function () {
 		$.get("/usuarios/profile/addalbum", function(data) {
@@ -126,7 +179,8 @@ $(document).ready(function() {
 	$('.polaroid_album_container').hover(
 			function() {
 				 $(this).animate({
-					 opacity: 0
+					 opacity: 0,
+					 queue: false
 					 }, 500 );
 				 $("#"+this.id+"_mini").animate({
 					 'opacity':'1'
@@ -134,7 +188,8 @@ $(document).ready(function() {
 			},
 			function() {
 				 $(this).animate({
-					 opacity: 1
+					 opacity: 1,
+					 queue: false
 					 }, 500 );
 				 $("#"+this.id+"_mini").animate({
 					 'opacity':'0'

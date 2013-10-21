@@ -3,7 +3,7 @@
 <link rel="stylesheet" media="all" href="/static/style/style_template_user_edit_profile.css" />
 <section class="edit_user_profile_section">
 <div class="edit_profile_table_container">
-	<form action="" method="post" id="edit_profile_form">
+	<form enctype="multipart/form-data" action="" method="post" id="edit_profile_form">
 		{% csrf_token %}
 		<table class="edit_profile_table">
 			<tr>
@@ -12,6 +12,10 @@
 						<li><span class="edit_profile_text">Editar Datos del Perfil</span></li>
 						<li>{{ form.first_name }} </li>
 						<li>{{ form.last_name }}</li>
+						<li> 
+							<div id="file" class="upload_user_photo">¡Selecciona tu foto!</div>
+							{{ form2.img_1 }}
+						</li>
 						<li>{{ form.email }}</li>
 						<li>{{ form2.email_2 }}</li>
 						<li>{{ form2.phone_1 }}</li>

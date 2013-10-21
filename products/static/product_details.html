@@ -6,132 +6,153 @@
 		<link rel="stylesheet" media="all" href="/static/style/style_template_new_bid.css" />
 		
 		<div class="owner_product_main_container">
-	
 		    <div class="product_main_container_left_col">
-		
 			    <div class="product_main_img">
-				    <img src="/media/{{ product.img }}/img_1.png" alt="{{product.img}}_01" h/>
-			    </div>
-			
+					<div class="product_main_img_container">
+						<img src="/media/{{ product.img }}/img_1.png"/>
+					</div>
+					<span class="product_main_name_container"></span>
+				</div>
+				<br>
 			    <div class="main_container_uploaded_container">
 				    <ul>
-					    <li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_2.png" alt="" class="new_product_mini_polaroid_img"/></div></li>
-					    <li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_3.png" alt="" class="new_product_mini_polaroid_img"/></div></li>
-					    <li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_4.png" alt="" class="new_product_mini_polaroid_img"/></div></li>
-					    <li><div class="new_product_mini_polaroid"><img src="/media/{{ product.img }}/img_5.png" alt="" class="new_product_mini_polaroid_img"/></div></li>
-				    </ul>
+						<li>
+							<div class="product_main_mini_polaroid">
+								<div class="product_main_mini_polaroid_img_container">
+									<img src="/media/{{ product.img }}/img_2.png"/>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="product_main_mini_polaroid">
+								<div class="product_main_mini_polaroid_img_container">
+									<img src="/media/{{ product.img }}/img_3.png"/>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="product_main_mini_polaroid">
+								<div class="product_main_mini_polaroid_img_container">
+									<img src="/media/{{ product.img }}/img_4.png"/>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="product_main_mini_polaroid">
+								<div class="product_main_mini_polaroid_img_container">
+									<img src="/media/{{ product.img }}/img_5.png"/>
+								</div>
+							</div>
+						</li>
+					</ul>
 			    </div>
 			    <div id="social_external_links">
-                <a href="https://www.facebook.com/pages/Trueque/155109701316768" target="_blank">
-                    <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon"/>
-                </a>
-                <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false" target="_blank">
-                    <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon"/>
-                </a>
-                <a href="http://instagram.com/trueque_in" target="_blank">
-                    <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon"/>
-                </a>
-            </div>
-		
-		</div>
-		
-		<div class="product_main_container_center_col">
-			<p class="center_container_product_title">{{ product.name }}</p>
-			<p class="center_container_product_description">{{ product.description }}</p>
-			<p class="center_container_product_subtitle">Categorías de interés para trocar este producto</p>
-			<div id="category_container">
-                {% if categories %}
-                    {% for category in categories %}
-                        <img class="category_img" src="/static/img/{{ category.id_category.name }}.png" alt="{{ category.name }}">
-                    {% endfor %}
-                {% endif %}
-            </div>
-			<div class="product_q_price_container">
-				<span>{{ product.q_amount }}</span>
-				<img src="/static/img/icons/Q-gris.png" alt="Q">
+	                <a href="https://www.facebook.com/pages/Trueque/155109701316768" target="_blank">
+	                    <img id="fb-icon" src="/static/img/facebook.png" alt="facebook" class="social_icon"/>
+	                </a>
+	                <a href="https://twitter.com/gruiz_skyvortex" class="twitter-follow-button" data-show-count="false" data-lang="es" data-show-screen-name="false" target="_blank">
+	                    <img id="fb-icon" src="/static/img/twitter.png" alt="twitter" class="social_icon"/>
+	                </a>
+	                <a href="http://instagram.com/trueque_in" target="_blank">
+	                    <img id="insta-icon" src="/static/img/instagram.png" alt="instagram" class="social_icon"/>
+	                </a>
+                </div>
 			</div>
-			
-			{% if user %}
-			    <div class="owner_product_new_comment_button" id="new_bid_button">
-					    Ofrecer trueque
-				</div>
-				<div class="owner_product_new_comment_button" id="add_to_album_button">
-				    Agregar a un album
-				</div>
-			{% endif %}
-			
-			<div class="share_btns">
-			    <span class='st_facebook_large' displayText='Facebook'></span>
-                <span class='st_twitter_large' displayText='Tweet'></span>
-                <span class='st_pinterest_large' displayText='Pinterest'></span>
-            </div>
-		</div>
 		
-		<div class="product_main_container_right_col">
-			<div class="right_col_buttons">
-				<ul>
-					<li class="right_col_buttons_interested_button">Interesados</li>
-					<li class="right_col_buttons_comments_button">Comentarios</li>
-				</ul>
-			</div>
-			
-			{% if bids %}
-				<div class="bids_container">
-					{% csrf_token %}
-					{% for bid in bids %}
-						<div class="bid_container">
-						{% if bid.id_bid_product %}
-							<img src="/static/img/gris.png" class="bid_container_user_img"/>
-							<span id="bid_container_user_name_{{ bid.id }}" class="bid_container_user_name">
-								{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
-							</span>
-							
-							<div class="bid_container_img_container">
-								<a href="/products/{{bid.id_bid_product.id}}" class="bid_container_img_link">
-									<img src="/media/{{ bid.id_bid_product.img }}/img_1.png" width="70"/>
-								</a>
-							</div>
-							<span class="bid_container_product_name"> {{ bid.id_bid_product.name }} </span>
-							
-							<br>
-						{% else %}
-							<img src="/static/img/gris.png" class="bid_container_user_img"/>
-							<span id="bid_container_user_name_{{ bid.id }}" class="bid_container_user_name">
-								{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}
-							</span>
-							
-							<div class="bid_container_q_amount">
-								{{ bid.q }}
-							</div>
-							<br>
-						{% endif %}
-						</div>
-						<br>
-					{% endfor %}
+			<div class="product_main_container_center_col">
+				<p class="center_container_product_title">{{ product.name }}</p>
+				<p class="center_container_product_description">{{ product.description }}</p>
+				<p class="center_container_product_subtitle">Categorías de interés para trocar este producto</p>
+				<div id="category_container">
+	                {% if categories %}
+	                    {% for category in categories %}
+	                        <img class="category_img" src="/static/img/{{ category.id_category.name }}.png" alt="{{ category.name }}">
+	                    {% endfor %}
+	                {% endif %}
+	            </div>
+				<div class="product_q_price_container">
+					<span>{{ product.q_amount }}</span>
+					<img src="/static/img/icons/Q-gris.png" alt="Q">
 				</div>
-			{% endif %}
-
-			{% if comments %}
-				<div class="comments_container">
-				{% for comment in comments %}
-					<div class="comments_comment_container">
-						<p class="comments_name">{{ comment.id_sender.first_name }} {{ comment.id_sender.last_name }}</p>
-						<p class="comments_title">{{ comment.subject }}</p>
-						<div class="comments_message_date_container">
-							<p class="comments_message">{{ comment.text }}</p>
-							<p class="comments_date">{{ comment.datetime|date:"l j/F/Y" }}</p>
+				
+				{% if user %}
+				    <div class="owner_product_new_comment_button" id="new_bid_button">
+						    Ofrecer trueque
+					</div>
+					<div class="owner_product_new_comment_button" id="add_to_album_button">
+					    Agregar a un album
+					</div>
+				{% endif %}
+				
+				<div class="share_btns">
+				    <span class='st_facebook_large' displayText='Facebook'></span>
+	                <span class='st_twitter_large' displayText='Tweet'></span>
+	                <span class='st_pinterest_large' displayText='Pinterest'></span>
+	            </div>
+			</div>
+		
+			<div class="product_main_container_right_col">
+				<div class="right_col_buttons">
+					<ul>
+						<li class="right_col_buttons_interested_button">Interesados</li>
+						<li class="right_col_buttons_comments_button">Comentarios</li>
+					</ul>
+				</div>
+				
+				{% if bids %}
+					<div class="bids_container">
+						<div class="bids_container_scroll">
+							<div id="bids_accordion">
+								{% for bid in bids %}
+									<div id="{{ bid.id }}" class="bid_head">
+										<span>{{ bid.id_bidder.first_name }} {{ bid.id_bidder.last_name }}</span>
+										<img src="/media/{{ bid.id_bidder.profile.img }}/img_1_small.png"/>
+									</div>
+									<div id="bid_content">
+										{% if bid.id_bid_product %}	
+											Le ofrece...
+											<div class="bid_container_polaroid">
+												<a href="/products/{{bid.id_bid_product.id}}" class="bid_container_img_link">
+													<div class="bid_container_polaroid_img_container">
+														<img src="/media/{{ product.img }}/img_1.png"/>
+													</div>
+												</a>
+												<span class="bid_container_product_name"> 
+													{{ bid.id_bid_product.name }} 
+												</span>
+											</div>
+										{% else %}
+											<div class="bid_container_q_amount">
+												{{ bid.q }}
+											</div>
+										{% endif %}
+									</div>
+								{% endfor %}
+							</div>
 						</div>
 					</div>
-				{% endfor %}	
-				</div>
-			{% endif %}
-			
-			{% if user %}
-				<div class="owner_product_new_comment_button" id="new_comment_button">
-				    Deja tu comentario
-			    </div>
-			{% endif %}
-			
+				{% endif %}
+				
+				{% if comments %}
+					<div class="comments_container">
+					{% for comment in comments %}
+						<div class="comments_comment_container">
+							<p class="comments_name">{{ comment.id_sender.first_name }} {{ comment.id_sender.last_name }}</p>
+							<p class="comments_title">{{ comment.subject }}</p>
+							<div class="comments_message_date_container">
+								<p class="comments_message">{{ comment.text }}</p>
+								<p class="comments_date">{{ comment.datetime|date:"l j/F/Y" }}</p>
+							</div>
+						</div>
+					{% endfor %}	
+					</div>
+				{% endif %}
+				
+				{% if user %}
+					<div class="owner_product_new_comment_button" id="new_comment_button">
+					    Deja tu comentario
+				    </div>
+				{% endif %}
 			</div>
 		</div>
 		
@@ -164,6 +185,14 @@
 	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script>
 		$(document).ready(function() {
+		
+			$("#bids_accordion").accordion({
+				active: false,
+				collapsible: true,
+				heightStyle: "content",
+				icons: false
+			});
+		
 			$('#new_comment_button').bind('click', function () {
 				$('#dialog_int').dialog({
 					resizable: false,
@@ -187,7 +216,7 @@
 			});
 		
 			$(".comments_container").mCustomScrollbar();
-			$(".bids_container").mCustomScrollbar();
+			$(".bids_container_scroll").mCustomScrollbar();
 			
 			$('#new_bid_button').bind('click', function () {
 				var url = "/transactions/bid/{{ product.id }}";

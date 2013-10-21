@@ -8,7 +8,10 @@
 		<td class="user_info_table_section">
 			<div class="user_info_table_row">
 				<div class="user_photo_name_container">
-					{{ view_user.first_name }} {{ view_user.last_name }}
+					<div class="album_polaroid_img_container">
+						<img src="/media/{{ view_user.profile.img }}/img_1_big.png"/>
+					</div>
+					<span class="album_polaroid_name_container">{{ view_user.first_name }} {{ view_user.last_name }}</span>
 				</div>
 			</div>
 			<div class="user_info_table_row">
@@ -31,7 +34,7 @@
 					<br>
 					<span class="user_info_data_names">Sigue:</span> <span class="user_info_numbers">{{ view_user.profile.followed_qty }}</span>
 					<br>
-					<span class="user_info_data_names">Le siguen:</span> <span class="user_info_numbers">{{ user.profile.follower_qty }}</span>
+					<span class="user_info_data_names">Le siguen:</span> <span class="user_info_numbers">{{ view_user.profile.follower_qty }}</span>
 				</div>
 			</div>
 			<div class="user_info_table_row">
@@ -88,6 +91,7 @@
 		</td>
 	</tr>
 </table>
+	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script type="text/javascript" src="/static/js/jq_star_rating.js"></script>
 {% if albums %}
 	<script type="text/javascript" src="/static/js/js_albums_pagination.js"></script>
